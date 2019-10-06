@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Mono', monospace;
+   
+}
+
+body {
+    background-color: rgb(211, 216, 241);
+}
+
+audio{
+   position: relative;
+   z-index:-1;
+   grid-column: 2 span 1;
+   margin-top: 1%;
+}
+
+.title{
+    grid-column: 1 span 1;
+}
+
+.encabezado {
+    position: fixed;
+    width: 100%;
+    padding: 1%;
+    color: white;
+    margin-bottom: 0;
+    background-color: rgb(188, 196, 240);
+}
+
+.barra{
+    border-radius: 24px;
+    border: 1px solid #dfe1e5;
+    text-align: center;
+}
+
+h1 {
+    color: black;
+    margin-bottom: 10px;
+}
+
+#container {
+    margin-top: 10%;
+    color: black;
+    float: left;
+    clear: both;
+    font-size: 20px;
+    margin-left: 20px;
+    padding-left: 5%;
+}
+
+#formulario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#music_list {
+    margin-top: 30px;
+    display:grid;
+    grid-template-columns: auto auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+#pregunta{
+    text-shadow: 2px 2px white;
+}
+
+button{
+    border-radius: 5px;
+    border: 1px dotted white;
+    box-shadow: 1px 1px black;
+}
+
+ol li {
+    margin-bottom: 20px;
+}
+
+li {
+    vertical-align: middle;
+    
+}
+
+a:hover,
+a:visited,
+a:link,
+a:active {
+    text-decoration: none;
+}
+
+a:hover {
+    color: red;
+}

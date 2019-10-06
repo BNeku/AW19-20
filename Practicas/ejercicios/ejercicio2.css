@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans";
+}
+
+body {
+    background-color: #f4f4f4;
+}
+
+div {
+    background-color: white;
+    margin: 30px;
+    padding: 10px;
+
+}
+
+h1 {
+    font-weight: 100;
+    padding-bottom: 10px;
+}
+
+h2 {
+    padding: 10px;
+    font-weight: 100;
+}
+
+
+a {
+    text-decoration: none;
+    font-size: small;
+    color: #1177D1;
+}
+
+div.contenido>p {
+    margin-left: 20px;
+    
+    padding-top:10px;
+}
+
+p.pestanas>a {
+    padding-right: 20px;
+}
+
+p>a:hover {
+    color: black;
+}
+div.contenido>p>a[href="avisos.cv"]::before{
+    content:url("iconos/avisos.png");
+}
+
+div.contenido>p>a[href$=".pdf"]::before{
+    content:url("iconos/pdf.png");
+}
+
+div.contenido>p>a[href^="https://docs.google.com"]::before{
+    content:url("iconos/tarea.png");
+}
+
+div.contenido>p>a[href^="https://cv4.ucm.es"]::before{
+    content:url("iconos/url.png");
+}

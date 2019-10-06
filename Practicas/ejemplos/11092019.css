@@ -1,0 +1,41 @@
+* {
+    font-family: sans-serif;
+    /* border: 2px solid yellow;*/
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    padding-top:30px;
+    color: lightgray;
+    text-align: center;
+}
+
+h3 {
+    margin-top: 50px;
+    padding-bottom: 20px;
+    color: lightgray;
+    text-align: center;
+}
+p{
+    padding-top:20px;
+    color:white;
+    margin-left: 20px;
+}
+
+ul{
+    padding-top:20px;
+    color:white;
+    margin-left:60px;
+}
+span {
+    color: orange;
+}
+
+body {
+    background: linear-gradient(white, black) fixed;
+}
+
+div.encabezado {
+    background: black;
+}

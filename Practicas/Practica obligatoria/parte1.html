@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Gestor de tareas</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="parte1.css" media="screen">
+    <link rel="stylesheet" href="parte1impresion.css" media="print">
+    <link rel="icon" href="recursos/task-planning.png" type="img/png">
+    <link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="cabecera">
+        <h1>TAREAS</h1>
+        <div id="informacion">
+            <img src="recursos/user.png">
+            <div id="usuario">
+                <p>usuario@gmail.com</p>
+                <a href="">Desconectar</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div id="data">
+            <ul>
+                <li>
+                    <div class="tags">
+                        Preparar práctica AW
+                        <div class="tag">
+                            AW
+                        </div>
+                        <div class="tag">
+                            Práctica
+                        </div>
+                    </div>
+                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+                <li class="finalizada">
+                    Mirar Fechas Congreso
+                </li>
+                <li>
+                    <div class="tags">
+                        Ir al supermercado
+                        <div class="tag">
+                            Personal
+                        </div>
+                    </div>
+                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+                <li>
+                    <div class="tags">
+                        Mudanza
+                        <div class="tag">
+                            Personal
+                        </div>
+                    </div>
+                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+            </ul>
+            <form action="newTask" method="GET">
+                <input type="text" name="task">
+                <a href="">Añadir</a>
+            </form>
+            <div>
+                <a href="" id="eliminarTarea">Eliminar Tareas Completadas</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

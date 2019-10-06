@@ -1,0 +1,19 @@
+*{
+    /*background: linear-gradient(white, black);*/
+    color:white;
+}
+
+div.header{
+    background: black;
+    
+}
+
+div.titulo{
+    color: lightgray;
+}
+span.naranja{
+    color:orange;
+}
+span.azul{
+    color:lightseagreen;
+}

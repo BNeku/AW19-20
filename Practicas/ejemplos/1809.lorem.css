@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+div {
+    background-color: lightgray;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+h1 {
+    padding: 10px;
+}
+
+h2 {
+    color: maroon;
+    padding: 10px;
+}
+
+p {
+    padding: 5px;
+    background-color: #F0F0FF;
+}
+
+p.flotante_izq {
+    float: left;
+    width: 40%;
+    background-color: #FFA000;
+}
+
+p.flotante_dch {
+    float: right;
+    width: 40%;
+    background-color: #FFA000;
+}
+
+/*para que no se posicione alrededor de un elemento float rigth/left/both*/
+p.clear {
+    clear: right;
+}
+
+/*cuando queremos centrar un elemento y que cuando se redimensione
+ permanezca en el centro, utilizamos auto en los margines tanto dcho como izq*/
+p.centrar {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>AW</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="formulario.css" media="screen">
+    <link rel="icon" type="img/png" href="icon.png">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="margenArriba"></div>
+    <div id="cabecera">
+        <img src="recursos/UCM.png">
+        <h1>Acceso Web Unificado</h2>
+    </div>
+    <div id="separador" class="uno"></div>
+    <div id="contenido">
+        <div id="acceso">
+            <div id=datos>
+                <h2>Acceso Web Unificado a la UCM (Web SSO)</h2>
+                <p>Identificar correctamente en esta página le habilitará la entrada en la mayoría de las aplicaciones y
+                    en los servicios en la nube @UCM.</p>
+                <div id="contenedorFinal">
+                    <img src="recursos/llave.png" id="llave">
+
+                    <div id="formulario">
+                        <form action="login" method="get">
+                            <label for="correo">Dirección de correo UCM</label>
+                            <input type="text" name="correo" class="barra"><br>
+                            <label for="pass"> Contraseña</label>
+                            <input type="password" name="pass" class="barra">
+                        </form>
+                        <div id="boton"><button type="submit">Iniciar sesión</button></div>
+                        
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            <div id=help>
+                <a href="https://idm.ucm.es/perl/idmResetPwdAuth.pl">¿Olvidó la contraseña?</a><br>
+                <a href="https://www.ucm.es/faq/">Más información</a>
+            </div>
+        </div>
+    </div>
+    <div id="separador"></div>
+</body>
+
+</html>

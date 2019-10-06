@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Reenie Beanie', cursive;
+}
+
+.ppal {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:5%;
+    width: 800px;
+    border: solid 10px darkolivegreen;
+    display: grid;
+    grid-template-columns: 200px 200px 200px 200px;
+    grid-template-rows: 200px 200px;
+    
+}
+
+p{
+    overflow:hidden;
+    text-align: center;
+}
+
+.postit{
+    display:grid;
+    justify-content: space-evenly;
+    padding-left: 50px;
+    padding-right: 50px;
+    align-items: center;
+}
+
+.beige {
+    background-image: url("recursos/p_beige.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.amarillo {
+    background-image: url("recursos/p_amarillo.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.verde {
+    background-image: url("recursos/p_verde.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#uno {
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#dos {
+    grid-row: 1 / span 1;
+    grid-column: 2 / span 1;
+}
+
+#tres {
+    grid-row: 1 / span 1;
+    grid-column: 3 / span 1;
+}
+
+#cuatro {
+    grid-row: 1 / span 1;
+    grid-column: 4 / span 1;
+}
+
+#cinco {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#seis {
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 1;
+}
+
+#siete {
+    grid-row: 2 / span 1;
+    grid-column: 3 / span 1;
+}
+
+#ocho {
+    grid-row: 2 / span 1;
+    grid-column: 4 / span 1;
+}

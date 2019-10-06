@@ -1,0 +1,55 @@
+a {
+    color: blue !important;
+    font-family: serif;
+    border: inherit;
+    padding-left: inherit;
+    padding-right: inherit;
+}
+
+p>a {
+    color: red;
+}
+
+.enlace {
+    color: purple;
+}
+
+#fdi {
+    color: green;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+p.cuadro {
+    border: 2px dashed blue;
+    padding: 20px;
+}
+
+/*
+DISPLAY (diapositivas 40-41)
+inline = horizontal (ej. enlaces)
+bloque = vertical (ej. h1, p,..)
+none = como si no existiese
+visibility: hidden (guarda el hueco pero no se ve)
+*/
+li {
+    margin: 4px;
+    display: inline;
+}
+
+a {
+    display: block;
+}
+
+div.articulo {
+    margin-left: 20px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+div.articulo h2 {
+    color: #902020;
+}

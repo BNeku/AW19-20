@@ -1,0 +1,39 @@
+*{
+    border: 1px solid palevioletred;
+    margin: 0;
+    padding:0;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #FFF0F0;
+    border: 2px dashed black;
+}
+
+h1 {
+    border-left: 5px solid #006000;
+    padding-left: 10px;
+    color: #006000;
+    background-color: #E0F0E0;
+}
+
+strong {
+    font-family: "Incosolata", monospace;
+    color: #006000;
+    background-color: #E0E0E0;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+ul{
+    list-style-type: disc;
+}
+
+/*
+padding es el espacio de dentro de la caja
+desde el borde al contenido.
+margen es el espacio de fuera de la caja desde 
+el borde al contenido.
+el borde es la linea que limita la caja de cada
+contenido (p, div, h1..)
+*/

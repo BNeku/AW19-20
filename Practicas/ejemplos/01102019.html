@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>AW</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="01102019.css" media="screen">
+    <link rel="icon" type="img/png" href="icon.png">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div>
+        <audio src="Wake Me Up Before You Go-Go.mp3" controls></audio>
+        <!--
+            hay que poner controls porque si no no aparece en chrome
+            en video también <video src= controls></video>
+        -->
+        <form action="procesar_formulario" method="método">
+            Nombre: <input type="text" name="nombre" pattern="[A-Za-z]+">
+            <button type="submit">Enviar</button>
+            <button type="reset">Borrar formulario</button>
+            <button type="button">Otro</button>
+        </form>
+
+
+    </div>
+    <!--importante no olvidar el campo name, ya que si no no envia nada-->
+    <div>Nombre: <input type="text" name="nombre_campo" value="Valor por defecto"></div>
+    <div>Contraseña: <input type="password" name="contrasenya"></div>
+    <div>Edad: <input type="number" name="edad" max="18"></div>
+    <div>Peso: <input type="range" name="peso" min="30" max="200"></div>
+    <div>Color: <input type="color" name="color_favorito"></div>
+    <div>Fecha de nacimiento:<input type="date" name="fecha_nacimiento"></div>
+    <div>
+        <textarea name="observaciones" id="text_observ">
+            Texto por defecto
+        </textarea>
+    </div>
+    <!--el valor checked es para que salga marcada por defecto
+    checked es una propiedad, no un atributo
+    los atributos siempre van seguidos por ="algo"
+    mientras que las propiedades son booleanos
+    Hay ciertos atributos que pueden expresarse como propiedades
+    checked="checked" es lo mismo que poner solo checked-->
+    <div>Fumador:<input type="checkbox" name="fuma" value="si" checked></div>
+    <div>Sexo:
+        <input type="radio" name="sexo" value="hombre"> Hombre
+        <input type="radio" name="sexo" value="mujer"> Mujer</div>
+    <div><select name="opt">
+            <option value="fut">Fútbol</option>
+            <option value="bal">Baloncesto</option>
+            <option value="nat">Natación</option>
+            <option value="ten">Tenis</option>
+            <option value="pad">Pádel</option>
+        </select>
+    </div>
+    <div><label for="txt_nombre">Nombre:</label>
+        <input type="text" name="nombre" placeholder="PON EL NOBRE" value="Defecto" id="txt_nombre">
+    </div>
+
+</body>
+
+</html>
