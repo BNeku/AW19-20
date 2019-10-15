@@ -1,3 +1,4 @@
+'use strict';
 //ejercicio 1
 console.log("Hola mundo");
 
@@ -5,10 +6,12 @@ console.log("Hola mundo");
 var alumno = {
     nombre: "Juan",
     apellidos: "González",
-    notas: (8, 8, 2, 4),
+    notas: [8, 8, 2, 4],
     dni: "4098976",
     edad: '18'
 };
+
+console.log(alumno);
 /*
 no lleva :, sino un =
 cada campo se separa con , no con ;
