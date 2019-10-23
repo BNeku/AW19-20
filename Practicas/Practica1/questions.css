@@ -170,6 +170,7 @@ h2 {
     padding: 10px 16px;
     font-size: 18px;
     border-radius: 6px;
+    text-align: center;
 }
 
 
@@ -179,6 +180,30 @@ h2 {
     width: 50%;
     height: 50%;
     margin-top: 240px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
+}
+
+#questions_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#questions_list>ul>li {
+    list-style-type: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: darkcyan;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+#questions_container>h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
