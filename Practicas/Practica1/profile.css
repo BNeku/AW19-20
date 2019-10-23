@@ -1,0 +1,101 @@
+* {
+    padding: 0;
+    margin: 0; 
+    
+}
+
+body {
+    background-color: mediumturquoise;
+    font-family: 'Ubuntu', sans-serif;
+    color: whitesmoke;
+}
+
+a{
+    text-decoration:none;
+    color:whitesmoke;
+    font-size:1.5em;
+}
+
+img{
+    width:80px;
+    height: 80px;
+    margin-top:1%;
+}
+
+h2{
+    text-align: center;
+}
+
+button {
+    display: inline-block;
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+    padding: 8px 8px;
+    font-size: 15px;
+    border-radius: 6px;
+}
+#encabezado {
+    font-size: 9em;
+    color: darkcyan;
+    background-color:pink;
+    position: fixed;
+    width: 100%;
+    top:0;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#menu {
+    color:whitesmoke;
+    font-size:20px;
+    text-align: center;
+    margin:5px;
+    display: flex;
+    justify-content: space-between;
+    padding-left:10%;
+    padding-right: 10%;
+}
+
+#points{
+    color:whitesmoke;
+    font-size:1.5em;
+}
+
+#data{
+    margin-top: 240px;
+}
+
+#info{
+    display:flex;
+    flex-direction: column;
+    width:60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:2%;
+    padding-top:1%;
+    background-color: lightskyblue;
+}
+
+#profile{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    width:50%;
+    justify-content: space-between;
+}
+
+#datos{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#boton{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:3%;
+    margin-bottom:3%;
+}
