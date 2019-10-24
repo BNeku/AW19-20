@@ -1,0 +1,22 @@
+.success {
+    color: green;
+}
+
+.fail {
+    color: red;
+}
+
+.text_and_marging {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#answer_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.div_form_answer {
+    margin-bottom: 20px;
+}
