@@ -6,16 +6,9 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+CREATE DATABASE IF NOT EXISTS `mensajeria`;
+USE `mensajeria`;
 
---
--- Base de datos: `mensajeria_instantanea`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `mensajes`
---
 
 CREATE TABLE `mensajes` (
   `id` int(11) NOT NULL,
@@ -26,11 +19,7 @@ CREATE TABLE `mensajes` (
   `leido` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `usuarios`
---
 
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
@@ -39,51 +28,26 @@ CREATE TABLE `usuarios` (
   `telefono` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Índices para tablas volcadas
---
 
---
--- Indices de la tabla `mensajes`
---
 ALTER TABLE `mensajes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idOrigen` (`idOrigen`),
   ADD KEY `idDestino` (`idDestino`);
 
---
--- Indices de la tabla `usuarios`
---
+
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
---
--- AUTO_INCREMENT de las tablas volcadas
---
 
---
--- AUTO_INCREMENT de la tabla `mensajes`
---
 ALTER TABLE `mensajes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
+
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- Restricciones para tablas volcadas
---
 
---
--- Filtros para la tabla `mensajes`
---
 ALTER TABLE `mensajes`
   ADD CONSTRAINT `mensajes_ibfk_1` FOREIGN KEY (`idOrigen`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `mensajes_ibfk_2` FOREIGN KEY (`idDestino`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
-ALTER TABLE palabrasclave ADD CONSTRAINT palabrasclave_fk_1 FOREIGN KEY (`IdArticulo`) REFERENCES articulos (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
