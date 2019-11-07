@@ -20,11 +20,12 @@ class DAO {
                 const sql = "INSERT INTO usuarios (nombre, correo, telefono) VALUES (?,?,?)";
                 let user = [usuario.nombre, usuario.correo, usuario.telefono];
 
-                connection.query(sql, user, function (err) {
+                connection.query(sql, user, function (err, rdo) {
                     connection.release();
                     if (err) {
                         callback(err);
                     } else {
+                        usuario.id=rdo.insertId;
                         callback(null);
                     }
                 });
@@ -38,8 +39,8 @@ class DAO {
             if (err) {
                 callback(err);
             } else {
-                const sql = "INSERT INTO mensajes (idOrigen, idDestino, mensaje, hora, leido) VALUES (?,?,?,?,?)";
-                let user = [usuarioOrigen.id, usuarioDestino.id, mensaje, Date.now(), 0];
+                const sql = "INSERT INTO mensajes (idOrigen, idDestino, mensaje, hora, leido) VALUES (?,?,?,?,?);";
+                let user = [usuarioOrigen.id, usuarioDestino.id, mensaje, new Date(), 0];
 
                 connection.query(sql, user, function (err) {
                     connection.release();
@@ -59,7 +60,7 @@ class DAO {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT * FROM mensajes JOIN usuarios ON mensajes.idDestino = usuarios.id WHERE idDestino=? AND leido=0";
+                const sql = "SELECT * FROM mensajes JOIN usuarios ON mensajes.idDestino = usuarios.id WHERE idDestino=? AND leido=0;";
                 let user = usuario.id;
 
                 connection.query(sql, user, function (err, mensajes) {
@@ -90,7 +91,7 @@ class DAO {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT * FROM usuarios WHERE nombre LIKE ?";
+                const sql = "SELECT * FROM usuarios WHERE nombre LIKE ?;";
                 let name = '%'+str+'%';
                 connection.query(sql, name, function (err, usuarios) {
                     connection.release();
@@ -107,11 +108,8 @@ class DAO {
 
     terminarConexion(callback){
         this.pool.end(function(err){
-            if(err){
-                callback(err);
-            }else{
-                callback(null);
-            }
+            callback(err);
+            
         });
     }
 }
