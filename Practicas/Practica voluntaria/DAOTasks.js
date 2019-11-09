@@ -101,6 +101,8 @@ class DAOTasks {
                     connection.release();
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
+                    } else if (rdo.length == 0) {
+                        callback(null);
                     } else {
                         let ids = rdo.map(value => value.id); //Tenemos que pasar solo los ids, pasando directamente rdo, estamos pasando un dictionary de tipo [id: valor];
                         self.deleteTags(ids, callback);
