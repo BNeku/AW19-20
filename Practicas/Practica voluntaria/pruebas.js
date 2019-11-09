@@ -44,18 +44,26 @@ let usuario1 = {
 //     }
 // });
 
-let task1 = {
-    text: "IR AL SCAPEROOM",
-    done: 0,
-    tags: ["ocio", "chachi"]
-};
+// let task1 = {
+//     text: "IR AL SCAPEROOM",
+//     done: 0,
+//     tags: ["ocio", "chachi"]
+// };
 
-task.insertTask(usuario1.email, task1, function(err, insertado) {
-    if (err) {
-        console.log(err);
-    } else {
-        if (insertado) {
-            console.log("TAREA INSERTADA");
-        }
-    }
-});
+// task.insertTask(usuario1.email, task1, function(err, insertado) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         if (insertado) {
+//             console.log("TAREA INSERTADA");
+//         }
+//     }
+// });
+
+// task.markTaskDone(1, function(err) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log("Tarea actualizada a Done");
+//     }
+// })

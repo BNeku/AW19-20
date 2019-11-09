@@ -77,7 +77,7 @@ class DAOTasks {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                var sql = "UPDATE task SET VALUE done=true WHERE id = ?;"
+                var sql = "UPDATE task SET done = 1 WHERE id = ?;"
                 connection.query(sql, idTask, function(err) {
                     connection.release();
                     if (err) {
