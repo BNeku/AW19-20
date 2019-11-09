@@ -102,7 +102,7 @@ class DAOTasks {
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
                     } else if (rdo.length == 0) {
-                        callback(null);
+                        callback(null); //Solo debemos llamar al resto de métodos si y solo sí, hemos encontrado tareas, en caso contrario daría un error en las siguientes queries que esperan valores. 
                     } else {
                         let ids = rdo.map(value => value.id); //Tenemos que pasar solo los ids, pasando directamente rdo, estamos pasando un dictionary de tipo [id: valor];
                         self.deleteTags(ids, callback);
