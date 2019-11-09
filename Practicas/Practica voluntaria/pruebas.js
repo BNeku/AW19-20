@@ -66,4 +66,12 @@ let usuario1 = {
 //     } else {
 //         console.log("Tarea actualizada a Done");
 //     }
-// })
+// });
+
+// task.deleteCompleted(usuario1.email, function(err) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log("Se ha borrado la tarea correctamente");
+//     }
+// });

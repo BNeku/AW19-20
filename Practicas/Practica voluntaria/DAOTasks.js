@@ -91,17 +91,19 @@ class DAOTasks {
     }
 
     deleteCompleted(email, callback) {
+        var self = this; //Guardamos en una variable el contexto.
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                var sql = "SELECT id FROM task WHERE done = true AND user = ?;";
+                var sql = "SELECT id FROM task WHERE done = 1 AND user = ?;";
                 connection.query(sql, email, function(err, rdo) {
                     connection.release();
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
                     } else {
-                        deleteTags(rdo, callback);
+                        let ids = rdo.map(value => value.id); //Tenemos que pasar solo los ids, pasando directamente rdo, estamos pasando un dictionary de tipo [id: valor];
+                        self.deleteTags(ids, callback);
                     }
                 });
             }
@@ -109,17 +111,18 @@ class DAOTasks {
     }
 
     deleteTags(ids, callback) {
+        var self = this; //Guardamos en una variable el contexto.
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                var sql = "DELETE FROM tag WHERE taskId IN ?;"
+                var sql = "DELETE FROM tag WHERE taskId IN (?);"
                 connection.query(sql, ids, function(err) {
                     connection.release();
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
                     } else {
-                        deleteTasks(ids, callback);
+                        self.deleteTasks(ids, callback);
                     }
                 });
             }
@@ -131,7 +134,7 @@ class DAOTasks {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                var sql = "DELETE FROM task WHERE id IN ?;"
+                var sql = "DELETE FROM task WHERE id IN (?);"
                 connection.query(sql, ids, function(err, rdo) {
                     connection.release();
                     if (err) {
