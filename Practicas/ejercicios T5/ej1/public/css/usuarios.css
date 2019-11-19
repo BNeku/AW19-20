@@ -1,0 +1,13 @@
+* {
+    margin-top: 0;
+    margin: auto;
+}
+
+td {
+    padding: 20px;
+    background-color: yellow;
+}
+
+.bgGray {
+    background-color: gray;
+}

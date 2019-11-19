@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de usuarios</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/usuarios.css" />
+</head>
+
+
+<body>
+
+    <table id="tc">
+        <caption class="tableHeader"><strong>Usuarios</strong></caption>
+
+        <tr>
+            <th class="bgGray">
+                Nombre
+            </th>
+            <th class="bgGray">
+                Número
+            </th>
+        </tr>
+
+        <% users.forEach(function(user, number) { %>
+            <tr>
+                <td class="name">
+                    <%= user.nombre %>
+                </td>
+                <td class="schedule breakHorarioCell">
+                    <%= user.numero %>
+                </td>
+            </tr>
+
+            <% }); %>
+
+    </table>
+
+</body>
+
+</html>
