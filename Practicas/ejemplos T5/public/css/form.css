@@ -1,0 +1,19 @@
+*{
+    padding:0;
+    margin:0;
+}
+
+form{
+    margin-left:auto;
+    margin-right:auto;
+    border:solid 1px mediumturquoise;
+    background-color: paleturquoise;
+    margin-top:5%;
+    width: 35%;
+    height: 25%;
+}
+
+div{
+    margin-left:10px;
+    padding:2%;
+}

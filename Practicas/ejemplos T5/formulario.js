@@ -1,3 +1,4 @@
+// formulario.js
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -7,36 +8,32 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + '/public'));
 
-var pregunta = "¿Cuál es tu color favorito?";
-var opciones = [{
-        texto: "Rojo",
-        numeroVotos: 0
-    },
-    {
-        texto: "Azul",
-        numeroVotos: 0
-    },
-    {
-        texto: "Verde",
-        numeroVotos: 0
-    },
-    {
-        texto: "Ninguno de los anteriores",
-        numeroVotos: 0
+/*
+app.get("/procesar_get.html", function (request, response) {
+    console.log(request.query);
+    // → { nombre: 'Juan Calvo',
+    // edad: '34',
+    // sexo: 'H',
+    // fumador: 'ON' }
+    response.end();
+});*/
+
+app.get("/procesar_get.html", function (request, response) {
+    let sexoStr = "No especificado";
+    switch (request.query.sexo) {
+        case "H":
+            sexoStr = "Hombre";
+            break;
+        case "M":
+            sexoStr = "Mujer";
+            break;
     }
-];
-
-app.get("/", function (request, response) {
-    response.status(200);
-    response.sendFile((path.join(__dirname, "public", "encuesta.html")));
-});
-
-app.get("/procesarEncuesta_get.html", function (request, response) {
-    response.render("tabla", {
-        rojo: request.query.rojo,
-        azul: request.query.azul,
-        verde: request.query.verde,
-        none: request.query.none
+    //plantilla = inforForm
+    response.render("infoForm", {
+        nombre: request.query.nombre,
+        edad: request.query.edad,
+        sexo: sexoStr,
+        fumador: (request.query.fumador === "ON" ? "Sí" : "No")
     });
 });
 
@@ -54,15 +51,13 @@ app.listen(3000, function (err) {
 
 function middlewareNotFoundError(request, response) {
     response.status(404);
-    response.render("error404", {
-        url: request.url
-    });
+    response.render("404", { url: request.url });
     // envío de página 404
 }
 
 function middlewareServerError(error, request, response, next) {
     response.status(500);
-    response.render("error500", {
+    response.render("error", {
         mensaje: error.message,
         pila: error.stack
     });
