@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Encuesta</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/encuesta.css" media="screen">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <form method="GET" action="procesarEncuesta_get.html">
+        <div>
+            <h1><%= pregunta %></h1>
+            <ul>
+                <% opciones.forEach(function(color){ %>
+                <li>
+                    <label for="formRojo">
+                        <input type="radio" name="color" value=<%= color.texto%> id=form<%= color.texto%>> <%= color.texto%>
+                    </label>
+                </li>
+                <% });%>
+            </ul>
+        </div>
+        <div id="bt">
+            <input type="submit" value="Enviar" id="boton">
+        </div>
+    </form>
+</body>
+
+</html>

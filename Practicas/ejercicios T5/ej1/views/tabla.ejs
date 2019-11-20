@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Resultados</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/encuesta.css" media="screen">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <h1>Resultados</h1>
+    <table>
+            <tr>
+                    <th>Respuesta</th>
+                    <td>Número de votos</td>
+                </tr>
+        <% opciones.forEach(function(fila){ %>
+        <tr>
+            <th><%= fila.texto%></th>
+            <td> <%= fila.numeroVotos %> </td>
+        </tr>
+        <% });%>
+    </table>
+</body>
+
+</html>

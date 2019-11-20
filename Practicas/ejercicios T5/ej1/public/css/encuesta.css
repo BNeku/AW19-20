@@ -1,0 +1,49 @@
+*{
+    padding:0;
+    margin:0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body{
+    border:solid purple 3px;
+    border-radius: 5px;
+    margin:5%;
+    padding:2%;
+}
+
+table{
+    border-collapse: collapse;
+    text-align: center;
+    margin-top:2%;
+}
+
+th, td{
+    border:solid 2px black;
+    padding:5px;
+    font-weight: bold;
+}
+
+h1{
+    color:purple;
+    text-align: center;
+}
+
+ul{
+    list-style-type: none;
+}
+
+li{
+    padding:0.5em;
+}
+
+#bt{
+    margin-right: auto;
+    margin-left: auto;
+    width:70px;
+    height: 30px;
+}
+#boton{
+    padding: 5%;
+    width: 70px;
+    height: 30px;
+}

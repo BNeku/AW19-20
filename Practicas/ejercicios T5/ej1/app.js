@@ -28,16 +28,24 @@ var opciones = [{
 
 app.get("/", function (request, response) {
     response.status(200);
-    response.sendFile((path.join(__dirname, "public", "encuesta.html")));
+    response.render("encuesta", {pregunta,opciones});
 });
 
 app.get("/procesarEncuesta_get.html", function (request, response) {
-    response.render("tabla", {
-        rojo: request.query.rojo,
-        azul: request.query.azul,
-        verde: request.query.verde,
-        none: request.query.none
-    });
+    var sumado=false;
+
+    for(var i=0; i< opciones.length && !sumado;i++){
+        if(opciones[i].texto == request.query.color){
+            opciones[i].numeroVotos++;
+            sumado=true;
+        }
+    }
+
+    if(!sumado){
+        opciones[opciones.length-1].numeroVotos++;
+    }
+
+    response.render("tabla", {pregunta,opciones});
 });
 
 app.use(middlewareNotFoundError);
