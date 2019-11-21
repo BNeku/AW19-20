@@ -28,27 +28,25 @@ var user = {
 // Crear una instancia de DAOTasks
 const daoT = new DAOTasks(pool);
 
-app.get("/", function(request, response){
+app.get("/", function(request, response) {
     response.status(200);
     response.redirect("/tasks");
-} );
+});
 
-app.get("/tasks", function(request, response){
+app.get("/tasks", function(request, response) {
     response.status(200);
-    daoT.getAllTasks(user.email, function(error, task){
-        if(error){
+    daoT.getAllTasks(user.email, function(error, tareas) {
+        if (error) {
             response.status(418);
-        }else{
-            
-           
-            response.render("tasks", {user, tareas});
+        } else {
+            response.render("tasks");
         }
     });
-} );
+});
 
 
 // Arrancar el servidor
-app.listen(config.port, function (err) {
+app.listen(config.port, function(err) {
     if (err) {
         console.log("ERROR al iniciar el servidor");
     } else {

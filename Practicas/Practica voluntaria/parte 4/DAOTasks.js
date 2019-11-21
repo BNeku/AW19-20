@@ -24,24 +24,30 @@ class DAOTasks {
         });
     }
 
-    getAllTags(tasks, callback){
+    getAllTags(tasks, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                const sql = "SELECT * FROM tag  WHERE taskId IN ? ";
-                var idTasks = tasks.map(n=> n.id);
-                
-                connection.query(sql, idTasks, function(err, rdo) {
+                const sql = "SELECT * FROM tag WHERE taskId IN (?)";
+                var idTasks = tasks.map(n => n.id);
+
+                connection.query(sql, idTasks, function(err, tags) {
                     connection.release();
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
                     } else {
                         //COMPLETAR AQUI
-                        rdo.map(function(v,i,a){
+                        var taskCompletas = tasks.map(function(v, i, a) {
+                            var task = {
+                                task: v,
+                                tags: tags.filter(tag => tag.taskId == v.id)
+                            };
 
+                            return task;
                         });
-                        callback(null, rdo);
+
+                        callback(null, taskCompletas);
                     }
                 });
             }

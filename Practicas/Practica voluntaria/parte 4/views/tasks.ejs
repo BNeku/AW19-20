@@ -14,9 +14,11 @@
     <div id="cabecera">
         <h1>tareas</h1>
         <div id="informacion">
-            <img src=<%= user.img%>>
+            <img src=<%=u ser.img %>>
             <div id="usuario">
-                <p><%= user.email%></p>
+                <p>
+                    <%= user.email%>
+                </p>
                 <a href="">Desconectar</a>
             </div>
         </div>
@@ -26,14 +28,14 @@
         <div id="data">
             <ul>
                 <% tareas.forEach(function(task){%>
-                <li>
-                    <div class="tags">
-                        <%= task.text %>
-                    </div>
-                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
-                </li>
-                <% });%>
-               <!-- <li>
+                    <li>
+                        <div class="tags">
+                            <%= task.text %>
+                        </div>
+                        <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                    </li>
+                    <% });%>
+                        <!-- <li>
                     <div class="tags">
                         Preparar práctica AW
                         <div class="tag">
