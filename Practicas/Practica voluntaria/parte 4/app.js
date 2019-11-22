@@ -39,9 +39,11 @@ app.get("/tasks", function(request, response) {
         if (error) {
             response.status(418);
         } else {
-            response.render("tasks");
+
+            response.render("tasks", { user: user, tareas: tareas });
         }
     });
+
 });
 
 

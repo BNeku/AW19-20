@@ -14,7 +14,6 @@
     <div id="cabecera">
         <h1>tareas</h1>
         <div id="informacion">
-            <img src=<%=u ser.img %>>
             <div id="usuario">
                 <p>
                     <%= user.email%>
@@ -23,53 +22,27 @@
             </div>
         </div>
     </div>
-
     <div id="content">
         <div id="data">
             <ul>
-                <% tareas.forEach(function(task){%>
+                <% tareas.forEach(function(tarea, indice, array) { %>
+
                     <li>
                         <div class="tags">
-                            <%= task.text %>
+                            <%= tarea.task.text %>
+                                <% tarea.tags.forEach(function(tag) { %>
+                                    <div class="tag">
+                                        <%= tag.tag %>
+                                    </div>
+
+                                    <% }); %>
                         </div>
                         <a href="" class="marcarFinalizada">Marcar Finalizada</a>
                     </li>
-                    <% });%>
-                        <!-- <li>
-                    <div class="tags">
-                        Preparar práctica AW
-                        <div class="tag">
-                            AW
-                        </div>
-                        <div class="tag">
-                            Práctica
-                        </div>
-                    </div>
-                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
-                </li>
-                <li class="finalizada">
-                    Mirar fechas congreso
-                </li>
-                <li>
-                    <div class="tags">
-                        Ir al supermercado
-                        <div class="tag">
-                            Personal
-                        </div>
-                    </div>
-                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
-                </li>
-                <li>
-                    <div class="tags">
-                        Mudanza
-                        <div class="tag">
-                            Personal
-                        </div>
-                    </div>
-                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
-                </li>
-                -->
+
+                    <% }); %>
             </ul>
+
             <form id="newTask" action="newTask" method="GET">
                 <input type="text" name="task" id="barra">
                 <a id="add" href="">Añadir</a>
@@ -79,6 +52,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
