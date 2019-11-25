@@ -83,6 +83,18 @@ app.get("/finish/:idTask", function(request, response){
     });
 });
 
+//borrar tareas completadas
+app.get("/deletedCompleted", function(request,response){
+    daoT.deleteCompleted(user.email,function(err){
+        if(err){
+            response.status(404);
+        }else{
+            response.status(200);
+            response.redirect("/tasks");
+        }
+    });
+});
+
 // Arrancar el servidor
 app.listen(config.port, function (err) {
     if (err) {
