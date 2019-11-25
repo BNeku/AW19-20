@@ -29,10 +29,15 @@ class DAOTasks {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                const sql = "SELECT * FROM tag WHERE taskId IN (?)";
+                var sql = "SELECT * FROM tag WHERE taskId IN (";
+                for(var i=0; i<tasks.length;i++){
+                    sql+= "?,"
+                }
+                sql = sql.substr(0,sql.length-1);
+                sql+=");"
                 var idTasks = tasks.map(n => n.id);
 
-                connection.query(sql, idTasks, function(err, tags) {
+                connection.query(sql, idTasks, function(err, rdo) {
                     connection.release();
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
@@ -41,7 +46,7 @@ class DAOTasks {
                         var taskCompletas = tasks.map(function(v, i, a) {
                             var task = {
                                 task: v,
-                                tags: tags.filter(tag => tag.taskId == v.id)
+                                tags: rdo.filter(tag => tag.taskId == v.id)
                             };
 
                             return task;
@@ -68,7 +73,12 @@ class DAOTasks {
                         callback(new Error("Error de acceso a la base de datos"), null);
                     } else {
                         task.id = rdo.insertId;
-                        self.insertTag(task.id, task.tags, callback);
+                        if(task.tags != null){
+                            self.insertTag(task.id, task.tags, callback);
+                        }else{
+                            callback(null, true);
+                        }
+                        
                     }
                 });
             }

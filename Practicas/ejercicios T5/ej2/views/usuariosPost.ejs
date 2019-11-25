@@ -12,7 +12,7 @@
             <% usuarios.forEach(function(v,i,user){ %>
             <li>
                 <form method="POST" action="borrar/<%= i %>">
-                    <%= v %> <input type="hidden" name="indice" value=<%= i %>><input type="submit" id="borrar">
+                    <%= v %> <input type="hidden" name="indice" value=<%= i %><input type="submit" id="borrar">
                 </form>
             </li>
             <% });%>

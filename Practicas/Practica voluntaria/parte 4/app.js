@@ -18,6 +18,9 @@ const pool = mysql.createPool(config.mysqlConfig);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 var user = {
     email: "yhon@ucm.es",
@@ -28,27 +31,47 @@ var user = {
 // Crear una instancia de DAOTasks
 const daoT = new DAOTasks(pool);
 
-app.get("/", function(request, response) {
+app.get("/", function (request, response) {
     response.status(200);
     response.redirect("/tasks");
 });
 
-app.get("/tasks", function(request, response) {
+app.get("/tasks", function (request, response) {
     response.status(200);
-    daoT.getAllTasks(user.email, function(error, tareas) {
+    daoT.getAllTasks(user.email, function (error, tareas) {
         if (error) {
-            response.status(418);
+            response.status(500);
         } else {
 
-            response.render("tasks", { user: user, tareas: tareas });
+            response.render("tasks", {
+                user: user,
+                tareas: tareas
+            });
         }
     });
 
 });
 
+app.post("/addTask", function (request, response) {
+    var task = utils.createTask(request.body.task);
+    daoT.insertTask(user.email, task, function (err, insertado) {
+        if (err) {
+            response.status(404);
+        } else {
+            if (insertado) {
+                response.status(200);
+                response.redirect("/tasks");
+            }else{
+                response.status(500);
+            }
+            
+        }
+    });
+
+});
 
 // Arrancar el servidor
-app.listen(config.port, function(err) {
+app.listen(config.port, function (err) {
     if (err) {
         console.log("ERROR al iniciar el servidor");
     } else {

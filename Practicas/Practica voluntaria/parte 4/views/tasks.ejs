@@ -27,25 +27,32 @@
             <ul>
                 <% tareas.forEach(function(tarea, indice, array) { %>
 
-                    <li>
-                        <div class="tags">
-                            <%= tarea.task.text %>
-                                <% tarea.tags.forEach(function(tag) { %>
-                                    <div class="tag">
-                                        <%= tag.tag %>
-                                    </div>
-
-                                    <% }); %>
+                <% if(tarea.task.done == 0) { %>
+                <li>
+                    <div class="tags">
+                        <%= tarea.task.text %>
+                        <% tarea.tags.forEach(function(tag) { %>
+                        <div class="tag">
+                            <%= tag.tag %>
                         </div>
-                        <a href="" class="marcarFinalizada">Marcar Finalizada</a>
-                    </li>
+
+                        <% }); %>
+                    </div>
+                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+                <% }else{ %>
+                <li class="finalizada">
+                        <%= tarea.task.text %>
+                </li>
+                <%}%>
+                    
 
                     <% }); %>
             </ul>
 
-            <form id="newTask" action="newTask" method="GET">
+            <form id="newTask" action="/addTask" method="POST">
                 <input type="text" name="task" id="barra">
-                <a id="add" href="">Añadir</a>
+                <input type="submit" id="add">
             </form>
             <div id="delete">
                 <a href="" id="eliminarTarea">Eliminar Tareas Completadas</a>

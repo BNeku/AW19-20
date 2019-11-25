@@ -29,12 +29,14 @@ function countDone(tasks){
 //console.log(countDone(listaTareas));
 
 function createTask(texto){
-    var tags=texto.match(/@\w*/g).map(n=>n.replace(/@/, ""));
+    var tags=texto.match(/@\w*/g); 
+
+    if(tags != null){
+        tags = tags.map(n=>n.replace(/@/, ""));
+    }
     var text= texto.replace(/@\w*/g, "").trim().replace("  "," ");
 
-
-
-    return {"text":text, "tags":tags};
+    return {"text":text, "tags":tags, "done":0};
 }
 
 module.exports ={
