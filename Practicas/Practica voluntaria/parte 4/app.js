@@ -52,6 +52,7 @@ app.get("/tasks", function (request, response) {
 
 });
 
+//añadir tareas
 app.post("/addTask", function (request, response) {
     var task = utils.createTask(request.body.task);
     daoT.insertTask(user.email, task, function (err, insertado) {
@@ -68,6 +69,18 @@ app.post("/addTask", function (request, response) {
         }
     });
 
+});
+
+//marcar finalizadas
+app.get("/finish/:idTask", function(request, response){
+    daoT.markTaskDone(request.params.idTask, function(err){
+        if(err){
+            response.status(404);
+        }else{
+            response.status(200);
+            response.redirect("/tasks");
+        }
+    });
 });
 
 // Arrancar el servidor
