@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
 var user = {
     email: "yhon@ucm.es",
     password: "234",
-    img: "https://www.012global.com/Account/Slices/user-anonymous.png"
+    img: "img/user.png"
 }
 
 // Crear una instancia de DAOTasks
