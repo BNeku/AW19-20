@@ -58,6 +58,7 @@ app.post("/addTask", function (request, response) {
     daoT.insertTask(user.email, task, function (err, insertado) {
         if (err) {
             response.status(404);
+            console.log("No se ha podido insertar la tarea");
         } else {
             if (insertado) {
                 response.status(200);
