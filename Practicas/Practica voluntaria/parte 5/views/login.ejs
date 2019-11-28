@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Gestor de tareas</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/tasksScreen.css" media="screen">
+    <link rel="stylesheet" href="css/tasksPrint.css" media="print">
+    <link rel="icon" href="img/task-planning.png" type="img/png">
+    <link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="cabecera">
+        <h1>tareas</h1>
+    </div>
+
+    <div id="content">
+        <div>
+            <form method="POST" id="login" action="login">
+                <div class="formlogin">
+                    Dirección de correo <input type="email" name="email">
+                </div>
+                <div class="formlogin">
+                    Contraseña <input type="password" name="pass">
+                </div>
+                <input type="submit" id="iniciar" value="Aceptar">
+            </form>
+            <% if(errorMsg !=null){%>
+            <h4 id="error"><%= errorMsg%></h4>
+            <%} %>
+        </div>
+
+
+
+
+    </div>
+</body>
+
+</html>

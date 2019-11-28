@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Gestor de tareas</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/tasksScreen.css" media="screen">
+    <link rel="stylesheet" href="css/tasksPrint.css" media="print">
+    <link rel="icon" href="img/task-planning.png" type="img/png">
+    <link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="cabecera">
+        <h1>tareas</h1>
+        <div id="informacion">
+            <img src="/imagenUsuario">
+            <div id="usuario">
+                <p>
+                    <%= user%>
+                </p>
+
+                <a href="/logout">Desconectar</a>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div id="data">
+            <ul>
+                <% tareas.forEach(function(tarea, indice, array) { %>
+
+                <% if(tarea.task.done == 0) { %>
+                <li>
+                    <div class="tags">
+                        <%= tarea.task.text %>
+                        <% tarea.tags.forEach(function(tag) { %>
+                        <div class="tag">
+                            <%= tag.tag %>
+                        </div>
+
+                        <% }); %>
+                    </div>
+                    <a href="/finish/<%= tarea.task.id%>" name="idTask" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+                <% }else{ %>
+                <li class="finalizada">
+                    <%= tarea.task.text %>
+                </li>
+                <%}%>
+                    
+
+                    <% }); %>
+            </ul>
+
+            <form id="newTask" action="/addTask" method="POST">
+                <input type="text" name="task" id="barra">
+                <input type="submit" id="add">
+            </form>
+            <div id="delete">
+                <a href="/deletedCompleted" id="eliminarTarea">Eliminar Tareas Completadas</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
