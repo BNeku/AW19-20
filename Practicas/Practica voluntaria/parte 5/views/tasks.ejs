@@ -26,6 +26,7 @@
     </div>
     <div id="content">
         <div id="data">
+                <% if (tareas != null) { %>
             <ul>
                 <% tareas.forEach(function(tarea, indice, array) { %>
 
@@ -51,7 +52,7 @@
 
                     <% }); %>
             </ul>
-
+            <% } %>
             <form id="newTask" action="/addTask" method="POST">
                 <input type="text" name="task" id="barra">
                 <input type="submit" id="add">

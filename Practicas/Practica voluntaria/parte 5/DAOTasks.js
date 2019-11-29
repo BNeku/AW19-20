@@ -17,7 +17,12 @@ class DAOTasks {
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
                     } else {
-                        self.getAllTags(rdo, callback);
+                        if(rdo.length !=0){
+                            self.getAllTags(rdo, callback);
+                        }else{
+                            callback(null, rdo);
+                        }
+                        
                     }
                 });
             }

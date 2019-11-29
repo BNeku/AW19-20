@@ -18,13 +18,15 @@ const middlewareSession = session({
     store: sessionStore
 });
 
-function currentUser(request,response,next){
-    if(request.session.currentUser !=null){
+function currentUser(request, response, next) {
+    if (request.session.currentUser != null) {
         response.locals.userEmail = request.session.currentUser;
         next();
-    }else{
-        response.redirect("login");
-    }   
+    } else {
+        response.render("login", {
+            errorMsg: null
+        });
+    }
 }
 
 
@@ -47,30 +49,31 @@ app.use(bodyParser.urlencoded({
 
 app.use(middlewareSession);
 
-app.get("/", function(request, response){
+app.get("/", function (request, response) {
     response.status(200);
-    response.redirect("login");
+    response.redirect("/login");
 });
 
-app.get("/login", function(request,response){
+app.get("/login", currentUser, function (request, response) {
     response.status(200);
-    response.render("login", {
-        errorMsg: null
-    })
+    if (response.locals.userEmail != null) {
+        response.redirect("/tasks");
+    }
+
 });
 
-app.post("/login",function(request,response){
-    daoU.isUserCorrect(request.body.email, request.body.pass, function(err, existe){
-        if(err){
+app.post("/login", function (request, response) {
+    daoU.isUserCorrect(request.body.email, request.body.pass, function (err, existe) {
+        if (err) {
             response.status(404);
-            console.log(err);
-        }else{
+            console.log("login post\n" + err);
+        } else {
             response.status(200);
-            if(existe){
+            if (existe) {
                 request.session.currentUser = request.body.email;
                 response.redirect("tasks");
-            }else{
-                response.render("login",{
+            } else {
+                response.render("login", {
                     errorMsg: "Dirección de correo y/o contraseña no válidos"
                 });
             }
@@ -78,15 +81,15 @@ app.post("/login",function(request,response){
     });
 });
 
-app.get("/imagenUsuario", currentUser, function(request, response){
-    daoU.getUserImageName(response.locals.userEmail, function(err, img){
-        if(err){
+app.get("/imagenUsuario", currentUser, function (request, response) {
+    daoU.getUserImageName(response.locals.userEmail, function (err, img) {
+        if (err) {
             response.status(500);
-            console.log(err);
-        }else{
-            if(img == null){
-                response.sendFile(path.join(__dirname, "public/img", "NoPerfil.png"));
-            }else{
+            console.log("imagenUsuario\n" + err);
+        } else {
+            if (img[0].img == null) {
+                response.sendFile(path.join(__dirname, "/public/img", "NoPerfil.png"));
+            } else {
                 response.sendFile(path.join(__dirname, "profile_imgs", img[0].img));
             }
         }
@@ -94,11 +97,11 @@ app.get("/imagenUsuario", currentUser, function(request, response){
 });
 
 app.get("/tasks", currentUser, function (request, response) {
-    
+
     daoT.getAllTasks(response.locals.userEmail, function (error, tareas) {
         if (error) {
             response.status(500);
-            console.lof(error);
+            console.log("tasksget\n" + error);
         } else {
             response.status(200);
             response.render("tasks", {
@@ -111,31 +114,33 @@ app.get("/tasks", currentUser, function (request, response) {
 });
 
 //añadir tareas
-app.post("/addTask", function (request, response) {
+app.post("/addTask", currentUser, function (request, response) {
     var task = utils.createTask(request.body.task);
     daoT.insertTask(response.locals.userEmail, task, function (err, insertado) {
         if (err) {
             response.status(404);
-            console.log("No se ha podido insertar la tarea");
+            console.log("addTasks\n" + err);
         } else {
             if (insertado) {
                 response.status(200);
                 response.redirect("/tasks");
-            }else{
+            } else {
                 response.status(500);
+                console.log("addtaskpost, no insertada tarea");
             }
-            
+
         }
     });
 
 });
 
 //marcar finalizadas
-app.get("/finish/:idTask", function(request, response){
-    daoT.markTaskDone(request.params.idTask, function(err){
-        if(err){
+app.get("/finish/:idTask", function (request, response) {
+    daoT.markTaskDone(request.params.idTask, function (err) {
+        if (err) {
             response.status(404);
-        }else{
+            console.log("finishid\n" + err);
+        } else {
             response.status(200);
             response.redirect("/tasks");
         }
@@ -143,21 +148,22 @@ app.get("/finish/:idTask", function(request, response){
 });
 
 //borrar tareas completadas
-app.get("/deletedCompleted", currentUser, function(request,response){
-    daoT.deleteCompleted(response.locals.userEmail,function(err){
-        if(err){
+app.get("/deletedCompleted", currentUser, function (request, response) {
+    daoT.deleteCompleted(response.locals.userEmail, function (err) {
+        if (err) {
             response.status(404);
-        }else{
+            console.log("deletedCompleted\n" + err)
+        } else {
             response.status(200);
             response.redirect("/tasks");
         }
     });
 });
 
-app.get("/logout", currentUser, function(request, response){
+app.get("/logout", currentUser, function (request, response) {
     response.status(200);
     request.session.destroy();
-    response.redirect("login");
+    response.redirect("/login");
 });
 
 // Arrancar el servidor
