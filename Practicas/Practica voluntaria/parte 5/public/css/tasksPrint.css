@@ -1,0 +1,50 @@
+* {
+    padding: 0;
+    margin:0;
+}
+
+a,
+form,
+#informacion {
+    display: none;
+}
+
+h1 {
+    text-transform: capitalize;
+    margin:3%;
+}
+
+li{
+    align-items: center;
+    margin-left:4%;
+}
+
+#content{
+    margin-left:2%;
+}
+.finalizada{
+    margin-left:6%;
+    margin-bottom:3%;
+    text-decoration: line-through;
+}
+
+.tags {
+    display: flex;
+    align-items: center;
+    margin-bottom:3%;
+}
+
+.tag{
+    text-transform: lowercase;
+    margin-left:4%;
+}
+
+.tag::before{
+    content:"(";
+}
+.tag::after{
+    content:")";
+}
+#cabecera{
+    margin-left:1%;
+}

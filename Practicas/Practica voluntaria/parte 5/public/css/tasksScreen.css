@@ -1,0 +1,178 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Mansalva', cursive;
+}
+#iniciar{
+    width: 100px;
+    height: auto;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+#login{
+    background-color: aquamarine;
+    border: solid 2px mediumaquamarine;
+    border-radius: 2px;
+    display: inline-block;
+    margin-top:5%;
+    display: flex;
+    flex-direction: column;
+    width:500px;
+    height: 150px;
+}
+
+#cabecera {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-items: center;
+    padding: 1%;
+    background-color: lightgray;
+}
+
+#informacion {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-top:5%;
+    height:max-content;
+}
+
+#usuario {
+    padding-left:10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+}
+
+#data {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#newTask{
+    background-color: burlywood;
+    width:96%;
+    height: 3em;
+    margin-left: auto;
+    margin-right: auto;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#barra:hover{
+    border: 1px solid cornflowerblue;
+    box-shadow: 2px 2px lightgrey;
+}
+
+#barra{
+    width:75%;
+    height: 75%; 
+}
+
+#add{
+    border: solid 1px cadetblue;
+    padding:1%;
+    border-radius: 1em;
+    background-color: lightgoldenrodyellow;
+    cursor: pointer;
+}
+
+#delete{
+    background-color: peachpuff;
+    margin-top: 2%;
+    padding:1%;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    border: 2px solid rosybrown;
+}
+
+.tags {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.finalizada {
+    text-decoration: line-through;
+    background-color: transparent;
+    color:black;
+    border: solid 3px darksalmon;
+}
+
+.marcarFinalizada {
+    grid-column: 2 span 1;
+    text-decoration: none;
+    color: darkred;
+    background-color: blanchedalmond;
+    padding: 2%;
+    text-align: center;
+    border: 1px dashed darkmagenta;
+}
+
+.marcarFinalizada:hover{
+    border: solid 1px darkorchid;
+    box-shadow:1px 1px lightslategrey;
+}
+
+.tag {
+    border-radius: 10%;
+    
+    border: solid 1px white;
+    color: black;
+    
+    margin: 1%;
+    background-color: palegoldenrod;
+}
+
+.formlogin{
+    padding:2%;
+}
+
+img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin-top: 2%;
+    grid-column: 1 span 1;
+}
+
+h1 {
+    padding-top: 2%;
+    color: white;
+    text-shadow: 1px 1px gray;
+    font-size: 6em;
+    text-transform: uppercase;
+}
+
+li {
+    display: grid;
+    grid-template-columns: auto 30%;
+    align-items: center;
+    margin: 2%;
+    background-color: lightsteelblue;
+    color: white;
+    padding: 1%;
+    border: ridge lightseagreen 1px;
+    box-shadow: gainsboro 3px 3px;
+}
+
+a{
+    text-decoration: none;
+    color:black;
+}
+body{
+    background-image: url("../img/fondo.jpg");
+   
+}

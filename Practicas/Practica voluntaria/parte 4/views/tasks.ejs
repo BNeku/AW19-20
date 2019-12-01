@@ -14,10 +14,12 @@
     <div id="cabecera">
         <h1>tareas</h1>
         <div id="informacion">
+            <img src=<%= user.img%>>
             <div id="usuario">
                 <p>
                     <%= user.email%>
                 </p>
+
                 <a href="">Desconectar</a>
             </div>
         </div>
@@ -42,7 +44,7 @@
                 </li>
                 <% }else{ %>
                 <li class="finalizada">
-                        <%= tarea.task.text %>
+                    <%= tarea.task.text %>
                 </li>
                 <%}%>
                     

@@ -1,36 +1,44 @@
-/* Ficheros del proyecto (creados por nosotros)*/
-const config = require("./config");
-
-/* DAOs */
-const userDAO = require("./userDAO");
-
-/* Frameworks */
-const mysql = require("mysql");
-const pool = mysql.createPool(config.mysqlConfig); // Crear un pool de conexiones a la base de datos de MySQL
+'use strict'
+//instalar ejs, express, body-parser, cookie-parser, express-session
 const express = require("express");
-const app = express();
 const path = require("path");
+const app = express();
+const fs = require("fs"); //para read file
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const fs = require("fs");
+const session = require("express-session");
+const mysqlSession = require("express-mysql-session");
+const MySQLStore = mysqlSession(session);
+const sessionStore = new MySQLStore({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "miBD"
+});
 
-/* setup */
-app.set("view engine", "ejs"); //configurar ejs como motor de plantillas
-app.set("views", path.join(__dirname, "views")); //directorio donde van a estas las vistas plantillas
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+app.use(cookieParser());
 
-app.get("/", function(request, response) {
-    response.redirect("/newUser.html")
+const middlewareSession = session({
+    saveUninitialized: false,
+    secret: "foobar34",
+    resave: false,
+    store: sessionStore
 });
 
-// Arrancar el servidor
-app.listen(config.port, function(err) {
+app.use(middlewareSession);
+
+
+app.listen(3000, function (err) {
     if (err) {
-        console.log("ERROR al iniciar el servidor");
+        console.error("No se pudo inicializar el servidor: " +
+            err.message);
     } else {
-        console.log(`Servidor arrancado en el puerto ${config.port}`);
+        console.log("Servidor arrancado en el puerto 3000");
     }
 });
