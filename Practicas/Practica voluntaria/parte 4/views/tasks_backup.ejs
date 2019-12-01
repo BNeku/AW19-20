@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Gestor de tareas</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/tasksScreen.css" media="screen">
+    <link rel="stylesheet" href="css/tasksPrint.css" media="print">
+    <link rel="icon" href="img/task-planning.png" type="img/png">
+    <link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="cabecera">
+        <h1>tareas</h1>
+        <div id="informacion">
+            <img src=<%=u ser.img %>>
+            <div id="usuario">
+                <p>
+                    <%= user.email%>
+                </p>
+                <a href="">Desconectar</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div id="data">
+            <ul>
+                <% tareas.forEach(function(task){%>
+                    <li>
+                        <div class="tags">
+                            <%= task.text %>
+                        </div>
+                        <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                    </li>
+                    <% });%>
+                        <!-- <li>
+                    <div class="tags">
+                        Preparar práctica AW
+                        <div class="tag">
+                            AW
+                        </div>
+                        <div class="tag">
+                            Práctica
+                        </div>
+                    </div>
+                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+                <li class="finalizada">
+                    Mirar fechas congreso
+                </li>
+                <li>
+                    <div class="tags">
+                        Ir al supermercado
+                        <div class="tag">
+                            Personal
+                        </div>
+                    </div>
+                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+                <li>
+                    <div class="tags">
+                        Mudanza
+                        <div class="tag">
+                            Personal
+                        </div>
+                    </div>
+                    <a href="" class="marcarFinalizada">Marcar Finalizada</a>
+                </li>
+                -->
+            </ul>
+            <form id="newTask" action="newTask" method="GET">
+                <input type="text" name="task" id="barra">
+                <a id="add" href="">Añadir</a>
+            </form>
+            <div id="delete">
+                <a href="" id="eliminarTarea">Eliminar Tareas Completadas</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
