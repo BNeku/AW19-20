@@ -3,6 +3,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 //configurar ejs como motor de plantillas
 app.set("view engine", "ejs");
@@ -27,7 +28,7 @@ en views estan las plantiilas
                                |___|                             
 */
 
-app.get("/", function (request, response) {
+app.get("/", function(request, response) {
     response.sendFile(path.join(__dirname, "public", "bienvenido.html"))
 });
 
@@ -48,7 +49,7 @@ app.get("/users", function (request, response) {
 
 var usuarios = ["Javier Montoro", "Dolores Vega", "Beatriz Nito"];
 
-app.get("/users", function (request, response) {
+app.get("/users", function(request, response) {
     response.status(200);
     //render es para enviar los datos a la plantillas
     //primer dato, nombre de la plantilla
@@ -61,7 +62,7 @@ app.get("/users", function (request, response) {
     // el valor del array 'usuarios'.
 });
 
-app.get("/users.html", function (request, response) {
+app.get("/users.html", function(request, response) {
     response.redirect("/users");
 });
 
@@ -99,7 +100,7 @@ app.use(logger);
 app.use(ipCensurada);
 app.use(ipUCM);
 
-app.get("/index.html", function (request, response) {
+app.get("/index.html", function(request, response) {
     response.status(200);
     response.type("text/plain; encoding=utf-8");
     response.write("¡Hola!");
@@ -109,7 +110,7 @@ app.get("/index.html", function (request, response) {
     response.end();
 });
 
-app.listen(3000, function (err) {
+app.listen(3000, function(err) {
     if (err) {
         console.error("No se pudo inicializar el servidor: " +
             err.message);
