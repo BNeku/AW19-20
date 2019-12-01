@@ -11,7 +11,7 @@ class UserDao {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
                 const sql = "INSERT INTO User(email, password, name, gender, birthday, photo) VALUES (?,?,?,?,?,?);";
-                let userData = [user.email, user.password, user.name, user.gender, user.birthday, null];
+                let userData = [user.email, user.password, user.name, user.gender, user.birthday, user.photo];
                 connection.query(sql, userData, function(err, result) {
                     connection.release();
                     if (err) {

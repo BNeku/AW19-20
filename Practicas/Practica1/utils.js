@@ -1,21 +1,27 @@
 'use strict'
 
-function createUserFromRequestBody(body) {
+function createUserFromRequestBody(request) {
     var gender = 0; //Default 0 is female.
 
-    if (body.gender === "masculino") {
+    if (request.body.gender === "masculino") {
         gender = 1;
-    } else if (body.gender === "otro") {
+    } else if (request.body.gender === "otro") {
         gender = 2;
     }
 
+    var imageName = null;
+
+    if (request.file) {
+        imageName = request.file.filename;
+    }
+
     return {
-        email: body.email,
-        password: body.password,
-        name: body.name,
+        email: request.body.email,
+        password: request.body.password,
+        name: request.body.name,
         gender: gender,
-        birthday: body.birthday,
-        photo: null
+        birthday: request.body.birthday,
+        photo: imageName
     };
 }
 

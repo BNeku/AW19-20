@@ -13,6 +13,8 @@ const path = require("path");
 const fs = require("fs"); //para read file
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const multer = require("multer");
+const multerFactory = multer({ dest: path.join(__dirname, "uploads") });
 
 /* setup */
 app.set("view engine", "ejs"); //configurar ejs como motor de plantillas
@@ -29,8 +31,8 @@ const userDAO = new UserDAO(pool); // Crear una instancia de UserDAO
 
 /* POST - Sección para implementar las peticiones POST */
 
-app.post("/register", function(request, response) {
-    var user = utils.createUserFromRequestBody(request.body);
+app.post("/register", multerFactory.single("photo"), function(request, response) {
+    var user = utils.createUserFromRequestBody(request);
     userDAO.insertUser(user, function(err, insertado) {
         if (err) {
             response.status(404);
@@ -56,6 +58,11 @@ app.get("/", function(request, response) {
 });
 
 /* Listener */
+app.get("/imagen/:id", function(request, response) {
+    let pathImg = path.join(__dirname, "uploads", request.params.id)
+    response.sendFile(pathImg);
+});
+
 app.listen(3000, function(err) {
     if (err) {
         console.error("No se pudo inicializar el servidor: " + err.message);
