@@ -2,9 +2,7 @@
 
 /* Ficheros del proyecto (creados por nosotros)*/
 const config = require("./config");
-
-/* DAOs */
-const userDAO = require("./userDAO");
+const utils = require("./utils");
 
 /* Frameworks */
 const mysql = require("mysql");
@@ -25,7 +23,28 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
+/* DAOs */
+const UserDAO = require("./UserDao");
+const userDAO = new UserDAO(pool); // Crear una instancia de UserDAO
+
 /* POST - Sección para implementar las peticiones POST */
+
+app.post("/register", function(request, response) {
+    var user = utils.createUserFromRequestBody(request.body);
+    userDAO.insertUser(user, function(err, insertado) {
+        if (err) {
+            response.status(404);
+            console.log("No se ha podido insertar el usuario");
+        } else {
+            if (insertado) {
+                response.status(200);
+                response.redirect("/newUser.html");
+            } else {
+                response.status(500);
+            }
+        }
+    });
+});
 
 
 /* GET - Sección para implementar las peticiones GET */
