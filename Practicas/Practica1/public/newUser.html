@@ -4,7 +4,7 @@
 <head>
     <title>30</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="diseño.css" media="screen">
+    <link rel="stylesheet" href="css/diseño.css" media="screen">
     <link rel="icon" type="img/png" href="resources/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
     <script src="facebluff.js"></script>
@@ -16,24 +16,24 @@
     </div>
     <div id="formulario">
         <h2 class=margen>Registro</h2>
-        <form action="register" method="get">
+        <form action="register" method="POST" enctype="multipart/form-data">
             <div class="campo"> <label for="correo" class="correo">Email</label>
-                <input type="text" name="correo" class="barra email"></div>
-            <div  class="campo"><label for="pass" class="contra"> Contraseña</label>
-                <input type="password" name="pass" class="barra pass"></div>
-            <div  class="campo"><label for="name" class="name">Nombre completo</label>
+                <input type="text" name="email" class="barra email"></div>
+            <div class="campo"><label for="pass" class="contra"> Contraseña</label>
+                <input type="password" name="password" class="barra pass"></div>
+            <div class="campo"><label for="name" class="name">Nombre completo</label>
                 <input type="text" name="name" class="barra"></div>
-            <div  class="campo"><label for="pass">Sexo</label>
-                <input type="radio" name="gender" value="femenino">Femenino
-                <input type="radio" name="gender" value="masculino">Masculino
-                <input type="radio" name="gender" value="otro">Otro</div>
-            <div  class="campo"><label for="date">Fecha nacimiento</label>
-                <input type="date" name="date" class="barra"></div>
-            <div  class="campo"><label for="img">Imagen de perfil</label>
-                <input type="file" name="date" class="barra"></div>
+            <div class="campo"><label for="pass">Sexo</label>
+                <input type="radio" name="gender" value="0">Femenino
+                <input type="radio" name="gender" value="1">Masculino
+                <input type="radio" name="gender" value="2">Otro</div>
+            <div class="campo"><label for="date">Fecha nacimiento</label>
+                <input type="date" name="birthday" class="barra"></div>
+            <div class="campo"><label for="img">Imagen de perfil</label>
+                <input type="file" name="photo" class="barra"></div>
 
+            <input type="submit" value="Crear usuario">
         </form>
-        <div id="boton"><a href="" class="button">Crear usuario</a></div>
     </div>
     <div id=reg>
         <a href="">Entrar</a>
