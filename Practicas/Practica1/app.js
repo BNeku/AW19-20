@@ -52,6 +52,8 @@ app.post("/procesar_login", function(request, response) {
     var user = utils.getUserFromRequestBody(request);
     userDAO.getUser(user, function(data, success) {
         if (success) {
+            response.cookie("email", data.name, { maxAge: 86400000 });
+            response.cookie("password", data.password, { maxAge: 86400000 });
             response.status(200);
             response.render("profile", { usuario: data });
         } else {
@@ -60,6 +62,17 @@ app.post("/procesar_login", function(request, response) {
         }
     });
 });
+
+/* Middleware */
+function userIsLogged(request, response, next) {
+    if (request.cookies.email === undefined) {
+        response.redirect("/login.html");
+    } else {
+        next();
+    }
+}
+
+app.use(userIsLogged);
 
 /* GET - Sección para implementar las peticiones GET */
 
@@ -73,6 +86,22 @@ app.get("/login", function(request, response) {
     response.statusCode = 200;
     response.type("text/plain; charset=utf-8");
     response.redirect("/login.html");
+});
+
+app.get("/profile", function(request, response) {
+    let user = { email: request.cookies.email, password: request.cookies.password };
+    userDAO.getUser(user, function(data, success) {
+        if (success) {
+            response.cookie("user_name", data.name, { maxAge: 86400000 });
+            response.status(200);
+            response.type("text/plain; charset=utf-8");
+            response.render("profile", { usuario: data });
+        } else {
+            response.status(404);
+            response.type("text/plain; charset=utf-8");
+            console.log("No se ha encontrado el usuario");
+        }
+    });
 });
 
 /* Listener */
