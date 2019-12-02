@@ -23,6 +23,25 @@ class UserDao {
             }
         });
     }
+
+    getUser(user, callback) {
+        const sql = "SELECT * FROM User WHERE email = ? AND password = ?;";
+        let data = [user.email, user.password];
+        this.pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                connection.query(sql, data, function(err, result) {
+                    connection.release();
+                    if (err || result.length == 0) {
+                        callback(new Error("Error de acceso a la base de datos"), false);
+                    } else {
+                        callback(result[0], true);
+                    }
+                });
+            }
+        });
+    }
 }
 
 module.exports = UserDao;

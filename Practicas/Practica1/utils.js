@@ -25,6 +25,14 @@ function createUserFromRequestBody(request) {
     };
 }
 
+function getUserFromRequestBody(request) {
+    return {
+        email: request.body.email,
+        password: request.body.password
+    };
+}
+
 module.exports = {
-    createUserFromRequestBody
+    createUserFromRequestBody,
+    getUserFromRequestBody
 }

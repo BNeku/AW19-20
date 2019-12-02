@@ -48,13 +48,31 @@ app.post("/register", multerFactory.single("photo"), function(request, response)
     });
 });
 
+app.post("/procesar_login", function(request, response) {
+    var user = utils.getUserFromRequestBody(request);
+    userDAO.getUser(user, function(data, success) {
+        if (success) {
+            response.status(200);
+            response.render("profile", { usuario: data });
+        } else {
+            response.status(404);
+            console.log("No se ha encontrado el usuario");
+        }
+    });
+});
 
 /* GET - Sección para implementar las peticiones GET */
 
 app.get("/", function(request, response) {
     response.statusCode = 200;
     response.type("text/plain; charset=utf-8");
-    response.redirect("/newUser.html")
+    response.redirect("/login.html")
+});
+
+app.get("/login", function(request, response) {
+    response.statusCode = 200;
+    response.type("text/plain; charset=utf-8");
+    response.redirect("/login.html");
 });
 
 /* Listener */
