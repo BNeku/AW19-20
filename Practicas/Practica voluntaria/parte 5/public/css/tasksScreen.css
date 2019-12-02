@@ -98,6 +98,14 @@
     border: 2px solid rosybrown;
 }
 
+#errorTask{
+    margin-left:auto;
+    margin-right: auto;
+    color: darkred;
+    font-weight: bold;
+    padding:2%;
+}
+
 .tags {
     display: flex;
     align-items: center;
@@ -174,5 +182,4 @@ a{
 }
 body{
     background-image: url("../img/fondo.jpg");
-   
 }

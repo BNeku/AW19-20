@@ -23,9 +23,7 @@ function currentUser(request, response, next) {
         response.locals.userEmail = request.session.currentUser;
         next();
     } else {
-        response.render("login", {
-            errorMsg: null
-        });
+        response.redirect("login");
     }
 }
 
@@ -54,10 +52,14 @@ app.get("/", function (request, response) {
     response.redirect("/login");
 });
 
-app.get("/login", currentUser, function (request, response) {
+app.get("/login", function (request, response) {
     response.status(200);
-    if (response.locals.userEmail != null) {
+    if (request.session.currentUser != null) {
         response.redirect("/tasks");
+    }else{
+        response.render("login", {
+            errorMsg: null
+        });
     }
 
 });
