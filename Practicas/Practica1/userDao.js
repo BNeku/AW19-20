@@ -6,13 +6,13 @@ class UserDao {
     }
 
     insertUser(user, callback) {
-        this.pool.getConnection(function(err, connection) {
+        this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                const sql = "INSERT INTO User(email, password, name, gender, birthday, photo) VALUES (?,?,?,?,?,?);";
-                let userData = [user.email, user.password, user.name, user.gender, user.birthday, user.photo];
-                connection.query(sql, userData, function(err, result) {
+                const sql = "INSERT INTO usuario(email, password, name, gender, birthDate, img, puntos) VALUES (?,?,?,?,?,?,?);";
+                let userData = [user.email, user.password, user.name, user.gender, user.birthday, user.photo, 0];
+                connection.query(sql, userData, function (err, result) {
                     connection.release();
                     if (err) {
                         callback(new Error("Error de acceso a la base de datos"), null);
@@ -24,19 +24,60 @@ class UserDao {
         });
     }
 
-    getUser(user, callback) {
-        const sql = "SELECT * FROM User WHERE email = ? AND password = ?;";
-        let data = [user.email, user.password];
+    getUser(email, callback) {
+        const sql = "SELECT * FROM usuario WHERE email = ?;";
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                connection.query(sql, data, function(err, result) {
+                connection.query(sql, email, function(err, result) {
                     connection.release();
                     if (err || result.length == 0) {
                         callback(new Error("Error de acceso a la base de datos"), false);
                     } else {
                         callback(result[0], true);
+                    }
+                });
+            }
+        });
+    }
+
+    isUserCorrect(email, password, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "SELECT * FROM usuario WHERE email = ? AND password = ?;";
+                let data = [email, password];
+                connection.query(sql, data, function (err, existe) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"), false);
+                    } else {
+                        if (existe.length > 0) {
+                            callback(null, true);
+                        } else {
+                            callback(null, false);
+                        }
+
+                    }
+                });
+            }
+        });
+    }
+
+    getUserImageName(email, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "SELECT img FROM usuario WHERE email = ?;";
+                connection.query(sql, email, function (err, img) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"), false);
+                    } else {
+                        callback(null, img);
                     }
                 });
             }

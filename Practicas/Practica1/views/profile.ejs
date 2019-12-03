@@ -14,10 +14,10 @@
     <div id="encabezado">
         thirty
         <div id="menu">
-            <a href="">Perfil</a>
+            <a href="/profile">Perfil</a>
             <a href="">Amigos</a>
             <a href="">Preguntas</a>
-            <a href="">Desconectar</a>
+            <a href="/logout">Desconectar</a>
             <div id="points">50 pts</div>
         </div>
     </div>
@@ -25,7 +25,7 @@
         <h2>Tu perfil</h2>
         <div id="info">
             <div id="profile">
-                <img src="/imagen/<%= usuario.photo %>" class="imgPerfil">
+                <img src="/imagen/<%= usuario.email %>" class="imgPerfil">
                 <div id="datos">
                     <p>
                         <%= usuario.name %>
