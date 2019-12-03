@@ -102,6 +102,7 @@ app.get("/imagen/:id", currentUser, function (request, response) {
             if (img[0].img == null) {
                 response.sendFile(path.join(__dirname, "/public/img", "NoPerfil.png"));
             } else {
+                //request.params.id no es el nombre de la imagen guardada
                 response.sendFile(path.join(__dirname, "uploads", request.params.id));
             }
         }
