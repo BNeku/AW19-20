@@ -85,7 +85,7 @@ app.get("/profile", currentUser, function (request, response) {
             response.status(200);
             response.render("profile", {
                 usuario: data,
-                amigo:false
+                amigo: false
             });
         } else {
             response.status(404);
@@ -196,31 +196,9 @@ app.get("/rechazar/:emailAmigo", currentUser, function (request, response) {
     });
 });
 
-app.get("/buscar", currentUser, function (request, response) {
-    userD.buscarUsuario(request.body.buscaAmigo, function (err, rdo) {
-        if (err) {
-            response.status(404);
-            console.log(err + " buscar");
-        } else {
-            userD.getPuntos(response.locals.userEmail, function (err, puntos) {
-                if (err) {
-                    response.status(404);
-                    console.log(err + " buscar");
-                }else{
-                    response.render("search_results", {
-                        busqueda: request.body.buscaAmigo,
-                        resultado:rdo,
-                        puntos: puntos[0].puntos
-                    });
-                }
-            });
-            
-        }
-    });
-});
 
-app.get("/amigo/:email", currentUser, function(request,response){
-    userD.getUser(request.params.email, function(data, success) {
+app.get("/amigo/:email", currentUser, function (request, response) {
+    userD.getUser(request.params.email, function (data, success) {
         if (success) {
             response.status(200);
             response.render("profile", {
@@ -230,6 +208,29 @@ app.get("/amigo/:email", currentUser, function(request,response){
         } else {
             response.status(404);
             console.log("No se ha encontrado el usuario");
+        }
+    });
+});
+
+app.get("/buscar", currentUser, function (request, response) {
+    userD.buscarUsuario(request.query.buscaAmigo, function (err, rdo) {
+        if (err) {
+            response.status(404);
+            console.log(err + " buscar");
+        } else {
+            userD.getPuntos(response.locals.userEmail, function (err, puntos) {
+                if (err) {
+                    response.status(404);
+                    console.log(err + " buscar");
+                } else {
+                    response.render("search_results", {
+                        busqueda: request.body.buscaAmigo,
+                        resultado: rdo,
+                        puntos: puntos[0].puntos
+                    });
+                }
+            });
+
         }
     });
 });
@@ -333,6 +334,7 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function (r
         }
     });
 });
+
 
 /* Listener */
 
