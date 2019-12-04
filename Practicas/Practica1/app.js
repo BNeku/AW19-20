@@ -50,7 +50,7 @@ function currentUser(request, response, next) {
         response.locals.userEmail = request.session.currentUser;
         next();
     } else {
-        response.redirect("login");
+        response.redirect("/login");
     }
 }
 
@@ -58,7 +58,7 @@ function currentUser(request, response, next) {
 
 app.get("/", function (request, response) {
     response.status(200);
-    response.redirect("login")
+    response.redirect("/login")
 });
 
 app.get("/login", function (request, response) {
@@ -252,7 +252,7 @@ app.post("/procesar_login", function (request, response) {
             response.status(200);
             if (existe) {
                 request.session.currentUser = request.body.email;
-                response.redirect("profile");
+                response.redirect("/profile");
             } else {
                 response.render("login", {
                     errorMsg: "Dirección de correo y/o contraseña no válidos"
