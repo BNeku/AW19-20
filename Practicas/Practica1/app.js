@@ -15,7 +15,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const multerFactory = multer({
-    dest: path.join(__dirname, "uploads")
+    dest: path.join(__dirname, "public/img")
 });
 const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
@@ -102,11 +102,29 @@ app.get("/imagen/:id", currentUser, function (request, response) {
             if (img[0].img == null) {
                 response.sendFile(path.join(__dirname, "/public/img", "NoPerfil.png"));
             } else {
-                //request.params.id no es el nombre de la imagen guardada
-                response.sendFile(path.join(__dirname, "uploads", request.params.id));
+
+                response.sendFile(path.join(__dirname, "/public/img", img[0].img));
             }
         }
     });
+});
+
+app.get("/modify", currentUser, function (request, response) {
+
+    userD.getPuntos(response.locals.userEmail, function (err, rdo) {
+        if (err) {
+            response.status(404);
+            console.log(err + " modify");
+        } else {
+            response.status(200);
+            response.render("modify", {
+                puntos: rdo[0].puntos,
+                msg: null
+            });
+        }
+    });
+
+
 });
 
 app.get("/logout", currentUser, function (request, response) {
@@ -139,11 +157,11 @@ app.post("/procesar_login", function (request, response) {
 
 app.post("/register", multerFactory.single("photo"), function (request, response) {
     var user = utils.createUserFromRequestBody(request);
-    if(user == false){
+    if (user == false) {
         response.render("newUser", {
             msg: "Revisa completar los campos obligatorios(*)"
         });
-    }else{
+    } else {
         userD.insertUser(user, function (err, insertado) {
             if (err) {
                 response.status(404);
@@ -162,10 +180,51 @@ app.post("/register", multerFactory.single("photo"), function (request, response
             }
         });
     }
-    
+
 });
 
-
+app.post("/post_modify", currentUser, multerFactory.single("photo"), function (request, response) {
+    userD.getUser(response.locals.userEmail, function (data, success) {
+        if (success) {
+            var user = utils.modifyUserFromRequestBody(request, data);
+            userD.getUserImageName(response.locals.userEmail, function(err, img){
+                if(err){
+                    response.status(404);
+                    console.log(err + " post_modify");
+                }else{
+                    if (request.file) {
+                        user.photo = request.file.filename;
+                    }else{
+                        user.photo= img[0].img;
+                    }
+                    userD.modifyUser(user, function (err, result) {
+                        if (err) {
+                            response.status(404);
+                            console.log(err + " post_modify");
+                        } else {
+                            response.status(200);
+                            if (result) {
+                                response.render("modify", {
+                                    puntos: user.puntos,
+                                    msg: "Cambios realizados"
+                                })
+                            } else {
+                                response.render("modify", {
+                                    puntos: user.puntos,
+                                    msg: "No se ha podido realizar los cambios"
+                                })
+                            }
+                        }
+                    });
+                }   
+            });
+            
+        } else {
+            response.status(404);
+            console.log("No se ha encontrado el usuario");
+        }
+    });
+});
 
 
 /* Listener */

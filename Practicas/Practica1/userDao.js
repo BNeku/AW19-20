@@ -83,6 +83,43 @@ class UserDao {
             }
         });
     }
+
+    modifyUser(user, callback){
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "UPDATE usuario SET password= ?,name= ?, gender= ?,birthDate= ?,img=?,puntos=? WHERE email = ? ";
+                let userData = [user.password, user.name, user.gender, user.birthDate, user.photo, user.puntos, user.email];
+                connection.query(sql, userData, function (err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"), false);
+                    } else {
+                        callback(null, true);
+                    }
+                });
+            }
+        });
+    }
+
+    getPuntos(email,callback){
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "SELECT puntos FROM usuario WHERE email = ?";
+                connection.query(sql, email, function (err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"), false);
+                    } else {
+                        callback(null, result);
+                    }
+                });
+            }
+        });
+    }
 }
 
 module.exports = UserDao;

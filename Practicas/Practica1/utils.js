@@ -4,12 +4,7 @@ function createUserFromRequestBody(request) {
     if(request.body.email == "" || request.body.password == "" || request.body.name == "" || request.body.birthday ==""){
         return false;
     }else{
-        var gender = 'F'; //Default 0 is female.
-        if (request.body.gender == 1) {
-            gender = 'M';
-        } else if (request.body.gender == 2) {
-            gender = 'O';
-        }
+        
     
         var imageName = null;
     
@@ -21,13 +16,50 @@ function createUserFromRequestBody(request) {
             email: request.body.email,
             password: request.body.password,
             name: request.body.name,
-            gender: gender,
+            gender: gender(request.body.gender),
             birthday: request.body.birthday,
             photo: imageName
         };
 
         return user;
     }
+}
+
+function gender(n){
+
+    switch (n) {
+        case "0":
+            return 'F';
+            break;
+        case "1":
+            return 'M';
+            break;
+        case "2":
+            return 'O';
+            break;
+        default:
+            break;
+    }
+}
+
+function modifyUserFromRequestBody(request, data){
+    var user= data;
+
+    if(request.body.password != "" && user.password != request.body.password){
+        user.password = request.body.password;
+    }
+
+    if(request.body.name !="" && user.name != request.body.name){
+        user.name=request.body.name;
+    }
+    if(typeof(request.body.gender) !="undefined"&& user.gender != gender(request.body.gender)){
+        user.gender= gender(request.body.gender);
+    }
+    if(request.body.birthday != "" && user.birthDate != request.body.birthday){
+        user.birthDate = request.body.birthday;
+    }
+
+    return user;
 }
 
 function getUserFromRequestBody(request) {
@@ -39,5 +71,7 @@ function getUserFromRequestBody(request) {
 
 module.exports = {
     createUserFromRequestBody,
-    getUserFromRequestBody
+    getUserFromRequestBody,
+    modifyUserFromRequestBody, 
+    gender
 }
