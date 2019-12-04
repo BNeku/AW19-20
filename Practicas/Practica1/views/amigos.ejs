@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>30</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/diseño.css" media="screen">
+    <link rel="icon" type="img/png" href="img/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+    <script src="facebluff.js"></script>
+</head>
+
+<body>
+    <div id="encabezado">
+        thirty
+        <div id="menu">
+            <a href="/profile">Perfil</a>
+            <a href="/amigos">Amigos</a>
+            <a href="">Preguntas</a>
+            <a href="/logout">Desconectar</a>
+            <div id="points">50 pts</div>
+        </div>
+    </div>
+    <div id="cuerpo">
+        <div id="busqueda">
+            <h2>Búsqueda de amigos</h2>
+            <div class="busca">
+                <form action="login" method="get">
+                    <label for="buscaAmigo">Buscar por nombre: </label>
+                    <input type="text" name="buscaAmigo" class="barra">
+                </form>
+            </div>
+
+        </div>
+        <div id="subcuerpo">
+            <div id="solicitudes">
+                <h2>Solicitudes de amistad</h2>
+                <div id="requests_container">
+                    <% if(solicitudes != null){ %>
+                    <ul>
+                        <% solicitudes.forEach(function(v,i,user){ %>
+                        <li id="search_result_item">
+                            <div class="search_result_item_name_and_picture">
+                                <img src="/imagen/<%= v.email %>" class="person">
+                                <p><%= v.name%></p>
+                            </div>
+                            <div>
+                                <a href="/aceptar/<%= v.email %>" class="button sino">Aceptar</a>
+                                <a href="/rechazar/<%= v.email %>" class="button sino">Rechazar</a>
+                            </div>
+
+                        </li>
+                        <% });%>
+                    </ul>
+                    <%} %>
+                </div>
+            </div>
+
+            <div id=amigos>
+                <h2>Mis amigos</h2>
+                <div id="requests_container">
+                    <% if(amigos != null){ %>
+                    <ul id="friends">
+                        <% amigos.forEach(function(v,i,user){ %>
+                        <li id="search_result_item">
+                            <div class="search_result_item_name_and_picture">
+                                <img src="/imagen/<%=v.email %>" class="person">
+                                <p><%= v.name%></p>
+                            </div>
+
+                        </li>
+                        <%});%>
+                    </ul>
+                    <%} %>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

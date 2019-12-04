@@ -15,7 +15,7 @@
         thirty
         <div id="menu">
             <a href="/profile">Perfil</a>
-            <a href="">Amigos</a>
+            <a href="/amigos">Amigos</a>
             <a href="">Preguntas</a>
             <a href="/logout">Desconectar</a>
             <div id="points"> <%= usuario.puntos %> puntos</div>
@@ -36,7 +36,7 @@
                     <p>
                         <%= usuario.gender %>
                     </p>
-                    <p>50 puntos</p>
+                    <p><%= usuario.puntos %> puntos</p>
                 </div>
             </div>
             <div id="boton">

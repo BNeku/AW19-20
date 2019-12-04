@@ -40,7 +40,7 @@ app.use(middlewareSession);
 
 
 /* DAOs */
-const UserDAO = require("./UserDao");
+const UserDAO = require("./userDao");
 const userD = new UserDAO(pool); // Crear una instancia de UserDAO
 
 /*Middlewares */
@@ -94,7 +94,7 @@ app.get("/profile", currentUser, function (request, response) {
 });
 
 app.get("/imagen/:id", currentUser, function (request, response) {
-    userD.getUserImageName(response.locals.userEmail, function (err, img) {
+    userD.getUserImageName(request.params.id, function (err, img) {
         if (err) {
             response.status(500);
             console.log("imagenUsuario\n" + err);
@@ -125,6 +125,74 @@ app.get("/modify", currentUser, function (request, response) {
     });
 
 
+});
+
+app.get("/amigos", currentUser, function(request, response){
+    userD.getAmigos(response.locals.userEmail, function(err,rdo){
+        if(err){
+            response.status(404);
+            console.log(err + "amigos");
+        }else{
+            response.status(200);
+            if(rdo.length > 0){
+                var todo = utils.misAmigos(response.locals.userEmail, rdo);
+                userD.getName(todo.amigos, function(err, rdo){
+                    if(err){
+                        response.status(404);
+                        console.log(err + "amigos");
+                    }else{
+                        if(typeof(rdo)!= "undefined"){
+                            var friends = rdo;
+                        }else{
+                            var friends = null;
+                        }
+                        
+                        userD.getName(todo.solicitudes, function(err,rdo2){
+                            if(err){
+                                response.status(404);
+                                console.log(err + "amigos");
+                            }else{
+                                response.render("amigos", {
+                                    amigos: friends,
+                                    solicitudes: rdo2
+                                });
+                            }
+                        });
+                    }
+                });
+                
+            }else{
+                response.render("amigos", {
+                    amigos: null,
+                    solicitudes: null
+                });
+            }
+        }
+    });
+});
+
+app.get("/aceptar/:emailAmigo", currentUser, function(request, response){
+    userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err){
+        if(err){
+            response.status(404);
+            console.log(err + "aceptar");
+        }else{
+            response.status(200);
+            response.redirect("/amigos");
+        }
+    });
+});
+
+app.get("/rechazar/:emailAmigo", currentUser, function(request,response){
+    userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err){
+        if(err){
+            response.status(404);
+            console.log(err + "rechazar");
+        }else{
+            response.status(200);
+            response.redirect("/amigos");
+        }
+    });
 });
 
 app.get("/logout", currentUser, function (request, response) {
@@ -225,7 +293,6 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function (r
         }
     });
 });
-
 
 /* Listener */
 

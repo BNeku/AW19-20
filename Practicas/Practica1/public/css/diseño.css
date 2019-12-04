@@ -35,9 +35,10 @@ a {
 }
 
 .person {
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
     margin-top: 1%;
+    margin-right: 10px;
     padding:3px;
     border: 2px black dotted;
 }
@@ -344,11 +345,6 @@ h2 {
     padding: 1%;
 }
 
-.search_result_item_name_and_picture>img {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-} 
 .busca{
     margin-left:250px;
     margin-top:10px;

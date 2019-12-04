@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-12-2019 a las 17:44:55
+-- Tiempo de generación: 04-12-2019 a las 15:45:03
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.4
 
@@ -29,9 +29,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `amigos` (
-  `idUsuario1` varchar(200) NOT NULL,
-  `idUsuario2` varchar(200) NOT NULL
+  `emailAmigo1` varchar(200) NOT NULL,
+  `emailAmigo2` varchar(200) NOT NULL,
+  `amigos` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `amigos`
+--
+
+INSERT INTO `amigos` (`emailAmigo1`, `emailAmigo2`, `amigos`) VALUES
+('neku@ucm.es', 'ejemplo@gmail.com', 1),
+('yhon@ucm.es', 'neku@ucm.es', 0);
 
 -- --------------------------------------------------------
 
@@ -50,7 +59,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('1b5mDuyjNVdB4Kbc6rqhm6oBggr7rh2o', 1575477786, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"ejemplo@gmail.com\"}');
+('1b5mDuyjNVdB4Kbc6rqhm6oBggr7rh2o', 1575477786, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"ejemplo@gmail.com\"}'),
+('OQZSq0LSfsT8PMPWHwRWLzQZs0u5dVgu', 1575555454, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"yhon@ucm.es\"}'),
+('lkgqattiathe1t1e6AUaEgcICT_of0Bn', 1575549004, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}');
 
 -- --------------------------------------------------------
 
@@ -64,7 +75,7 @@ CREATE TABLE `usuario` (
   `name` varchar(200) NOT NULL,
   `gender` char(1) NOT NULL,
   `birthDate` date DEFAULT NULL,
-  `img` longblob,
+  `img` mediumtext,
   `puntos` int(255) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -73,8 +84,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`email`, `password`, `name`, `gender`, `birthDate`, `img`, `puntos`) VALUES
-('ejemplo@gmail.com', '123', 'Ejemplo', 'O', '1998-02-12', 0x6461656163666361343139623931373134623830666531383430396463383233, 0),
-('neku@ucm.es', 'aaa', 'Nerea Jimenez ', 'F', '1997-06-24', NULL, 0),
+('ejemplo@gmail.com', '123', 'Ejemplo', 'F', '2001-05-01', NULL, 0),
+('neku@ucm.es', 'aaa', 'Neku', 'O', '1997-06-24', 'b32a2d7655b0414482f1c18704a43e51', 0),
 ('yhon@ucm.es', '234', 'Yhon', 'M', '1994-02-01', NULL, 0);
 
 --
@@ -85,8 +96,8 @@ INSERT INTO `usuario` (`email`, `password`, `name`, `gender`, `birthDate`, `img`
 -- Indices de la tabla `amigos`
 --
 ALTER TABLE `amigos`
-  ADD PRIMARY KEY (`idUsuario1`,`idUsuario2`),
-  ADD KEY `idUsuario1_fk2` (`idUsuario2`);
+  ADD PRIMARY KEY (`emailAmigo1`,`emailAmigo2`),
+  ADD KEY `idUsuario1_fk2` (`emailAmigo2`);
 
 --
 -- Indices de la tabla `sessions`
@@ -108,8 +119,8 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `amigos`
 --
 ALTER TABLE `amigos`
-  ADD CONSTRAINT `idUsuario1_fk1` FOREIGN KEY (`idUsuario1`) REFERENCES `usuario` (`email`),
-  ADD CONSTRAINT `idUsuario1_fk2` FOREIGN KEY (`idUsuario2`) REFERENCES `usuario` (`email`);
+  ADD CONSTRAINT `idUsuario1_fk1` FOREIGN KEY (`emailAmigo1`) REFERENCES `usuario` (`email`),
+  ADD CONSTRAINT `idUsuario1_fk2` FOREIGN KEY (`emailAmigo2`) REFERENCES `usuario` (`email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

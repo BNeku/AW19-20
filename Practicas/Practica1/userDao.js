@@ -26,11 +26,11 @@ class UserDao {
 
     getUser(email, callback) {
         const sql = "SELECT * FROM usuario WHERE email = ?;";
-        this.pool.getConnection(function(err, connection) {
+        this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                connection.query(sql, email, function(err, result) {
+                connection.query(sql, email, function (err, result) {
                     connection.release();
                     if (err || result.length == 0) {
                         callback(new Error("Error de acceso a la base de datos"), false);
@@ -84,9 +84,9 @@ class UserDao {
         });
     }
 
-    modifyUser(user, callback){
-        this.pool.getConnection(function(err,connection){
-            if(err){
+    modifyUser(user, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
                 const sql = "UPDATE usuario SET password= ?,name= ?, gender= ?,birthDate= ?,img=?,puntos=? WHERE email = ? ";
@@ -103,9 +103,9 @@ class UserDao {
         });
     }
 
-    getPuntos(email,callback){
-        this.pool.getConnection(function(err,connection){
-            if(err){
+    getPuntos(email, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
                 const sql = "SELECT puntos FROM usuario WHERE email = ?";
@@ -115,6 +115,92 @@ class UserDao {
                         callback(new Error("Error de acceso a la base de datos"), false);
                     } else {
                         callback(null, result);
+                    }
+                });
+            }
+        });
+    }
+
+    getAmigos(email, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "SELECT * FROM amigos WHERE emailAmigo1 = ? OR emailAmigo2 = ?";
+
+                connection.query(sql, [email, email], function (err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"), false);
+                    } else {
+                        callback(null, result);
+                    }
+                });
+            }
+        });
+    }
+
+    getName(emails, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                if (emails != null) {
+                    var sql = "SELECT name, email FROM usuario WHERE email IN (";
+
+                    for (var i = 0; i < emails.length; i++) {
+                        sql += "?,"
+                    }
+                    sql = sql.substr(0, sql.length - 1);
+                    sql += ");"
+                    var emailsFinal = emails.map(n => n.email);
+
+                    connection.query(sql, emailsFinal, function (err, result) {
+                        connection.release();
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"), false);
+                        } else {
+                            callback(null, result);
+                        }
+                    });
+                }else{
+                    callback(null);
+                }
+
+            }
+        });
+    }
+
+    aceptarAmistad(email, amigo, callback){
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "UPDATE amigos SET amigos=1 WHERE (emailAmigo1= ? AND emailAmigo2= ?) OR (emailAmigo1= ? AND emailAmigo2= ?)";
+                connection.query(sql, [email, amigo, amigo, email], function (err) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
+
+    rechazarAmistad(email,amigo, callback){
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "DELETE FROM amigos WHERE (emailAmigo1= ? AND emailAmigo2= ?) OR (emailAmigo1= ? AND emailAmigo2= ?)";
+                connection.query(sql, [email, amigo, amigo, email], function (err) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    } else {
+                        callback(null);
                     }
                 });
             }
