@@ -85,7 +85,7 @@ app.get("/profile", currentUser, function (request, response) {
             response.status(200);
             response.render("profile", {
                 usuario: data,
-                amigo: false
+                amigo:false
             });
         } else {
             response.status(404);
@@ -219,7 +219,7 @@ app.get("/buscar", currentUser, function (request, response) {
     });
 });
 
-app.get("/amigo/:email", function(request,response){
+app.get("/amigo/:email", currentUser, function(request,response){
     userD.getUser(request.params.email, function(data, success) {
         if (success) {
             response.status(200);
@@ -233,6 +233,7 @@ app.get("/amigo/:email", function(request,response){
         }
     });
 });
+
 
 app.get("/logout", currentUser, function (request, response) {
     response.status(200);
