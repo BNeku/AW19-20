@@ -163,7 +163,7 @@ class UserDao {
                             callback(null, result);
                         }
                     });
-                }else{
+                } else {
                     callback(null);
                 }
 
@@ -171,7 +171,7 @@ class UserDao {
         });
     }
 
-    aceptarAmistad(email, amigo, callback){
+    aceptarAmistad(email, amigo, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
@@ -189,7 +189,7 @@ class UserDao {
         });
     }
 
-    rechazarAmistad(email,amigo, callback){
+    rechazarAmistad(email, amigo, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
@@ -203,6 +203,26 @@ class UserDao {
                         callback(null);
                     }
                 });
+            }
+        });
+    }
+
+    buscarUsuario(str, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                const sql = "SELECT name,email FROM usuario WHERE name LIKE ?;";
+                let name = '%' + str + '%';
+                connection.query(sql, name, function (err, usuarios) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, usuarios);
+                    }
+                });
+
             }
         });
     }

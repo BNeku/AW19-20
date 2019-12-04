@@ -127,31 +127,31 @@ app.get("/modify", currentUser, function (request, response) {
 
 });
 
-app.get("/amigos", currentUser, function(request, response){
-    userD.getAmigos(response.locals.userEmail, function(err,rdo){
-        if(err){
+app.get("/amigos", currentUser, function (request, response) {
+    userD.getAmigos(response.locals.userEmail, function (err, rdo) {
+        if (err) {
             response.status(404);
             console.log(err + "amigos");
-        }else{
+        } else {
             response.status(200);
-            if(rdo.length > 0){
+            if (rdo.length > 0) {
                 var todo = utils.misAmigos(response.locals.userEmail, rdo);
-                userD.getName(todo.amigos, function(err, rdo){
-                    if(err){
+                userD.getName(todo.amigos, function (err, rdo) {
+                    if (err) {
                         response.status(404);
                         console.log(err + "amigos");
-                    }else{
-                        if(typeof(rdo)!= "undefined"){
+                    } else {
+                        if (typeof (rdo) != "undefined") {
                             var friends = rdo;
-                        }else{
+                        } else {
                             var friends = null;
                         }
-                        
-                        userD.getName(todo.solicitudes, function(err,rdo2){
-                            if(err){
+
+                        userD.getName(todo.solicitudes, function (err, rdo2) {
+                            if (err) {
                                 response.status(404);
                                 console.log(err + "amigos");
-                            }else{
+                            } else {
                                 response.render("amigos", {
                                     amigos: friends,
                                     solicitudes: rdo2
@@ -160,8 +160,8 @@ app.get("/amigos", currentUser, function(request, response){
                         });
                     }
                 });
-                
-            }else{
+
+            } else {
                 response.render("amigos", {
                     amigos: null,
                     solicitudes: null
@@ -171,26 +171,49 @@ app.get("/amigos", currentUser, function(request, response){
     });
 });
 
-app.get("/aceptar/:emailAmigo", currentUser, function(request, response){
-    userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err){
-        if(err){
+app.get("/aceptar/:emailAmigo", currentUser, function (request, response) {
+    userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function (err) {
+        if (err) {
             response.status(404);
             console.log(err + "aceptar");
-        }else{
+        } else {
             response.status(200);
             response.redirect("/amigos");
         }
     });
 });
 
-app.get("/rechazar/:emailAmigo", currentUser, function(request,response){
-    userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err){
-        if(err){
+app.get("/rechazar/:emailAmigo", currentUser, function (request, response) {
+    userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function (err) {
+        if (err) {
             response.status(404);
             console.log(err + "rechazar");
-        }else{
+        } else {
             response.status(200);
             response.redirect("/amigos");
+        }
+    });
+});
+
+app.get("/buscar", currentUser, function (request, response) {
+    userD.buscarUsuario(request.body.buscaAmigo, function (err, rdo) {
+        if (err) {
+            response.status(404);
+            console.log(err + " buscar");
+        } else {
+            userD.getPuntos(response.locals.userEmail, function (err, puntos) {
+                if (err) {
+                    response.status(404);
+                    console.log(err + " buscar");
+                }else{
+                    response.render("search_results", {
+                        busqueda: request.body.buscaAmigo,
+                        resultado:rdo,
+                        puntos: puntos[0].puntos
+                    });
+                }
+            });
+            
         }
     });
 });
@@ -255,15 +278,15 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function (r
     userD.getUser(response.locals.userEmail, function (data, success) {
         if (success) {
             var user = utils.modifyUserFromRequestBody(request, data);
-            userD.getUserImageName(response.locals.userEmail, function(err, img){
-                if(err){
+            userD.getUserImageName(response.locals.userEmail, function (err, img) {
+                if (err) {
                     response.status(404);
                     console.log(err + " post_modify");
-                }else{
+                } else {
                     if (request.file) {
                         user.photo = request.file.filename;
-                    }else{
-                        user.photo= img[0].img;
+                    } else {
+                        user.photo = img[0].img;
                     }
                     userD.modifyUser(user, function (err, result) {
                         if (err) {
@@ -284,9 +307,9 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function (r
                             }
                         }
                     });
-                }   
+                }
             });
-            
+
         } else {
             response.status(404);
             console.log("No se ha encontrado el usuario");
