@@ -84,7 +84,8 @@ app.get("/profile", currentUser, function (request, response) {
         if (success) {
             response.status(200);
             response.render("profile", {
-                usuario: data
+                usuario: data,
+                amigo: false
             });
         } else {
             response.status(404);
@@ -214,6 +215,21 @@ app.get("/buscar", currentUser, function (request, response) {
                 }
             });
             
+        }
+    });
+});
+
+app.get("/amigo/:email", function(request,response){
+    userD.getUser(request.params.email, function(data, success) {
+        if (success) {
+            response.status(200);
+            response.render("profile", {
+                usuario: data,
+                amigo: true
+            });
+        } else {
+            response.status(404);
+            console.log("No se ha encontrado el usuario");
         }
     });
 });
