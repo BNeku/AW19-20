@@ -31,12 +31,12 @@
                         <img src="/imagen/<%= v.email %>" class="person">
                         <p><%= v.name%></p>
                     </div>
-                    <a href="/solicitar_amistad" class="button">Solicitar amistad</a>
+                    <a href="/solicitar_amistad/<%= v.email%>" class="button">Solicitar amistad</a>
                 </li>
                 <% });%>
             </ul>
             <%}else{ %>
-                <p>No se han encontrado resultados</p>
+            <p>No se han encontrado resultados</p>
             <%} %>
         </div>
     </div>

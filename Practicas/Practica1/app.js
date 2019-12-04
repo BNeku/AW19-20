@@ -213,7 +213,7 @@ app.get("/amigo/:email", currentUser, function (request, response) {
 });
 
 app.get("/buscar", currentUser, function (request, response) {
-    userD.buscarUsuario(request.query.buscaAmigo, function (err, rdo) {
+    userD.buscarUsuario(response.locals.userEmail,request.query.buscaAmigo, function (err, rdo) {
         if (err) {
             response.status(404);
             console.log(err + " buscar");
@@ -235,6 +235,16 @@ app.get("/buscar", currentUser, function (request, response) {
     });
 });
 
+app.get("/solicitar_amistad/:id", currentUser, function(request, response){
+    userD.solicitarAmistad(request.params.id,response.locals.userEmail, function(err){
+        if(err){
+            response.status(404);
+            console.log(err + " solicitar amistad");
+        }else{
+            response.redirect("/amigos");
+        }
+    });
+});
 
 app.get("/logout", currentUser, function (request, response) {
     response.status(200);

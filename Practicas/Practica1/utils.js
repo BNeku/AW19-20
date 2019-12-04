@@ -63,34 +63,40 @@ function modifyUserFromRequestBody(request, data) {
 }
 
 function misAmigos(email, rdo) {
-    var amigosUser=[];
+    var solicitudes = [];
+    var amigos = [];
+    for (var i = 0; i < rdo.length; i++) {
 
-    for(var i=0; i<rdo.length;i++){
-        var x;
-        if(rdo[i].emailAmigo1 == email){
-            x = {email: rdo[i].emailAmigo2, amigos: rdo[i].amigos};
-        }else{
-            x = {email: rdo[i].emailAmigo1, amigos: rdo[i].amigos};
+        if (rdo[i].solicitado == email && rdo[i].amigos == 0) { //es una solicitud
+            solicitudes.push({
+                email: rdo[i].solicitante
+            });
+        } else {
+            if (rdo[i].amigos == 1) {
+                if (rdo[i].solicitado == email) {
+                    amigos.push({
+                        email: rdo[i].solicitante
+                    });
+                } else {
+                    amigos.push({
+                        email: rdo[i].solicitado
+                    });
+                }
+            }
         }
-        amigosUser.push(x);
     }
 
-    if (amigosUser.length == 0) {
-        return null;
-    } else {
-        var amigos = amigosUser.filter(n => n.amigos == 1);
-        if (amigos.length == 0) {
-            amigos = null;
-        }
-        var solicitudes = amigosUser.filter(n => n.amigos == 0);
-        if (solicitudes.length == 0) {
-            solicitudes = null;
-        }
-        return {
-            solicitudes: solicitudes,
-            amigos: amigos
-        }
+    if (amigos.length == 0) {
+        amigos = null;
     }
+    if (solicitudes.length == 0) {
+        solicitudes = null;
+    }
+    return {
+        solicitudes: solicitudes,
+        amigos: amigos
+    }
+
 }
 
 

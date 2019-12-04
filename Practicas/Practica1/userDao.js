@@ -126,7 +126,7 @@ class UserDao {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                const sql = "SELECT * FROM amigos WHERE emailAmigo1 = ? OR emailAmigo2 = ?";
+                const sql = "SELECT * FROM amigos WHERE solicitante = ? OR solicitado = ?";
 
                 connection.query(sql, [email, email], function (err, result) {
                     connection.release();
@@ -176,7 +176,7 @@ class UserDao {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                const sql = "UPDATE amigos SET amigos=1 WHERE (emailAmigo1= ? AND emailAmigo2= ?) OR (emailAmigo1= ? AND emailAmigo2= ?)";
+                const sql = "UPDATE amigos SET amigos=1 WHERE (solicitante= ? AND solicitado= ?) OR (solicitante= ? AND solicitado= ?)";
                 connection.query(sql, [email, amigo, amigo, email], function (err) {
                     connection.release();
                     if (err) {
@@ -194,7 +194,7 @@ class UserDao {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                const sql = "DELETE FROM amigos WHERE (emailAmigo1= ? AND emailAmigo2= ?) OR (emailAmigo1= ? AND emailAmigo2= ?)";
+                const sql = "DELETE FROM amigos WHERE (solicitante= ? AND solicitado= ?) OR (solicitante= ? AND solicitado= ?)";
                 connection.query(sql, [email, amigo, amigo, email], function (err) {
                     connection.release();
                     if (err) {
@@ -207,19 +207,38 @@ class UserDao {
         });
     }
 
-    buscarUsuario(str, callback) {
+    buscarUsuario(email, str, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT name,email FROM usuario WHERE name LIKE ?;";
+                const sql = "SELECT name,email FROM usuario WHERE name LIKE ? AND email <> ?;";
                 let name = '%' + str + '%';
-                connection.query(sql, name, function (err, usuarios) {
+                connection.query(sql, [name, email], function (err, usuarios) {
                     connection.release();
                     if (err) {
                         callback(err, null);
                     } else {
                         callback(null, usuarios);
+                    }
+                });
+
+            }
+        });
+    }
+
+    solicitarAmistad(solicitante, solicitado, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                const sql = "INSERT INTO amigos(solicitante, solicitado, amigos) VALUES (?,?,0)";
+                connection.query(sql, [solicitado, solicitante,], function (err) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null);
                     }
                 });
 
