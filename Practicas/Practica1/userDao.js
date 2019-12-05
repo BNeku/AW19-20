@@ -212,9 +212,9 @@ class UserDao {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT name,email FROM usuario WHERE name LIKE ? AND email <> ?;";
+                const sql = "SELECT name,email FROM usuario WHERE name LIKE ? AND email <> ? AND (email NOT IN(SELECT solicitante FROM amigos WHERE solicitado = ?) AND  email NOT IN(SELECT solicitado FROM amigos  WHERE solicitante = ?));";
                 let name = '%' + str + '%';
-                connection.query(sql, [name, email], function (err, usuarios) {
+                connection.query(sql, [name, email, email,email], function (err, usuarios) {
                     connection.release();
                     if (err) {
                         callback(err, null);
