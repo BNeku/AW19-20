@@ -246,6 +246,10 @@ app.get("/solicitar_amistad/:id", currentUser, function(request, response){
     });
 });
 
+app.get("/preguntas", currentUser, function(request,response){
+    response.render("questions");
+});
+
 app.get("/logout", currentUser, function (request, response) {
     response.status(200);
     request.session.destroy();
