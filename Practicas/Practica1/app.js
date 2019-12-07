@@ -43,6 +43,9 @@ app.use(middlewareSession);
 const UserDAO = require("./userDao");
 const userD = new UserDAO(pool); // Crear una instancia de UserDAO
 
+const PreguntaDAO = require("./preguntaDao");
+const preguntaDAO = new PreguntaDAO(pool); // Crear una instancia de PreguntaDao
+
 /*Middlewares */
 
 function currentUser(request, response, next) {
@@ -245,7 +248,19 @@ app.get("/solicitar_amistad/:id", currentUser, function(request, response) {
 });
 
 app.get("/preguntas", currentUser, function(request, response) {
-    response.render("questions");
+    preguntaDAO.getPreguntas(function(err, preguntas) {
+        if (err) {
+            response.status(404);
+        } else {
+            response.render("questions", {
+                preguntas: preguntas
+            });
+        }
+    });
+});
+
+app.get("/crearPregunta", currentUser, function(request, response) {
+    response.render("createQuestion");
 });
 
 app.get("/logout", currentUser, function(request, response) {
@@ -343,6 +358,51 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function(re
         } else {
             response.status(404);
             console.log("No se ha encontrado el usuario");
+        }
+    });
+});
+
+
+app.post("/procesar_crear_pregunta", function(request, response) {
+    var respuestas = [];
+
+    if (request.body.respuesta1.length > 0) {
+        respuestas.push(request.body.respuesta1);
+    }
+
+    if (request.body.respuesta2.length > 0) {
+        respuestas.push(request.body.respuesta2);
+    }
+
+    if (request.body.respuesta3.length > 0) {
+        respuestas.push(request.body.respuesta3);
+    }
+
+    if (request.body.pregunta.length == 0 || respuestas.length == 0) {
+        response.status(422);
+        console.log("login post\n");
+        return;
+    }
+
+    var nuevaPregunta = {
+        pregunta: request.body.pregunta,
+        respuestas: respuestas
+    }
+
+    preguntaDAO.insertPregunta(nuevaPregunta, function(err, existe) {
+        if (err) {
+            response.status(404);
+            console.log("login post\n" + err);
+        } else {
+            response.status(200);
+            if (existe) {
+                request.session.currentUser = request.body.email;
+                response.redirect("/profile");
+            } else {
+                response.render("login", {
+                    errorMsg: "Dirección de correo y/o contraseña no válidos"
+                });
+            }
         }
     });
 });

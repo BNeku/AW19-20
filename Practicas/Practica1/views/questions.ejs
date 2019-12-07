@@ -17,20 +17,24 @@
             <a href="/amigos">Amigos</a>
             <a href="/preguntas">Preguntas</a>
             <a href="/logout">Desconectar</a>
-            <div id="points">  puntos</div>
+            <div id="points"> puntos</div>
         </div>
     </div>
     <div id="questions_container">
         <h2>Preguntas seleccionadas aleatoriamente</h2>
         <div id="questions_list">
             <ul>
-                <li><a href="">¿Cuál es la peor película de la historia?</a></li>
-                <li>¿En qué escuela primaria estudiaste?</li>
-                <li>¿Plato favorito?</li>
+                <% preguntas.forEach(function(pregunta, i, preguntas){ %>
+                    <li>
+                        <a href="">
+                            <%= pregunta.texto%>
+                        </a>
+                    </li>
+                    <%});%>
             </ul>
         </div>
         <h2>¡Añade tus preguntas!</h2>
-        <a href="" class="button">Crear pregunta</a>
+        <a href="/crearPregunta" class="button">Crear pregunta</a>
     </div>
 </body>
 

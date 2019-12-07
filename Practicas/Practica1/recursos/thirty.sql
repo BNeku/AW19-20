@@ -18,6 +18,17 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS `RespuestaUsuario`;
+DROP TABLE IF EXISTS `Respuesta`;
+DROP TABLE IF EXISTS `Pregunta`;
+DROP TABLE IF EXISTS `sessions`;
+DROP TABLE IF EXISTS `amigos`;
+DROP TABLE IF EXISTS `usuario`;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
 --
 -- Base de datos: `thirty`
 --
@@ -87,36 +98,9 @@ INSERT INTO `usuario` (`email`, `password`, `name`, `gender`, `birthDate`, `img`
 ('ejemplo@gmail.com', '123', 'Ejemplo', 'F', '2001-05-01', NULL, 0),
 ('neku@ucm.es', 'aaa', 'Neku', 'F', '1997-06-24', 'b32a2d7655b0414482f1c18704a43e51', 0),
 ('wilson@gmail.com', 'asd', 'Wilson', 'F', '1999-07-16', NULL, 0),
+('yhon', '2', 'Yhondri', 'M', '1999-07-16', NULL, 0),
 ('yhon@ucm.es', '234', 'Yhon', 'M', '1994-02-01', 'd7cfb42d3bb9dd3be5e7fbbeca380788', 0);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `Pregunta`
---
-
-CREATE TABLE Pregunta (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `texto` varchar(255) NOT NULL
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE Respuesta (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `preguntaId` int NOT NULL,
-    `texto` varchar(255) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (preguntaId) REFERENCES Pregunta(id) ON DELETE CASCADE
-);
-
-CREATE TABLE RespuestaUsuario (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `preguntaId` int NOT NULL,
-    `respuestaId` int NOT NULL,
-    `idUsuario` varchar(200) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (idUsuario) REFERENCES usuario(email) ON DELETE CASCADE
-);
 
 --
 -- Índices para tablas volcadas
@@ -153,6 +137,55 @@ ALTER TABLE `amigos`
   ADD CONSTRAINT `idUsuario1_fk1` FOREIGN KEY (`solicitado`) REFERENCES `usuario` (`email`),
   ADD CONSTRAINT `idUsuario1_fk2` FOREIGN KEY (`solicitante`) REFERENCES `usuario` (`email`);
 COMMIT;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Pregunta`
+--
+
+CREATE TABLE Pregunta (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `texto` varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Respuesta (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `preguntaId` int NOT NULL,
+    `texto` varchar(255) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (preguntaId) REFERENCES Pregunta(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE RespuestaUsuario (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `preguntaId` int NOT NULL,
+    `respuestaId` int NOT NULL,
+    `idUsuario` varchar(200) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(email) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `Pregunta` (`id`, `texto`) VALUES
+(1, "¿Cuál es la peor película de la historia?"),
+(2, "¿De qué color es el caballo blanco de Santiago?"),
+(3, "¿En qué país se encuentra el estado de California?");
+
+INSERT INTO `Respuesta` (`id`, `preguntaId`, `texto`) VALUES
+(1, 1, "Spiderman 1"),
+(2, 1, "Spiderman 2"),
+(3, 1, "El Padrino"),
+(4, 2, "Azul"),
+(5, 2, "Verde"),
+(6, 2, "Blanco"),
+(7, 3, "España"),
+(8, 3, "Francía"),
+(9, 3, "Estados Unidos");
+
+
+
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
