@@ -380,7 +380,6 @@ app.post("/procesar_crear_pregunta", function(request, response) {
 
     if (request.body.pregunta.length == 0 || respuestas.length == 0) {
         response.status(422);
-        console.log("login post\n");
         return;
     }
 
@@ -389,19 +388,17 @@ app.post("/procesar_crear_pregunta", function(request, response) {
         respuestas: respuestas
     }
 
-    preguntaDAO.insertPregunta(nuevaPregunta, function(err, existe) {
+    preguntaDAO.insertPregunta(nuevaPregunta, function(err, success) {
         if (err) {
             response.status(404);
-            console.log("login post\n" + err);
+            console.log("insertPregunta\n" + err);
         } else {
             response.status(200);
-            if (existe) {
-                request.session.currentUser = request.body.email;
-                response.redirect("/profile");
+            if (success) {
+                response.redirect("/preguntas");
             } else {
-                response.render("login", {
-                    errorMsg: "Dirección de correo y/o contraseña no válidos"
-                });
+                response.status(404);
+                console.log("insertPregunta\n" + err);
             }
         }
     });
