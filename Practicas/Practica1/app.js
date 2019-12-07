@@ -56,12 +56,12 @@ function currentUser(request, response, next) {
 
 /* GET - Sección para implementar las peticiones GET */
 
-app.get("/", function (request, response) {
+app.get("/", function(request, response) {
     response.status(200);
     response.redirect("/login")
 });
 
-app.get("/login", function (request, response) {
+app.get("/login", function(request, response) {
     response.status(200);
     if (request.session.currentUser != null) {
         response.redirect("/profile");
@@ -72,15 +72,15 @@ app.get("/login", function (request, response) {
     }
 });
 
-app.get("/register", function (request, response) {
+app.get("/register", function(request, response) {
     response.status(200);
     response.render("newUser", {
         msg: null
     });
 });
 
-app.get("/profile", currentUser, function (request, response) {
-    userD.getUser(response.locals.userEmail, function (data, success) {
+app.get("/profile", currentUser, function(request, response) {
+    userD.getUser(response.locals.userEmail, function(data, success) {
         if (success) {
             response.status(200);
             response.render("profile", {
@@ -94,8 +94,8 @@ app.get("/profile", currentUser, function (request, response) {
     });
 });
 
-app.get("/imagen/:id", currentUser, function (request, response) {
-    userD.getUserImageName(request.params.id, function (err, img) {
+app.get("/imagen/:id", currentUser, function(request, response) {
+    userD.getUserImageName(request.params.id, function(err, img) {
         if (err) {
             response.status(500);
             console.log("imagenUsuario\n" + err);
@@ -110,9 +110,9 @@ app.get("/imagen/:id", currentUser, function (request, response) {
     });
 });
 
-app.get("/modify", currentUser, function (request, response) {
+app.get("/modify", currentUser, function(request, response) {
 
-    userD.getPuntos(response.locals.userEmail, function (err, rdo) {
+    userD.getPuntos(response.locals.userEmail, function(err, rdo) {
         if (err) {
             response.status(404);
             console.log(err + " modify");
@@ -128,8 +128,8 @@ app.get("/modify", currentUser, function (request, response) {
 
 });
 
-app.get("/amigos", currentUser, function (request, response) {
-    userD.getAmigos(response.locals.userEmail, function (err, rdo) {
+app.get("/amigos", currentUser, function(request, response) {
+    userD.getAmigos(response.locals.userEmail, function(err, rdo) {
         if (err) {
             response.status(404);
             console.log(err + "amigos");
@@ -137,18 +137,17 @@ app.get("/amigos", currentUser, function (request, response) {
             response.status(200);
             if (rdo.length > 0) {
                 var todo = utils.misAmigos(response.locals.userEmail, rdo);
-                userD.getName(todo.amigos, function (err, rdo) {
+                userD.getName(todo.amigos, function(err, rdo) {
                     if (err) {
                         response.status(404);
                         console.log(err + "amigos");
                     } else {
-                        if (typeof (rdo) != "undefined") {
-                            var friends = rdo;
-                        } else {
+                        var friends = rdo;
+                        if (typeof(rdo) == "undefined") {
                             var friends = null;
                         }
 
-                        userD.getName(todo.solicitudes, function (err, rdo2) {
+                        userD.getName(todo.solicitudes, function(err, rdo2) {
                             if (err) {
                                 response.status(404);
                                 console.log(err + "amigos");
@@ -172,8 +171,8 @@ app.get("/amigos", currentUser, function (request, response) {
     });
 });
 
-app.get("/aceptar/:emailAmigo", currentUser, function (request, response) {
-    userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function (err) {
+app.get("/aceptar/:emailAmigo", currentUser, function(request, response) {
+    userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
         if (err) {
             response.status(404);
             console.log(err + "aceptar");
@@ -184,8 +183,8 @@ app.get("/aceptar/:emailAmigo", currentUser, function (request, response) {
     });
 });
 
-app.get("/rechazar/:emailAmigo", currentUser, function (request, response) {
-    userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function (err) {
+app.get("/rechazar/:emailAmigo", currentUser, function(request, response) {
+    userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
         if (err) {
             response.status(404);
             console.log(err + "rechazar");
@@ -196,9 +195,8 @@ app.get("/rechazar/:emailAmigo", currentUser, function (request, response) {
     });
 });
 
-
-app.get("/amigo/:email", currentUser, function (request, response) {
-    userD.getUser(request.params.email, function (data, success) {
+app.get("/amigo/:email", currentUser, function(request, response) {
+    userD.getUser(request.params.email, function(data, success) {
         if (success) {
             response.status(200);
             response.render("profile", {
@@ -212,13 +210,13 @@ app.get("/amigo/:email", currentUser, function (request, response) {
     });
 });
 
-app.get("/buscar", currentUser, function (request, response) {
-    userD.buscarUsuario(response.locals.userEmail,request.query.buscaAmigo, function (err, rdo) {
+app.get("/buscar", currentUser, function(request, response) {
+    userD.buscarUsuario(response.locals.userEmail, request.query.buscaAmigo, function(err, rdo) {
         if (err) {
             response.status(404);
             console.log(err + " buscar");
         } else {
-            userD.getPuntos(response.locals.userEmail, function (err, puntos) {
+            userD.getPuntos(response.locals.userEmail, function(err, puntos) {
                 if (err) {
                     response.status(404);
                     console.log(err + " buscar");
@@ -235,22 +233,22 @@ app.get("/buscar", currentUser, function (request, response) {
     });
 });
 
-app.get("/solicitar_amistad/:id", currentUser, function(request, response){
-    userD.solicitarAmistad(request.params.id,response.locals.userEmail, function(err){
-        if(err){
+app.get("/solicitar_amistad/:id", currentUser, function(request, response) {
+    userD.solicitarAmistad(request.params.id, response.locals.userEmail, function(err) {
+        if (err) {
             response.status(404);
             console.log(err + " solicitar amistad");
-        }else{
+        } else {
             response.redirect("/amigos");
         }
     });
 });
 
-app.get("/preguntas", currentUser, function(request,response){
+app.get("/preguntas", currentUser, function(request, response) {
     response.render("questions");
 });
 
-app.get("/logout", currentUser, function (request, response) {
+app.get("/logout", currentUser, function(request, response) {
     response.status(200);
     request.session.destroy();
     response.redirect("/login");
@@ -258,8 +256,8 @@ app.get("/logout", currentUser, function (request, response) {
 
 /* POST - Sección para implementar las peticiones POST */
 
-app.post("/procesar_login", function (request, response) {
-    userD.isUserCorrect(request.body.email, request.body.password, function (err, existe) {
+app.post("/procesar_login", function(request, response) {
+    userD.isUserCorrect(request.body.email, request.body.password, function(err, existe) {
         if (err) {
             response.status(404);
             console.log("login post\n" + err);
@@ -278,14 +276,14 @@ app.post("/procesar_login", function (request, response) {
 
 });
 
-app.post("/register", multerFactory.single("photo"), function (request, response) {
+app.post("/register", multerFactory.single("photo"), function(request, response) {
     var user = utils.createUserFromRequestBody(request);
     if (user == false) {
         response.render("newUser", {
             msg: "Revisa completar los campos obligatorios(*)"
         });
     } else {
-        userD.insertUser(user, function (err, insertado) {
+        userD.insertUser(user, function(err, insertado) {
             if (err) {
                 response.status(404);
                 console.log(err + "post register");
@@ -306,11 +304,11 @@ app.post("/register", multerFactory.single("photo"), function (request, response
 
 });
 
-app.post("/post_modify", currentUser, multerFactory.single("photo"), function (request, response) {
-    userD.getUser(response.locals.userEmail, function (data, success) {
+app.post("/post_modify", currentUser, multerFactory.single("photo"), function(request, response) {
+    userD.getUser(response.locals.userEmail, function(data, success) {
         if (success) {
             var user = utils.modifyUserFromRequestBody(request, data);
-            userD.getUserImageName(response.locals.userEmail, function (err, img) {
+            userD.getUserImageName(response.locals.userEmail, function(err, img) {
                 if (err) {
                     response.status(404);
                     console.log(err + " post_modify");
@@ -320,7 +318,7 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function (r
                     } else {
                         user.photo = img[0].img;
                     }
-                    userD.modifyUser(user, function (err, result) {
+                    userD.modifyUser(user, function(err, result) {
                         if (err) {
                             response.status(404);
                             console.log(err + " post_modify");
@@ -352,8 +350,7 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function (r
 
 /* Listener */
 
-
-app.listen(3000, function (err) {
+app.listen(3000, function(err) {
     if (err) {
         console.error("No se pudo inicializar el servidor: " + err.message);
     } else {

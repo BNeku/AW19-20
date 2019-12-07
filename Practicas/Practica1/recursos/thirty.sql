@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `amigos` (
-  `emailAmigo1` varchar(200) NOT NULL,
-  `emailAmigo2` varchar(200) NOT NULL,
+  `solicitado` varchar(200) NOT NULL,
+  `solicitante` varchar(200) NOT NULL,
   `amigos` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -38,7 +38,7 @@ CREATE TABLE `amigos` (
 -- Volcado de datos para la tabla `amigos`
 --
 
-INSERT INTO `amigos` (`emailAmigo1`, `emailAmigo2`, `amigos`) VALUES
+INSERT INTO `amigos` (`solicitado`, `solicitante`, `amigos`) VALUES
 ('neku@ucm.es', 'ejemplo@gmail.com', 1),
 ('neku@ucm.es', 'wilson@gmail.com', 1);
 
@@ -89,6 +89,35 @@ INSERT INTO `usuario` (`email`, `password`, `name`, `gender`, `birthDate`, `img`
 ('wilson@gmail.com', 'asd', 'Wilson', 'F', '1999-07-16', NULL, 0),
 ('yhon@ucm.es', '234', 'Yhon', 'M', '1994-02-01', 'd7cfb42d3bb9dd3be5e7fbbeca380788', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Pregunta`
+--
+
+CREATE TABLE Pregunta (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `texto` varchar(255) NOT NULL
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE Respuesta (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `preguntaId` int NOT NULL,
+    `texto` varchar(255) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (preguntaId) REFERENCES Pregunta(id) ON DELETE CASCADE
+);
+
+CREATE TABLE RespuestaUsuario (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `preguntaId` int NOT NULL,
+    `respuestaId` int NOT NULL,
+    `idUsuario` varchar(200) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(email) ON DELETE CASCADE
+);
+
 --
 -- Índices para tablas volcadas
 --
@@ -97,9 +126,9 @@ INSERT INTO `usuario` (`email`, `password`, `name`, `gender`, `birthDate`, `img`
 -- Indices de la tabla `amigos`
 --
 ALTER TABLE `amigos`
-  ADD PRIMARY KEY (`emailAmigo1`,`emailAmigo2`),
-  ADD KEY `emailAmigo2_fk2` (`emailAmigo2`) USING BTREE,
-  ADD KEY `emailAmigo1_fk1` (`emailAmigo1`) USING BTREE;
+  ADD PRIMARY KEY (`solicitado`,`solicitante`),
+  ADD KEY `solicitante_fk2` (`solicitante`) USING BTREE,
+  ADD KEY `solicitado_fk1` (`solicitado`) USING BTREE;
 
 --
 -- Indices de la tabla `sessions`
@@ -121,8 +150,8 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `amigos`
 --
 ALTER TABLE `amigos`
-  ADD CONSTRAINT `idUsuario1_fk1` FOREIGN KEY (`emailAmigo1`) REFERENCES `usuario` (`email`),
-  ADD CONSTRAINT `idUsuario1_fk2` FOREIGN KEY (`emailAmigo2`) REFERENCES `usuario` (`email`);
+  ADD CONSTRAINT `idUsuario1_fk1` FOREIGN KEY (`solicitado`) REFERENCES `usuario` (`email`),
+  ADD CONSTRAINT `idUsuario1_fk2` FOREIGN KEY (`solicitante`) REFERENCES `usuario` (`email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
