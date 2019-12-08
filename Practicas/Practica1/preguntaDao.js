@@ -117,6 +117,44 @@ class PreguntaDao {
             }
         });
     }
+
+    insertRespuesta(respuesta, preguntaId, callback) {
+        this.pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "INSERT INTO Respuesta(preguntaId, respuestaTitle) VALUES (?, ?);";
+
+                connection.query(sql, [preguntaId, respuesta], function(err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"), null);
+                    } else {
+                        callback(null, true, result.insertId);
+                    }
+                });
+            }
+        });
+    }
+
+    insertOtraRespuestaUsuario(nuevaRespuesta, callback) {
+        var self = this;
+
+        this.insertRespuesta(nuevaRespuesta.respuesta, nuevaRespuesta.preguntaId, function(err, success, respuestaId) {
+            if (err || !success) {
+                callback(new Error("Error de acceso a la base de datos"), null);
+            } else {
+                var respuesta = {
+                    preguntaId: nuevaRespuesta.preguntaId,
+                    respuestaId: respuestaId,
+                    idUsuario: nuevaRespuesta.idUsuario,
+                };
+
+                self.insertRespuestaUsuario(respuesta, callback);
+            }
+        });
+    }
+
 }
 
 module.exports = PreguntaDao;

@@ -446,20 +446,39 @@ app.post("/procesar_respuesta", currentUser, function(request, response) {
         return;
     }
 
-    var respuesta = {
-        preguntaId: request.body.preguntaId,
-        respuestaId: request.body.respuesta[0],
-        idUsuario: response.locals.userEmail,
-    };
+    if (request.body.respuesta[0] === "-1") {
+        var respuesta = {
+            preguntaId: request.body.preguntaId,
+            respuesta: request.body.respuesta[1],
+            idUsuario: response.locals.userEmail,
+        };
 
-    preguntaDAO.insertRespuestaUsuario(respuesta, function(err, resultado) {
-        if (err || resultado.length == 0) {
-            response.status(404);
-            console.log(err + " procesar_respuesta");
-        } else {
-            response.render("preguntas");
-        }
-    });
+        preguntaDAO.insertOtraRespuestaUsuario(respuesta, function(err, resultado) {
+            if (err || resultado.length == 0) {
+                response.status(404);
+                console.log(err + " procesar_respuesta");
+            } else {
+                response.status(200);
+                response.redirect("/preguntas");
+            }
+        });
+    } else {
+        var respuesta = {
+            preguntaId: request.body.preguntaId,
+            respuestaId: request.body.respuesta[0],
+            idUsuario: response.locals.userEmail,
+        };
+
+        preguntaDAO.insertRespuestaUsuario(respuesta, function(err, resultado) {
+            if (err || resultado.length == 0) {
+                response.status(404);
+                console.log(err + " procesar_respuesta");
+            } else {
+                response.status(200);
+                response.redirect("/preguntas");
+            }
+        });
+    }
 });
 
 
