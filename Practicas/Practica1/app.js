@@ -242,6 +242,7 @@ app.get("/solicitar_amistad/:id", currentUser, function(request, response) {
             response.status(404);
             console.log(err + " solicitar amistad");
         } else {
+            response.status(200);
             response.redirect("/amigos");
         }
     });
@@ -252,6 +253,7 @@ app.get("/preguntas", currentUser, function(request, response) {
         if (err) {
             response.status(404);
         } else {
+            response.status(200);
             response.render("questions", {
                 preguntas: preguntas
             });
@@ -260,7 +262,40 @@ app.get("/preguntas", currentUser, function(request, response) {
 });
 
 app.get("/crearPregunta", currentUser, function(request, response) {
+    response.status(200);
     response.render("createQuestion");
+});
+
+app.get("/pregunta/:id", currentUser, function(request, response) {
+    preguntaDAO.getPregunta(request.params.id, function(err, pregunta) {
+        if (err || pregunta.length == 0) {
+            response.status(404);
+            console.log(err + " pregunta/:id");
+        } else {
+            response.status(200);
+            response.render("pregunta", {
+                pregunta: pregunta[0]
+            });
+        }
+    });
+});
+
+app.get("/contestar_pregunta/:id", currentUser, function(request, response) {
+    preguntaDAO.getPreguntaConRespuestasById(request.params.id, function(err, resultado) {
+        if (err || resultado.length == 0) {
+            response.status(404);
+            console.log(err + " contestar_pregunta/:id");
+        } else {
+            response.status(200);
+            response.render("contestar_pregunta", {
+                pregunta: {
+                    preguntaId: resultado[0].preguntaId,
+                    pregunta: resultado[0].preguntaTitle
+                },
+                respuestas: resultado
+            });
+        }
+    });
 });
 
 app.get("/logout", currentUser, function(request, response) {
@@ -400,6 +435,29 @@ app.post("/procesar_crear_pregunta", function(request, response) {
                 response.status(404);
                 console.log("insertPregunta\n" + err);
             }
+        }
+    });
+});
+
+app.post("/procesar_respuesta", currentUser, function(request, response) {
+    if (request.body.respuesta.length == 0) {
+        response.status(500);
+        response.end();
+        return;
+    }
+
+    var respuesta = {
+        preguntaId: request.body.preguntaId,
+        respuestaId: request.body.respuesta[0],
+        idUsuario: response.locals.userEmail,
+    };
+
+    preguntaDAO.insertRespuestaUsuario(respuesta, function(err, resultado) {
+        if (err || resultado.length == 0) {
+            response.status(404);
+            console.log(err + " procesar_respuesta");
+        } else {
+            response.render("preguntas");
         }
     });
 });

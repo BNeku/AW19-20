@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>30</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/diseño.css" media="screen">
+    <link rel="icon" type="/img/png" href="/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="encabezado">
+        thirty
+        <div id="menu">
+            <a href="/profile">Perfil</a>
+            <a href="/amigos">Amigos</a>
+            <a href="/preguntas">Preguntas</a>
+            <a href="/logout">Desconectar</a>
+            <div id="points">50 pts</div>
+        </div>
+    </div>
+    <div id="questions_container">
+        <h2>
+            <%= pregunta.pregunta%>
+        </h2>
+
+        <form id="answer_form" action="/procesar_respuesta" method="POST">
+            <input type="hidden" name="preguntaId" value="<%= pregunta.preguntaId %>">
+
+            <% respuestas.forEach(function(respuesta, i, respuestas){ %>
+                <div class="div_form_answer">
+                    <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.id %>">
+                    <label for="respuesta"><%= respuesta.respuestaTitle%></label>
+                </div>
+                <% });%>
+
+                    <div>
+                        <label for="respuesta">Otra: </label>
+                        <input type="radio" name="respuesta" class="barra" value="-1">
+                        <input type="text" name="respuesta" class="barra">
+                    </div>
+
+                    <input class="boton centrar" type="submit" value="Enviar respuesta">
+        </form>
+    </div>
+
+</body>
+
+</html>

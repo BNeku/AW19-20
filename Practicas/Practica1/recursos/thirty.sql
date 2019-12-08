@@ -146,14 +146,14 @@ COMMIT;
 
 CREATE TABLE Pregunta (
     `id` int NOT NULL AUTO_INCREMENT,
-    `texto` varchar(255) NOT NULL,
+    `preguntaTitle` varchar(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Respuesta (
     `id` int NOT NULL AUTO_INCREMENT,
     `preguntaId` int NOT NULL,
-    `texto` varchar(255) NOT NULL,
+    `respuestaTitle` varchar(255) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (preguntaId) REFERENCES Pregunta(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -167,12 +167,12 @@ CREATE TABLE RespuestaUsuario (
     FOREIGN KEY (idUsuario) REFERENCES usuario(email) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `Pregunta` (`id`, `texto`) VALUES
+INSERT INTO `Pregunta` (`id`, `preguntaTitle`) VALUES
 (1, "¿Cuál es la peor película de la historia?"),
 (2, "¿De qué color es el caballo blanco de Santiago?"),
 (3, "¿En qué país se encuentra el estado de California?");
 
-INSERT INTO `Respuesta` (`id`, `preguntaId`, `texto`) VALUES
+INSERT INTO `Respuesta` (`id`, `preguntaId`, `respuestaTitle`) VALUES
 (1, 1, "Spiderman 1"),
 (2, 1, "Spiderman 2"),
 (3, 1, "El Padrino"),
@@ -184,7 +184,9 @@ INSERT INTO `Respuesta` (`id`, `preguntaId`, `texto`) VALUES
 (9, 3, "Estados Unidos");
 
 
+/*! ALTER TABLE Respuesta CHANGE preguntaTitle respuestaTitle varchar(255);
 
+*/
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

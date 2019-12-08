@@ -26,8 +26,8 @@
             <ul>
                 <% preguntas.forEach(function(pregunta, i, preguntas){ %>
                     <li>
-                        <a href="">
-                            <%= pregunta.texto%>
+                        <a href="/pregunta/<%= pregunta.id%>">
+                            <%= pregunta.preguntaTitle%>
                         </a>
                     </li>
                     <%});%>
