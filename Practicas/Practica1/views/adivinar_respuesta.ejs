@@ -17,7 +17,8 @@
             <a href="/amigos">Amigos</a>
             <a href="/preguntas">Preguntas</a>
             <a href="/logout">Desconectar</a>
-            <div id="points"><%= puntos %> puntos</div>
+            <div id="points">
+                <%= puntos %> puntos</div>
         </div>
     </div>
     <div id="questions_container">
@@ -27,15 +28,17 @@
 
         <form id="answer_form" action="/procesar_adivinar" method="POST">
             <input type="hidden" name="preguntaId" value="<%= pregunta.preguntaId %>">
+            <input type="hidden" name="idRespuestaAmigo" value="<%= pregunta.idRespuestaAmigo %>">
+            <input type="hidden" name="idAmigo" value="<%= pregunta.idAmigo %>">
 
             <% respuestas.forEach(function(respuesta, i, respuestas){ %>
-            <div class="div_form_answer">
-                <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.respuestaId %>">
-                <label for="respuesta"><%= respuesta.respuestaTitle%></label>
-            </div>
-            <% });%>
+                <div class="div_form_answer">
+                    <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.respuestaId %>">
+                    <label for="respuesta"><%= respuesta.respuestaTitle%></label>
+                </div>
+                <% });%>
 
-            <input class="boton centrar" type="submit" value="Enviar respuesta">
+                    <input class="boton centrar" type="submit" value="Enviar respuesta">
         </form>
     </div>
 
