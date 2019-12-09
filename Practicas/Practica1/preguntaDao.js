@@ -63,24 +63,6 @@ class PreguntaDao {
         });
     }
 
-    getPregunta(preguntaId, callback) {
-        this.pool.getConnection(function(err, connection) {
-            if (err) {
-                callback(err);
-            } else {
-                const sql = "SELECT * FROM Pregunta WHERE id = ?;";
-                connection.query(sql, preguntaId, function(err, pregunta) {
-                    connection.release();
-                    if (err) {
-                        callback(err, null);
-                    } else {
-                        callback(null, pregunta);
-                    }
-                });
-            }
-        });
-    }
-
     getPreguntaConRespuestasById(preguntaId, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) {
@@ -116,6 +98,38 @@ class PreguntaDao {
             }
         });
     }
+
+    getPregunta(preguntaId, idUsuario, callback) {
+        var self = this;
+
+        this.getRespuestaUsuarioByPreguntaId(preguntaId, idUsuario, function(err, result) {
+            if (err) {
+                callback(new Error("Error de acceso a la base de datos"), null);
+            } else {
+                self.pool.getConnection(function(err, connection) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        const sql = "SELECT * FROM Pregunta WHERE id = ?;";
+                        connection.query(sql, preguntaId, function(err, preguntas) {
+                            connection.release();
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                var resultado = {
+                                    haSidoRespondidaPorElUsuario: result.length > 0,
+                                    preguntas: preguntas
+                                }
+
+                                callback(null, resultado);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
 
     updateRespuestaUsuario(respuesta, callback) {
         var self = this;

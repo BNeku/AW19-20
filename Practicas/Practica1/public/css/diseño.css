@@ -173,6 +173,14 @@ h2 {
     margin-right: auto;
 }
 
+#preguntaBody {
+    width: 50%;
+    margin: 218px auto;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+}
+
 #cuerpo {
     display: grid;
     grid-auto-columns: 100%;

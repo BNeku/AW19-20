@@ -20,14 +20,16 @@
             <div id="points">50 pts</div>
         </div>
     </div>
-    <div id="cuerpo">
-        <div id="busqueda">
-            <h2>
-                <%= pregunta.preguntaTitle%>
-            </h2>
-            <p>No has contestado esta pregunta</p>
-            <a class="boton" href="/contestar_pregunta/<%= pregunta.id%>">Contestar pregunta</a>
-        </div>
+    <div id="preguntaBody">
+        <h2>
+            <%= pregunta.preguntaTitle%>
+        </h2>
+        <% if (haSidoRespondidaPorElUsuario) { %>
+            <p>Ya has contestado esta pregunta</p>
+            <% } else { %>
+                <p>No has contestado esta pregunta</p>
+                <a class="boton" href="/contestar_pregunta/<%= pregunta.id%>">Contestar pregunta</a>
+                <% } %>
     </div>
 
 </body>

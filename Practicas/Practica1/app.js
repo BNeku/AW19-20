@@ -267,14 +267,15 @@ app.get("/crearPregunta", currentUser, function(request, response) {
 });
 
 app.get("/pregunta/:id", currentUser, function(request, response) {
-    preguntaDAO.getPregunta(request.params.id, function(err, pregunta) {
-        if (err || pregunta.length == 0) {
+    preguntaDAO.getPregunta(request.params.id, response.locals.userEmail, function(err, resultado) {
+        if (err || resultado.preguntas.length == 0) {
             response.status(404);
             console.log(err + " pregunta/:id");
         } else {
             response.status(200);
             response.render("pregunta", {
-                pregunta: pregunta[0]
+                haSidoRespondidaPorElUsuario: resultado.haSidoRespondidaPorElUsuario,
+                pregunta: resultado.preguntas[0]
             });
         }
     });
