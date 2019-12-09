@@ -351,9 +351,9 @@ app.get("/contestar_pregunta/:id", currentUser, function (request, response) {
                 pregunta: {
                     preguntaId: resultado[0].preguntaId,
                     pregunta: resultado[0].preguntaTitle,
-                    puntos: response.locals.puntos
                 },
-                respuestas: resultado
+                respuestas: resultado,
+                puntos: response.locals.puntos
             });
         }
     });
@@ -366,7 +366,12 @@ app.get("/adivinar_respuesta/:id/:email", currentUser, function (request, respon
             console.log(err + "adivinar_respuesta/:id");
         } else {
             response.status(200);
-
+            
+            response.render("adivinar_respuesta", {
+                pregunta: null,
+                respuestas: null,
+                puntos: response.locals.puntos
+            });
         }
     });
 });
