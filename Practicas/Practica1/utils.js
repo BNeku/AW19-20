@@ -52,7 +52,7 @@ function modifyUserFromRequestBody(request, data) {
     if (request.body.name != "" && user.name != request.body.name) {
         user.name = request.body.name;
     }
-    if (typeof (request.body.gender) != "undefined" && user.gender != gender(request.body.gender)) {
+    if (typeof(request.body.gender) != "undefined" && user.gender != gender(request.body.gender)) {
         user.gender = gender(request.body.gender);
     }
     if (request.body.birthday != "" && user.birthDate != request.body.birthday) {
@@ -107,19 +107,18 @@ function getUserFromRequestBody(request) {
     };
 }
 
-function montarAmigosAdivinados(nombres, adivinados){
+function montarAmigosAdivinados(nombres, adivinados) {
     var final = [];
-    
 
-    for(var i=0;i <nombres.length;i++){
-        var adivinar= -1;
-        for(var j=0; adivinados.length;j++){
-            if(nombres.email == adivinados.email){
+    for (var i = 0; i < nombres.length; i++) {
+        var adivinar = -1;
+        for (var j = 0; j < adivinados.length; j++) {
+            if (nombres.email == adivinados.email) {
                 adivinar = adivinados.adivinado;
             }
         }
 
-        final.push({email: nombres[i].email, nombre: nombres[i].name, adivinado: adivinar});
+        final.push({ email: nombres[i].email, nombre: nombres[i].name, adivinado: adivinar });
     }
 
     return final;
