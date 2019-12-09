@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2019 a las 19:18:48
+-- Tiempo de generación: 09-12-2019 a las 19:42:05
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.4
 
@@ -18,20 +18,23 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-SET FOREIGN_KEY_CHECKS = 0;
-
-DROP TABLE IF EXISTS `RespuestaUsuario`;
-DROP TABLE IF EXISTS `Respuesta`;
-DROP TABLE IF EXISTS `Pregunta`;
-DROP TABLE IF EXISTS `sessions`;
-DROP TABLE IF EXISTS `amigos`;
-DROP TABLE IF EXISTS `usuario`;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
 --
 -- Base de datos: `thirty`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `adivinarespuesta`
+--
+
+CREATE TABLE `adivinarespuesta` (
+  `id` int(11) NOT NULL,
+  `emailCurrentUser` varchar(200) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `preguntaId` int(11) NOT NULL,
+  `adivinado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -51,7 +54,66 @@ CREATE TABLE `amigos` (
 
 INSERT INTO `amigos` (`solicitado`, `solicitante`, `amigos`) VALUES
 ('neku@ucm.es', 'ejemplo@gmail.com', 1),
-('neku@ucm.es', 'wilson@gmail.com', 1);
+('neku@ucm.es', 'wilson@gmail.com', 1),
+('yhon@ucm.es', 'neku@ucm.es', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pregunta`
+--
+
+CREATE TABLE `pregunta` (
+  `id` int(11) NOT NULL,
+  `preguntaTitle` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `pregunta`
+--
+
+INSERT INTO `pregunta` (`id`, `preguntaTitle`) VALUES
+(4, 'De que color es el mar');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuesta`
+--
+
+CREATE TABLE `respuesta` (
+  `id` int(11) NOT NULL,
+  `preguntaId` int(11) NOT NULL,
+  `respuestaTitle` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `respuesta`
+--
+
+INSERT INTO `respuesta` (`id`, `preguntaId`, `respuestaTitle`) VALUES
+(10, 4, 'Azul'),
+(11, 4, 'Rosa');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuestausuario`
+--
+
+CREATE TABLE `respuestausuario` (
+  `id` int(11) NOT NULL,
+  `preguntaId` int(11) NOT NULL,
+  `respuestaId` int(11) NOT NULL,
+  `email` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `respuestausuario`
+--
+
+INSERT INTO `respuestausuario` (`id`, `preguntaId`, `respuestaId`, `email`) VALUES
+(2, 4, 11, 'yhon@ucm.es');
 
 -- --------------------------------------------------------
 
@@ -70,9 +132,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('1b5mDuyjNVdB4Kbc6rqhm6oBggr7rh2o', 1575477786, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"ejemplo@gmail.com\"}'),
-('jmHAhOQ6cBVpIJAKSunTRErkhpdvwPd0', 1575568253, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}'),
-('lkgqattiathe1t1e6AUaEgcICT_of0Bn', 1575549004, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}');
+('6AgD-EPoMt9whOELg-wSEXIPcgiVXe-q', 1576003128, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}'),
+('IwQ02K1iBkdBR62wV_hvS9COQoxj-ejg', 1575936651, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}');
 
 -- --------------------------------------------------------
 
@@ -101,10 +162,18 @@ INSERT INTO `usuario` (`email`, `password`, `name`, `gender`, `birthDate`, `img`
 ('yhon', '2', 'Yhondri', 'M', '1999-07-16', NULL, 0),
 ('yhon@ucm.es', '234', 'Yhon', 'M', '1994-02-01', 'd7cfb42d3bb9dd3be5e7fbbeca380788', 0);
 
-
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `adivinarespuesta`
+--
+ALTER TABLE `adivinarespuesta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `email` (`email`),
+  ADD KEY `emailCurrentUser` (`emailCurrentUser`),
+  ADD KEY `preguntaId` (`preguntaId`);
 
 --
 -- Indices de la tabla `amigos`
@@ -113,6 +182,28 @@ ALTER TABLE `amigos`
   ADD PRIMARY KEY (`solicitado`,`solicitante`),
   ADD KEY `solicitante_fk2` (`solicitante`) USING BTREE,
   ADD KEY `solicitado_fk1` (`solicitado`) USING BTREE;
+
+--
+-- Indices de la tabla `pregunta`
+--
+ALTER TABLE `pregunta`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `respuesta`
+--
+ALTER TABLE `respuesta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `preguntaId` (`preguntaId`);
+
+--
+-- Indices de la tabla `respuestausuario`
+--
+ALTER TABLE `respuestausuario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `respuestaId` (`respuestaId`),
+  ADD KEY `preguntaId` (`preguntaId`),
+  ADD KEY `idUsuario` (`email`) USING BTREE;
 
 --
 -- Indices de la tabla `sessions`
@@ -127,8 +218,38 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`email`);
 
 --
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `pregunta`
+--
+ALTER TABLE `pregunta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `respuesta`
+--
+ALTER TABLE `respuesta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de la tabla `respuestausuario`
+--
+ALTER TABLE `respuestausuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `adivinarespuesta`
+--
+ALTER TABLE `adivinarespuesta`
+  ADD CONSTRAINT `adivinarespuesta_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuario` (`email`),
+  ADD CONSTRAINT `adivinarespuesta_ibfk_2` FOREIGN KEY (`emailCurrentUser`) REFERENCES `usuario` (`email`),
+  ADD CONSTRAINT `adivinarespuesta_ibfk_3` FOREIGN KEY (`preguntaId`) REFERENCES `pregunta` (`id`);
 
 --
 -- Filtros para la tabla `amigos`
@@ -136,58 +257,22 @@ ALTER TABLE `usuario`
 ALTER TABLE `amigos`
   ADD CONSTRAINT `idUsuario1_fk1` FOREIGN KEY (`solicitado`) REFERENCES `usuario` (`email`),
   ADD CONSTRAINT `idUsuario1_fk2` FOREIGN KEY (`solicitante`) REFERENCES `usuario` (`email`);
+
+--
+-- Filtros para la tabla `respuesta`
+--
+ALTER TABLE `respuesta`
+  ADD CONSTRAINT `respuesta_ibfk_1` FOREIGN KEY (`preguntaId`) REFERENCES `pregunta` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `respuestausuario`
+--
+ALTER TABLE `respuestausuario`
+  ADD CONSTRAINT `respuestausuario_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuario` (`email`) ON DELETE CASCADE,
+  ADD CONSTRAINT `respuestausuario_ibfk_2` FOREIGN KEY (`respuestaId`) REFERENCES `respuesta` (`id`),
+  ADD CONSTRAINT `respuestausuario_ibfk_3` FOREIGN KEY (`preguntaId`) REFERENCES `pregunta` (`id`),
+  ADD CONSTRAINT `respuestausuario_ibfk_4` FOREIGN KEY (`email`) REFERENCES `usuario` (`email`);
 COMMIT;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `Pregunta`
---
-
-CREATE TABLE Pregunta (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `preguntaTitle` varchar(255) NOT NULL,
-    PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE Respuesta (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `preguntaId` int NOT NULL,
-    `respuestaTitle` varchar(255) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (preguntaId) REFERENCES Pregunta(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE RespuestaUsuario (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `preguntaId` int NOT NULL,
-    `respuestaId` int NOT NULL,
-    `idUsuario` varchar(200) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (idUsuario) REFERENCES usuario(email) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `Pregunta` (`id`, `preguntaTitle`) VALUES
-(1, "¿Cuál es la peor película de la historia?"),
-(2, "¿De qué color es el caballo blanco de Santiago?"),
-(3, "¿En qué país se encuentra el estado de California?");
-
-INSERT INTO `Respuesta` (`id`, `preguntaId`, `respuestaTitle`) VALUES
-(1, 1, "Spiderman 1"),
-(2, 1, "Spiderman 2"),
-(3, 1, "El Padrino"),
-(4, 2, "Azul"),
-(5, 2, "Verde"),
-(6, 2, "Blanco"),
-(7, 3, "España"),
-(8, 3, "Francía"),
-(9, 3, "Estados Unidos");
-
-
-/*! ALTER TABLE Respuesta CHANGE preguntaTitle respuestaTitle varchar(255);
-
-*/
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -20,16 +20,47 @@
             <div id="points">50 pts</div>
         </div>
     </div>
-    <div id="preguntaBody">
+    <div id="questions_container">
         <h2>
             <%= pregunta.preguntaTitle%>
         </h2>
+
         <% if (haSidoRespondidaPorElUsuario) { %>
-            <p>Ya has contestado esta pregunta</p>
-            <% } else { %>
-                <p>No has contestado esta pregunta</p>
-                <a class="boton" href="/contestar_pregunta/<%= pregunta.id%>">Contestar pregunta</a>
-                <% } %>
+        <p class="text_and_marging">Ya has contestado esta pregunta</p>
+        <% } else { %>
+        <p class="text_and_marging">No has contestado esta pregunta</p>
+        <a class="button" href="/contestar_pregunta/<%= pregunta.id%>">Contestar pregunta</a>
+        <% } %>
+
+        <div>
+
+            <% if(amigos != null){ %>
+            <p class="text_and_marging">Los siguientes amigos han contestado a esta pregunta:</p>
+            <ul>
+                <% amigos.forEach(function(v,i,user){ %>
+                <li id="search_result_item">
+                    <div class="search_result_item_name_and_picture">
+                        <img src="/imagen/<%= v.email %>" class="person">
+                        <a href="/amigo/<%= v.email %>"><%= v.name%></a>
+                    </div>
+                    <div>
+                        <% if(v.adivinado == -1){%>
+                        <a href="/adivinar_respuesta/<%= pregunta.id %>/<%= v.email%>" class="button">Adivinar</a>
+                        <%}else if(v.adivinado == 0){ %>
+                        <p class="fail">Has fallado</p>
+                        <%}else{ %>
+                        <p class="success">Has acertado</p>
+                        <% }%>
+                    </div>
+
+                </li>
+                <% });%>
+            </ul>
+            <% }else{ %>
+            <p>Ningún amigo ha contestado esta pregunta</p>
+            <% }%>
+        </div>
+
     </div>
 
 </body>

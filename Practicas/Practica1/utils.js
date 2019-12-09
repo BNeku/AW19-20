@@ -107,11 +107,29 @@ function getUserFromRequestBody(request) {
     };
 }
 
+function montarAmigosAdivinados(nombres, adivinados){
+    var final = [];
+    
+
+    for(var i=0;i <nombres.length;i++){
+        var adivinar= -1;
+        for(var j=0; adivinados.length;j++){
+            if(nombres.email == adivinados.email){
+                adivinar = adivinados.adivinado;
+            }
+        }
+
+        final.push({email: nombres[i].email, nombre: nombres[i].name, adivinado: adivinar});
+    }
+
+    return final;
+}
+
 module.exports = {
     createUserFromRequestBody,
     getUserFromRequestBody,
     modifyUserFromRequestBody,
     gender,
     misAmigos,
-
+    montarAmigosAdivinados
 }

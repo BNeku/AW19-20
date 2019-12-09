@@ -29,19 +29,18 @@
             <input type="hidden" name="preguntaId" value="<%= pregunta.preguntaId %>">
 
             <% respuestas.forEach(function(respuesta, i, respuestas){ %>
-                <div class="div_form_answer">
-                    <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.respuestaId %>">
-                    <label for="respuesta"><%= respuesta.respuestaTitle%></label>
-                </div>
-                <% });%>
+            <div class="div_form_answer">
+                <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.respuestaId %>">
+                <label for="respuesta"><%= respuesta.respuestaTitle%></label>
+            </div>
+            <% });%>
+            <div class="div_form_answer">
+                <input type="radio" id="answer" name="form_answer" value="-1">
+                <label for="answer">Otra:</label>
+                <input type="text" id="answer_label" name="respuesta">
+            </div>
 
-                    <div>
-                        <label for="respuesta">Otra: </label>
-                        <input type="radio" name="respuesta" class="barra" value="-1">
-                        <input type="text" name="respuesta" class="barra">
-                    </div>
-
-                    <input class="boton centrar" type="submit" value="Enviar respuesta">
+            <input class="boton centrar" type="submit" value="Enviar respuesta">
         </form>
     </div>
 
