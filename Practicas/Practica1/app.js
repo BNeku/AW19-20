@@ -51,6 +51,7 @@ const preguntaDAO = new PreguntaDAO(pool); // Crear una instancia de PreguntaDao
 function currentUser(request, response, next) {
     if (request.session.currentUser != null) {
         response.locals.userEmail = request.session.currentUser;
+        response.locals.puntos = request.session.puntos;
         next();
     } else {
         response.redirect("/login");
@@ -86,6 +87,7 @@ app.get("/profile", currentUser, function (request, response) {
     userD.getUser(response.locals.userEmail, function (data, success) {
         if (success) {
             response.status(200);
+
             response.render("profile", {
                 usuario: data,
                 amigo: false
@@ -114,21 +116,13 @@ app.get("/imagen/:id", currentUser, function (request, response) {
 });
 
 app.get("/modify", currentUser, function (request, response) {
+    response.status(200);
+    response.render("modify", {
+        puntos: response.locals.puntos,
+        msg: null
 
-    userD.getPuntos(response.locals.userEmail, function (err, rdo) {
-        if (err) {
-            response.status(404);
-            console.log(err + " modify");
-        } else {
-            response.status(200);
-            response.render("modify", {
-                puntos: rdo[0].puntos,
-                msg: null
-            });
-        }
+
     });
-
-
 });
 
 app.get("/amigos", currentUser, function (request, response) {
@@ -157,7 +151,8 @@ app.get("/amigos", currentUser, function (request, response) {
                             } else {
                                 response.render("amigos", {
                                     amigos: friends,
-                                    solicitudes: rdo2
+                                    solicitudes: rdo2,
+                                    puntos: response.locals.puntos
                                 });
                             }
                         });
@@ -167,7 +162,8 @@ app.get("/amigos", currentUser, function (request, response) {
             } else {
                 response.render("amigos", {
                     amigos: null,
-                    solicitudes: null
+                    solicitudes: null,
+                    puntos: response.locals.puntos
                 });
             }
         }
@@ -204,7 +200,8 @@ app.get("/amigo/:email", currentUser, function (request, response) {
             response.status(200);
             response.render("profile", {
                 usuario: data,
-                amigo: true
+                amigo: true,
+                puntos: response.locals.puntos
             });
         } else {
             response.status(404);
@@ -219,19 +216,11 @@ app.get("/buscar", currentUser, function (request, response) {
             response.status(404);
             console.log(err + " buscar");
         } else {
-            userD.getPuntos(response.locals.userEmail, function (err, puntos) {
-                if (err) {
-                    response.status(404);
-                    console.log(err + " buscar");
-                } else {
-                    response.render("search_results", {
-                        busqueda: request.body.buscaAmigo,
-                        resultado: rdo,
-                        puntos: puntos[0].puntos
-                    });
-                }
+            response.render("search_results", {
+                busqueda: request.body.buscaAmigo,
+                resultado: rdo,
+                puntos: response.locals.puntos
             });
-
         }
     });
 });
@@ -255,7 +244,8 @@ app.get("/preguntas", currentUser, function (request, response) {
         } else {
             response.status(200);
             response.render("questions", {
-                preguntas: preguntas
+                preguntas: preguntas,
+                puntos: response.locals.puntos
             });
         }
     });
@@ -302,7 +292,8 @@ app.get("/pregunta/:id", currentUser, function (request, response) {
                                                         response.render("pregunta", {
                                                             haSidoRespondidaPorElUsuario: resultado.haSidoRespondidaPorElUsuario,
                                                             pregunta: resultado.preguntas[0],
-                                                            amigos: final
+                                                            amigos: final,
+                                                            puntos: response.locals.puntos
                                                         });
                                                     }
                                                 });
@@ -314,7 +305,8 @@ app.get("/pregunta/:id", currentUser, function (request, response) {
                                         response.render("pregunta", {
                                             haSidoRespondidaPorElUsuario: resultado.haSidoRespondidaPorElUsuario,
                                             pregunta: resultado.preguntas[0],
-                                            amigos: null
+                                            amigos: null,
+                                            puntos: response.locals.puntos
                                         });
                                     }
                                 }
@@ -324,7 +316,8 @@ app.get("/pregunta/:id", currentUser, function (request, response) {
                             response.render("pregunta", {
                                 haSidoRespondidaPorElUsuario: resultado.haSidoRespondidaPorElUsuario,
                                 pregunta: resultado.preguntas[0],
-                                amigos: null
+                                amigos: null,
+                                puntos: response.locals.puntos
                             });
 
                         }
@@ -334,7 +327,8 @@ app.get("/pregunta/:id", currentUser, function (request, response) {
                         response.render("pregunta", {
                             haSidoRespondidaPorElUsuario: resultado.haSidoRespondidaPorElUsuario,
                             pregunta: resultado.preguntas[0],
-                            amigos: null
+                            amigos: null,
+                            puntos: response.locals.puntos
                         });
                     }
                 }
@@ -356,7 +350,8 @@ app.get("/contestar_pregunta/:id", currentUser, function (request, response) {
             response.render("contestar_pregunta", {
                 pregunta: {
                     preguntaId: resultado[0].preguntaId,
-                    pregunta: resultado[0].preguntaTitle
+                    pregunta: resultado[0].preguntaTitle,
+                    puntos: response.locals.puntos
                 },
                 respuestas: resultado
             });
@@ -371,7 +366,7 @@ app.get("/adivinar_respuesta/:id/:email", currentUser, function (request, respon
             console.log(err + "adivinar_respuesta/:id");
         } else {
             response.status(200);
-           
+
         }
     });
 });
@@ -393,7 +388,16 @@ app.post("/procesar_login", function (request, response) {
             response.status(200);
             if (existe) {
                 request.session.currentUser = request.body.email;
-                response.redirect("/profile");
+                userD.getPuntos(request.body.email, function (err, puntos) {
+                    if (err) {
+                        response.status(404);
+                        console.log("login post\n" + err);
+                    } else {
+                        request.session.puntos = puntos[0].puntos;
+                        response.redirect("/profile");
+                    }
+                });
+
             } else {
                 response.render("login", {
                     errorMsg: "Dirección de correo y/o contraseña no válidos"
