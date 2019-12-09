@@ -86,7 +86,7 @@ class PreguntaDao {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT * FROM Respuesta LEFT JOIN Pregunta on Pregunta.id = Respuesta.preguntaId WHERE Respuesta.preguntaId = ?;";
+                const sql = "SELECT p.id AS preguntaId, preguntaTitle, r.id AS respuestaId, preguntaId, respuestaTitle FROM Respuesta AS r LEFT JOIN Pregunta AS p on p.id = r.preguntaId WHERE r.preguntaId = ?;";
                 connection.query(sql, preguntaId, function(err, resultado) {
                     connection.release();
                     if (err) {
@@ -99,7 +99,49 @@ class PreguntaDao {
         });
     }
 
-    insertRespuestaUsuario(respuesta, callback) {
+    getRespuestaUsuarioByPreguntaId(preguntaId, idUsuario, callback) {
+        this.pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                const sql = "SELECT * FROM RespuestaUsuario WHERE preguntaId = ? AND idUsuario = ?;";
+                connection.query(sql, [preguntaId, idUsuario], function(err, resultado) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }
+
+    updateRespuestaUsuario(respuesta, callback) {
+        var self = this;
+
+        this.pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "UPDATE RespuestaUsuario SET respuestaId = ? WHERE preguntaId = ? AND idUsuario = ?;";
+                var data = [respuesta.respuestaId, respuesta.preguntaId, respuesta.idUsuario];
+                connection.query(sql, data, function(err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"), null);
+                    } else {
+                        callback(null, true);
+                    }
+                });
+            }
+        });
+    }
+
+
+    insertRespuestaUsuarioAuxiliar(respuesta, callback) {
+        var self = this;
+
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
@@ -114,6 +156,19 @@ class PreguntaDao {
                         callback(null, true);
                     }
                 });
+            }
+        });
+    }
+
+    insertRespuestaUsuario(respuesta, callback) {
+        var self = this;
+        this.getRespuestaUsuarioByPreguntaId(respuesta.preguntaId, respuesta.idUsuario, function(err, result) {
+            if (err) {
+                callback(new Error("Error de acceso a la base de datos"), null);
+            } else if (result.length == 0) { // El usuario es la primera vez que responde esta pregunta.
+                self.insertRespuestaUsuarioAuxiliar(respuesta, callback);
+            } else { //El usuario ya ha respondido esta pregunta así que hay que actualizarla
+                self.updateRespuestaUsuario(respuesta, callback);
             }
         });
     }
@@ -154,7 +209,6 @@ class PreguntaDao {
             }
         });
     }
-
 }
 
 module.exports = PreguntaDao;

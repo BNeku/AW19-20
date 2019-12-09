@@ -30,7 +30,7 @@
 
             <% respuestas.forEach(function(respuesta, i, respuestas){ %>
                 <div class="div_form_answer">
-                    <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.id %>">
+                    <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.respuestaId %>">
                     <label for="respuesta"><%= respuesta.respuestaTitle%></label>
                 </div>
                 <% });%>
