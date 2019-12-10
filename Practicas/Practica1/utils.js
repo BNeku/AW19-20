@@ -113,7 +113,7 @@ function montarAmigosAdivinados(nombres, adivinados) {
     for (var i = 0; i < nombres.length; i++) {
         var adivinar = -1;
         for (var j = 0; j < adivinados.length; j++) {
-            if (nombres.email == adivinados.email) {
+            if (nombres[i].email == adivinados[j].email) {
                 adivinar = adivinados.adivinado;
             }
         }
