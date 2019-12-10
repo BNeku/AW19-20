@@ -118,7 +118,7 @@ function montarAmigosAdivinados(nombres, adivinados) {
             }
         }
 
-        final.push({ email: nombres[i].email, nombre: nombres[i].name, adivinado: adivinar });
+        final.push({ email: nombres[i].email, name: nombres[i].name, adivinado: adivinar });
     }
 
     return final;
