@@ -245,6 +245,24 @@ class UserDao {
             }
         });
     }
+
+    actualizaPuntos(email,puntos, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"));
+            } else {
+                const sql = "UPDATE usuario SET puntos = ? WHERE email = ?";
+                connection.query(sql, [puntos, email], function (err) {
+                    connection.release();
+                    if (err) {
+                        callback(new Error("Error de acceso a la base de datos"));
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
 }
 
 module.exports = UserDao;

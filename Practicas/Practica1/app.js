@@ -60,12 +60,12 @@ function currentUser(request, response, next) {
 
 /* GET - Sección para implementar las peticiones GET */
 
-app.get("/", function(request, response) {
+app.get("/", function (request, response) {
     response.status(200);
     response.redirect("/login")
 });
 
-app.get("/login", function(request, response) {
+app.get("/login", function (request, response) {
     response.status(200);
     if (request.session.currentUser != null) {
         response.redirect("/profile");
@@ -76,15 +76,15 @@ app.get("/login", function(request, response) {
     }
 });
 
-app.get("/register", function(request, response) {
+app.get("/register", function (request, response) {
     response.status(200);
     response.render("newUser", {
         msg: null
     });
 });
 
-app.get("/profile", currentUser, function(request, response) {
-    userD.getUser(response.locals.userEmail, function(data, success) {
+app.get("/profile", currentUser, function (request, response) {
+    userD.getUser(response.locals.userEmail, function (data, success) {
         if (success) {
             response.status(200);
 
@@ -99,8 +99,8 @@ app.get("/profile", currentUser, function(request, response) {
     });
 });
 
-app.get("/imagen/:id", currentUser, function(request, response) {
-    userD.getUserImageName(request.params.id, function(err, img) {
+app.get("/imagen/:id", currentUser, function (request, response) {
+    userD.getUserImageName(request.params.id, function (err, img) {
         if (err) {
             response.status(500);
             console.log("imagenUsuario\n" + err);
@@ -115,7 +115,7 @@ app.get("/imagen/:id", currentUser, function(request, response) {
     });
 });
 
-app.get("/modify", currentUser, function(request, response) {
+app.get("/modify", currentUser, function (request, response) {
     response.status(200);
     response.render("modify", {
         puntos: response.locals.puntos,
@@ -125,8 +125,8 @@ app.get("/modify", currentUser, function(request, response) {
     });
 });
 
-app.get("/amigos", currentUser, function(request, response) {
-    userD.getAmigos(response.locals.userEmail, function(err, rdo) {
+app.get("/amigos", currentUser, function (request, response) {
+    userD.getAmigos(response.locals.userEmail, function (err, rdo) {
         if (err) {
             response.status(404);
             console.log(err + "amigos");
@@ -134,17 +134,17 @@ app.get("/amigos", currentUser, function(request, response) {
             response.status(200);
             if (rdo.length > 0) {
                 var todo = utils.misAmigos(response.locals.userEmail, rdo);
-                userD.getName(todo.amigos, function(err, rdo) {
+                userD.getName(todo.amigos, function (err, rdo) {
                     if (err) {
                         response.status(404);
                         console.log(err + "amigos");
                     } else {
                         var friends = rdo;
-                        if (typeof(rdo) == "undefined") {
+                        if (typeof (rdo) == "undefined") {
                             var friends = null;
                         }
 
-                        userD.getName(todo.solicitudes, function(err, rdo2) {
+                        userD.getName(todo.solicitudes, function (err, rdo2) {
                             if (err) {
                                 response.status(404);
                                 console.log(err + "amigos");
@@ -170,8 +170,8 @@ app.get("/amigos", currentUser, function(request, response) {
     });
 });
 
-app.get("/aceptar/:emailAmigo", currentUser, function(request, response) {
-    userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
+app.get("/aceptar/:emailAmigo", currentUser, function (request, response) {
+    userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function (err) {
         if (err) {
             response.status(404);
             console.log(err + "aceptar");
@@ -182,8 +182,8 @@ app.get("/aceptar/:emailAmigo", currentUser, function(request, response) {
     });
 });
 
-app.get("/rechazar/:emailAmigo", currentUser, function(request, response) {
-    userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
+app.get("/rechazar/:emailAmigo", currentUser, function (request, response) {
+    userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function (err) {
         if (err) {
             response.status(404);
             console.log(err + "rechazar");
@@ -194,8 +194,8 @@ app.get("/rechazar/:emailAmigo", currentUser, function(request, response) {
     });
 });
 
-app.get("/amigo/:email", currentUser, function(request, response) {
-    userD.getUser(request.params.email, function(data, success) {
+app.get("/amigo/:email", currentUser, function (request, response) {
+    userD.getUser(request.params.email, function (data, success) {
         if (success) {
             response.status(200);
             response.render("profile", {
@@ -210,8 +210,8 @@ app.get("/amigo/:email", currentUser, function(request, response) {
     });
 });
 
-app.get("/buscar", currentUser, function(request, response) {
-    userD.buscarUsuario(response.locals.userEmail, request.query.buscaAmigo, function(err, rdo) {
+app.get("/buscar", currentUser, function (request, response) {
+    userD.buscarUsuario(response.locals.userEmail, request.query.buscaAmigo, function (err, rdo) {
         if (err) {
             response.status(404);
             console.log(err + " buscar");
@@ -225,8 +225,8 @@ app.get("/buscar", currentUser, function(request, response) {
     });
 });
 
-app.get("/solicitar_amistad/:id", currentUser, function(request, response) {
-    userD.solicitarAmistad(request.params.id, response.locals.userEmail, function(err) {
+app.get("/solicitar_amistad/:id", currentUser, function (request, response) {
+    userD.solicitarAmistad(request.params.id, response.locals.userEmail, function (err) {
         if (err) {
             response.status(404);
             console.log(err + " solicitar amistad");
@@ -237,8 +237,8 @@ app.get("/solicitar_amistad/:id", currentUser, function(request, response) {
     });
 });
 
-app.get("/preguntas", currentUser, function(request, response) {
-    preguntaDAO.getPreguntas(function(err, preguntas) {
+app.get("/preguntas", currentUser, function (request, response) {
+    preguntaDAO.getPreguntas(function (err, preguntas) {
         if (err) {
             response.status(404);
         } else {
@@ -251,19 +251,19 @@ app.get("/preguntas", currentUser, function(request, response) {
     });
 });
 
-app.get("/crearPregunta", currentUser, function(request, response) {
+app.get("/crearPregunta", currentUser, function (request, response) {
     response.status(200);
     response.render("createQuestion");
 });
 
-app.get("/pregunta/:id", currentUser, function(request, response) {
-    preguntaDAO.getPregunta(request.params.id, response.locals.userEmail, function(err, resultado) {
+app.get("/pregunta/:id", currentUser, function (request, response) {
+    preguntaDAO.getPregunta(request.params.id, response.locals.userEmail, function (err, resultado) {
         if (err || resultado.preguntas.length == 0) {
             response.status(404);
             console.log(err + " pregunta/:id");
         } else {
             //coger amigos que han respondido
-            userD.getAmigos(response.locals.userEmail, function(err, amigos) {
+            userD.getAmigos(response.locals.userEmail, function (err, amigos) {
                 if (err) {
                     response.status(404);
                     console.log(err + "amigos");
@@ -271,18 +271,18 @@ app.get("/pregunta/:id", currentUser, function(request, response) {
                     if (amigos.length > 0) {
                         var todo = utils.misAmigos(response.locals.userEmail, amigos);
                         if (todo.amigos.length > 0) {
-                            preguntaDAO.getAmigosByPreguntaId(request.params.id, todo.amigos, function(err, amigosRespondido) {
+                            preguntaDAO.getAmigosByPreguntaId(request.params.id, todo.amigos, function (err, amigosRespondido) {
                                 if (err) {
                                     response.status(404);
                                     console.log(err + " pregunta/:id getamigos");
                                 } else {
                                     if (amigosRespondido.length > 0) {
-                                        preguntaDAO.getPreguntaAdivinada(response.locals.userEmail, request.params.id, amigosRespondido, function(err, adivinadas) {
+                                        preguntaDAO.getPreguntaAdivinada(response.locals.userEmail, request.params.id, amigosRespondido, function (err, adivinadas) {
                                             if (err) {
                                                 response.status(404);
                                                 console.log(err + " pregunta/:id getamigos");
                                             } else {
-                                                userD.getName(amigosRespondido, function(err, nombres) {
+                                                userD.getName(amigosRespondido, function (err, nombres) {
                                                     if (err) {
                                                         response.status(404);
                                                         console.log(err + " pregunta/:id getamigos nombres");
@@ -340,8 +340,8 @@ app.get("/pregunta/:id", currentUser, function(request, response) {
     });
 });
 
-app.get("/contestar_pregunta/:id", currentUser, function(request, response) {
-    preguntaDAO.getPreguntaConRespuestasById(request.params.id, function(err, resultado) {
+app.get("/contestar_pregunta/:id", currentUser, function (request, response) {
+    preguntaDAO.getPreguntaConRespuestasById(request.params.id, function (err, resultado) {
         if (err || resultado.length == 0) {
             response.status(404);
             console.log(err + " contestar_pregunta/:id");
@@ -359,13 +359,13 @@ app.get("/contestar_pregunta/:id", currentUser, function(request, response) {
     });
 });
 
-app.get("/adivinar_respuesta/:id/:email", currentUser, function(request, response) {
-    preguntaDAO.getPreguntaConRespuestasById(request.params.id, function(err, resultadoPregunta) {
+app.get("/adivinar_respuesta/:id/:email", currentUser, function (request, response) {
+    preguntaDAO.getPreguntaConRespuestasById(request.params.id, function (err, resultadoPregunta) {
         if (err || resultadoPregunta.length == 0) {
             response.status(404);
             console.log(err + "adivinar_respuesta/:id");
         } else {
-            preguntaDAO.getRespuestaUsuarioByPreguntaId(request.params.id, request.params.email, function(err, resultadoRespuesta) {
+            preguntaDAO.getRespuestaUsuarioByPreguntaId(request.params.id, request.params.email, function (err, resultadoRespuesta) {
                 if (err || resultadoRespuesta.length == 0) {
                     response.status(404);
                     console.log(err + "adivinar_respuesta/:id");
@@ -388,7 +388,9 @@ app.get("/adivinar_respuesta/:id/:email", currentUser, function(request, respons
                         }
                     }
 
-                    respuestas = respuestas.sort(function() { return Math.random() - 0.5 });
+                    respuestas = respuestas.sort(function () {
+                        return Math.random() - 0.5
+                    });
 
                     var pregunta = {
                         pregunta: resultadoPregunta[0].preguntaTitle,
@@ -408,7 +410,7 @@ app.get("/adivinar_respuesta/:id/:email", currentUser, function(request, respons
     });
 });
 
-app.get("/logout", currentUser, function(request, response) {
+app.get("/logout", currentUser, function (request, response) {
     response.status(200);
     request.session.destroy();
     response.redirect("/login");
@@ -416,8 +418,8 @@ app.get("/logout", currentUser, function(request, response) {
 
 /* POST - Sección para implementar las peticiones POST */
 
-app.post("/procesar_login", function(request, response) {
-    userD.isUserCorrect(request.body.email, request.body.password, function(err, existe) {
+app.post("/procesar_login", function (request, response) {
+    userD.isUserCorrect(request.body.email, request.body.password, function (err, existe) {
         if (err) {
             response.status(404);
             console.log("login post\n" + err);
@@ -425,7 +427,7 @@ app.post("/procesar_login", function(request, response) {
             response.status(200);
             if (existe) {
                 request.session.currentUser = request.body.email;
-                userD.getPuntos(request.body.email, function(err, puntos) {
+                userD.getPuntos(request.body.email, function (err, puntos) {
                     if (err) {
                         response.status(404);
                         console.log("login post\n" + err);
@@ -445,14 +447,14 @@ app.post("/procesar_login", function(request, response) {
 
 });
 
-app.post("/register", multerFactory.single("photo"), function(request, response) {
+app.post("/register", multerFactory.single("photo"), function (request, response) {
     var user = utils.createUserFromRequestBody(request);
     if (user == false) {
         response.render("newUser", {
             msg: "Revisa completar los campos obligatorios(*)"
         });
     } else {
-        userD.insertUser(user, function(err, insertado) {
+        userD.insertUser(user, function (err, insertado) {
             if (err) {
                 response.status(404);
                 console.log(err + "post register");
@@ -473,11 +475,11 @@ app.post("/register", multerFactory.single("photo"), function(request, response)
 
 });
 
-app.post("/post_modify", currentUser, multerFactory.single("photo"), function(request, response) {
-    userD.getUser(response.locals.userEmail, function(data, success) {
+app.post("/post_modify", currentUser, multerFactory.single("photo"), function (request, response) {
+    userD.getUser(response.locals.userEmail, function (data, success) {
         if (success) {
             var user = utils.modifyUserFromRequestBody(request, data);
-            userD.getUserImageName(response.locals.userEmail, function(err, img) {
+            userD.getUserImageName(response.locals.userEmail, function (err, img) {
                 if (err) {
                     response.status(404);
                     console.log(err + " post_modify");
@@ -487,7 +489,7 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function(re
                     } else {
                         user.photo = img[0].img;
                     }
-                    userD.modifyUser(user, function(err, result) {
+                    userD.modifyUser(user, function (err, result) {
                         if (err) {
                             response.status(404);
                             console.log(err + " post_modify");
@@ -517,7 +519,7 @@ app.post("/post_modify", currentUser, multerFactory.single("photo"), function(re
 });
 
 
-app.post("/procesar_crear_pregunta", function(request, response) {
+app.post("/procesar_crear_pregunta", function (request, response) {
     var respuestas = [];
 
     if (request.body.respuesta1.length > 0) {
@@ -542,7 +544,7 @@ app.post("/procesar_crear_pregunta", function(request, response) {
         respuestas: respuestas
     }
 
-    preguntaDAO.insertPregunta(nuevaPregunta, function(err, success) {
+    preguntaDAO.insertPregunta(nuevaPregunta, function (err, success) {
         if (err) {
             response.status(404);
             console.log("insertPregunta\n" + err);
@@ -558,7 +560,7 @@ app.post("/procesar_crear_pregunta", function(request, response) {
     });
 });
 
-app.post("/procesar_respuesta", currentUser, function(request, response) {
+app.post("/procesar_respuesta", currentUser, function (request, response) {
     if (request.body.respuesta.length == 0) {
         response.status(500);
         response.end();
@@ -572,7 +574,7 @@ app.post("/procesar_respuesta", currentUser, function(request, response) {
             email: response.locals.userEmail,
         };
 
-        preguntaDAO.insertOtraRespuestaUsuario(respuesta, function(err, resultado) {
+        preguntaDAO.insertOtraRespuestaUsuario(respuesta, function (err, resultado) {
             if (err || resultado.length == 0) {
                 response.status(404);
                 console.log(err + " procesar_respuesta");
@@ -588,7 +590,7 @@ app.post("/procesar_respuesta", currentUser, function(request, response) {
             email: response.locals.userEmail,
         };
 
-        preguntaDAO.insertRespuestaUsuario(respuesta, function(err, resultado) {
+        preguntaDAO.insertRespuestaUsuario(respuesta, function (err, resultado) {
             if (err || resultado.length == 0) {
                 response.status(404);
                 console.log(err + " procesar_respuesta");
@@ -600,26 +602,42 @@ app.post("/procesar_respuesta", currentUser, function(request, response) {
     }
 });
 
-app.post("/procesar_adivinar", currentUser, function(request, response) {
+app.post("/procesar_adivinar", currentUser, function (request, response) {
+    var acierta = (request.body.idRespuestaAmigo == request.body.respuesta);
     var respuesta = [response.locals.userEmail,
         request.body.idAmigo,
-        request.body.preguntaId, (request.body.idRespuestaAmigo == request.body.respuesta)
+        request.body.preguntaId, acierta
     ];
 
-    preguntaDAO.insertAdivinaRespuesta(respuesta, function(err, resultado) {
+    preguntaDAO.insertAdivinaRespuesta(respuesta, function (err, resultado) {
         if (err || resultado.length == 0) {
             response.status(404);
             console.log(err + " procesar_respuesta");
         } else {
             response.status(200);
-            response.redirect("/preguntas");
+            var puntos = response.locals.puntos;
+            if (acierta) {
+                puntos += 10;
+                userD.actualizaPuntos(response.locals.userEmail, puntos, function (err) {
+                    if (err) {
+                        response.status(404);
+                        console.log(err + " procesar_respuesta");
+                    } else {
+                        request.session.puntos=puntos;
+                        response.redirect("/preguntas");
+                    }
+                });
+            }else{
+                response.redirect("/preguntas");
+            }
+            
         }
     });
 });
 
 /* Listener */
 
-app.listen(3000, function(err) {
+app.listen(3000, function (err) {
     if (err) {
         console.error("No se pudo inicializar el servidor: " + err.message);
     } else {
