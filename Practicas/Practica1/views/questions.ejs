@@ -1,36 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <title>30</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="/css/diseño.css" media="screen">
-    <link rel="icon" type="img/png" href="/img/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-</head>
+<%- include("data") %>
 
 <body>
-    <div id="encabezado">
-        thirty
-        <div id="menu">
-            <a href="/profile">Perfil</a>
-            <a href="/amigos">Amigos</a>
-            <a href="/preguntas">Preguntas</a>
-            <a href="/logout">Desconectar</a>
-            <div id="points"> <%= puntos %> puntos</div>
-        </div>
-    </div>
+    <%- include("menu") %>
     <div id="questions_container">
         <h2>Preguntas seleccionadas aleatoriamente</h2>
         <div id="questions_list">
             <ul>
                 <% preguntas.forEach(function(pregunta, i, preguntas){ %>
-                    <li>
-                        <a href="/pregunta/<%= pregunta.id%>">
-                            <%= pregunta.preguntaTitle%>
-                        </a>
-                    </li>
-                    <%});%>
+                <li>
+                    <a href="/pregunta/<%= pregunta.id%>">
+                        <%= pregunta.preguntaTitle%>
+                    </a>
+                </li>
+                <%});%>
             </ul>
         </div>
         <h2>¡Añade tus preguntas!</h2>

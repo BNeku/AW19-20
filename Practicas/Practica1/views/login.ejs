@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <title>30</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="/css/diseño.css" media="screen">
-    <link rel="icon" type="img/png" href="/img/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-</head>
+<%- include("data") %>
 
 <body>
-    <div id="encabezado" class="login">
-        thirty
-    </div>
+    <%- include("encabezado") %>
 
     <div id="formulario">
         <h2 class=margen>Login</h2>
@@ -23,22 +12,19 @@
             </div>
             <div class="campo">
                 <label for="pass"> Contraseña</label>
-            <input type="password" name="password" class="barra pass ">
+                <input type="password" name="password" class="barra pass ">
             </div>
-            
+
             <div class="center">
                 <input class="center boton" type="submit" value="Iniciar sesión">
             </div>
-            
+
         </form>
         <% if(errorMsg != null){ %>
         <p><%= errorMsg%></p>
         <% } %>
     </div>
-    <div id="reg">
-        <a href="/login">Entrar</a>
-        <a href="/register">Regístrate</a>
-    </div>
+    <%- include("pie") %>
 </body>
 
 </html>
