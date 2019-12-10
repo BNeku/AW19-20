@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2019 a las 19:42:05
--- Versión del servidor: 10.1.38-MariaDB
--- Versión de PHP: 7.3.4
+-- Servidor: localhost
+-- Tiempo de generación: 10-12-2019 a las 16:02:38
+-- Versión del servidor: 10.1.37-MariaDB
+-- Versión de PHP: 7.0.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -35,6 +35,13 @@ CREATE TABLE `adivinarespuesta` (
   `preguntaId` int(11) NOT NULL,
   `adivinado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `adivinarespuesta`
+--
+
+INSERT INTO `adivinarespuesta` (`id`, `emailCurrentUser`, `email`, `preguntaId`, `adivinado`) VALUES
+(0, 'neku@ucm.es', 'yhon@ucm.es', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -84,16 +91,17 @@ INSERT INTO `pregunta` (`id`, `preguntaTitle`) VALUES
 CREATE TABLE `respuesta` (
   `id` int(11) NOT NULL,
   `preguntaId` int(11) NOT NULL,
-  `respuestaTitle` varchar(255) NOT NULL
+  `respuestaTitle` varchar(255) NOT NULL,
+  `esRespuestaInicial` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `respuesta`
 --
 
-INSERT INTO `respuesta` (`id`, `preguntaId`, `respuestaTitle`) VALUES
-(10, 4, 'Azul'),
-(11, 4, 'Rosa');
+INSERT INTO `respuesta` (`id`, `preguntaId`, `respuestaTitle`, `esRespuestaInicial`) VALUES
+(10, 4, 'Azul', 1),
+(11, 4, 'Rosa', 1);
 
 -- --------------------------------------------------------
 
@@ -132,6 +140,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
+('3aEFm3pXfUwMYKlsDrNymkek9i8Ftgu8', 1576015549, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\",\"puntos\":0}'),
 ('6AgD-EPoMt9whOELg-wSEXIPcgiVXe-q', 1576003128, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}'),
 ('IwQ02K1iBkdBR62wV_hvS9COQoxj-ejg', 1575936651, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}');
 
@@ -231,13 +240,13 @@ ALTER TABLE `pregunta`
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `respuestausuario`
 --
 ALTER TABLE `respuestausuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
