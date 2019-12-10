@@ -30,8 +30,8 @@ class PreguntaDao {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             } else {
-                const sql = "INSERT INTO Respuesta(preguntaId, respuestaTitle) VALUES ?;";
-                var respuestasArray = respuestas.map(value => [preguntaId, value]);
+                const sql = "INSERT INTO Respuesta(preguntaId, respuestaTitle, esRespuestaInicial) VALUES ?;";
+                var respuestasArray = respuestas.map(value => [preguntaId, value, 1]);
 
                 connection.query(sql, [respuestasArray], function(err, result) {
                     connection.release();
@@ -68,7 +68,7 @@ class PreguntaDao {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT p.id AS preguntaId, preguntaTitle, r.id AS respuestaId, preguntaId, respuestaTitle FROM Respuesta AS r LEFT JOIN Pregunta AS p on p.id = r.preguntaId WHERE r.preguntaId = ?;";
+                const sql = "SELECT p.id AS preguntaId, preguntaTitle, r.id AS respuestaId, preguntaId, respuestaTitle, esRespuestaInicial FROM Respuesta AS r LEFT JOIN Pregunta AS p on p.id = r.preguntaId WHERE r.preguntaId = ?;";
                 connection.query(sql, preguntaId, function(err, resultado) {
                     connection.release();
                     if (err) {

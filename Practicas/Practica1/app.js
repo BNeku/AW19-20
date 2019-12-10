@@ -360,7 +360,7 @@ app.get("/contestar_pregunta/:id", currentUser, function(request, response) {
 });
 
 app.get("/adivinar_respuesta/:id/:email", currentUser, function(request, response) {
-    preguntaDAO.getPreguntaConRespuestasInicialesById(request.params.id, function(err, resultadoPregunta) {
+    preguntaDAO.getPreguntaConRespuestasById(request.params.id, function(err, resultadoPregunta) {
         if (err || resultadoPregunta.length == 0) {
             response.status(404);
             console.log(err + "adivinar_respuesta/:id");
@@ -372,6 +372,24 @@ app.get("/adivinar_respuesta/:id/:email", currentUser, function(request, respons
                 } else {
                     response.status(200);
 
+                    var respuestasIniciales = resultadoPregunta.filter(value => value.esRespuestaInicial === 1);
+                    var respuestaCorrecta = resultadoPregunta.filter(value => value.respuestaId === resultadoRespuesta[0].respuestaId);
+
+                    var respuestas = [respuestaCorrecta[0]];
+
+                    while (respuestas.length < respuestasIniciales.length) {
+                        var index = Math.floor(Math.random() * respuestasIniciales.length);
+                        var respuestaSeleccionada = respuestasIniciales[index];
+
+                        if (respuestaSeleccionada.respuestaId != respuestaCorrecta.respuestaId) {
+                            if (respuestas.filter(value => value.respuestaId === respuestaSeleccionada.respuestaId).length == 0) {
+                                respuestas.push(respuestaSeleccionada);
+                            }
+                        }
+                    }
+
+                    respuestas = respuestas.sort(function() { return Math.random() - 0.5 });
+
                     var pregunta = {
                         pregunta: resultadoPregunta[0].preguntaTitle,
                         preguntaId: resultadoPregunta[0].preguntaId,
@@ -381,7 +399,7 @@ app.get("/adivinar_respuesta/:id/:email", currentUser, function(request, respons
 
                     response.render("adivinar_respuesta", {
                         pregunta: pregunta,
-                        respuestas: resultadoPregunta,
+                        respuestas: respuestas,
                         puntos: response.locals.puntos
                     });
                 }
