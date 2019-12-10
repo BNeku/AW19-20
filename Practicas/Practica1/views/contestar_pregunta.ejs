@@ -1,31 +1,31 @@
 <%- include("data") %>
 
-<body>
-    <%- include("menu") %>
-    <div id="questions_container">
-        <h2>
-            <%= pregunta.pregunta%>
-        </h2>
+    <body>
+        <%- include("menu") %>
+            <div id="questions_container">
+                <h2>
+                    <%= pregunta.pregunta%>
+                </h2>
 
-        <form id="answer_form" action="/procesar_respuesta" method="POST">
-            <input type="hidden" name="preguntaId" value="<%= pregunta.preguntaId %>">
+                <form id="answer_form" action="/preguntas/procesar_respuesta" method="POST">
+                    <input type="hidden" name="preguntaId" value="<%= pregunta.preguntaId %>">
 
-            <% respuestas.forEach(function(respuesta, i, respuestas){ %>
-            <div class="div_form_answer">
-                <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.respuestaId %>">
-                <label for="respuesta"><%= respuesta.respuestaTitle%></label>
+                    <% respuestas.forEach(function(respuesta, i, respuestas){ %>
+                        <div class="div_form_answer">
+                            <input type="radio" id="respuesta" name="respuesta" value="<%= respuesta.respuestaId %>">
+                            <label for="respuesta"><%= respuesta.respuestaTitle%></label>
+                        </div>
+                        <% });%>
+                            <div class="div_form_answer">
+                                <input type="radio" id="respuesta" name="respuesta" name="form_answer" value="-1">
+                                <label for="answer">Otra:</label>
+                                <input type="text" id="answer_label" name="respuesta">
+                            </div>
+
+                            <input class="boton centrar" type="submit" value="Enviar respuesta">
+                </form>
             </div>
-            <% });%>
-            <div class="div_form_answer">
-                <input type="radio" id="respuesta" name="respuesta" name="form_answer" value="-1">
-                <label for="answer">Otra:</label>
-                <input type="text" id="answer_label" name="respuesta">
-            </div>
 
-            <input class="boton centrar" type="submit" value="Enviar respuesta">
-        </form>
-    </div>
+    </body>
 
-</body>
-
-</html>
+    </html>

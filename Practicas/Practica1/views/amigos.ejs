@@ -1,56 +1,56 @@
 <%- include("data") %>
 
-<%- include("menu") %>
-<div id="cuerpo">
-    <div id="busqueda">
-        <h2>Búsqueda de amigos</h2>
-        <div class="busca">
-            <form action="/buscar" method="GET">
-                <label for="buscaAmigo">Buscar por nombre: </label>
-                <input type="text" name="buscaAmigo" class="barra">
-                <input class="boton" type="submit" value="Buscar">
-            </form>
-        </div>
+    <%- include("menu") %>
+        <div id="cuerpo">
+            <div id="busqueda">
+                <h2>Búsqueda de amigos</h2>
+                <div class="busca">
+                    <form action="/amigos/buscar" method="GET">
+                        <label for="buscaAmigo">Buscar por nombre: </label>
+                        <input type="text" name="buscaAmigo" class="barra">
+                        <input class="boton" type="submit" value="Buscar">
+                    </form>
+                </div>
 
-    </div>
-    <div id="subcuerpo">
-        <div id="solicitudes">
-            <h2>Solicitudes de amistad</h2>
-            <div id="requests_container">
-                <% if(solicitudes != null){ %>
-                <ul>
-                    <% solicitudes.forEach(function(v,i,user){ %>
-                    <%- include("lista", {v})%>
-                    <div>
-                        <a href="/aceptar/<%= v.email %>" class="button sino">Aceptar</a>
-                        <a href="/rechazar/<%= v.email %>" class="button sino">Rechazar</a>
+            </div>
+            <div id="subcuerpo">
+                <div id="solicitudes">
+                    <h2>Solicitudes de amistad</h2>
+                    <div id="requests_container">
+                        <% if(solicitudes != null){ %>
+                            <ul>
+                                <% solicitudes.forEach(function(v,i,user){ %>
+                                    <%- include("lista", {v})%>
+                                        <div>
+                                            <a href="/amigos/aceptar/<%= v.email %>" class="button sino">Aceptar</a>
+                                            <a href="/amigos/rechazar/<%= v.email %>" class="button sino">Rechazar</a>
+                                        </div>
+
+                                        </li>
+                                        <% });%>
+                            </ul>
+                            <%} %>
                     </div>
+                </div>
 
-                    </li>
-                    <% });%>
-                </ul>
-                <%} %>
+                <div id=amigos>
+                    <h2>Mis amigos</h2>
+                    <div id="requests_container">
+                        <% if(amigos != null){ %>
+                            <ul id="friends">
+                                <% amigos.forEach(function(v,i,user){ %>
+                                    <%- include("lista", {v})%>
+
+                                        </li>
+                                        <%});%>
+                            </ul>
+                            <%} %>
+                    </div>
+                </div>
             </div>
+
         </div>
 
-        <div id=amigos>
-            <h2>Mis amigos</h2>
-            <div id="requests_container">
-                <% if(amigos != null){ %>
-                <ul id="friends">
-                    <% amigos.forEach(function(v,i,user){ %>
-                    <%- include("lista", {v})%>
+        </body>
 
-                    </li>
-                    <%});%>
-                </ul>
-                <%} %>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-</body>
-
-</html>
+        </html>

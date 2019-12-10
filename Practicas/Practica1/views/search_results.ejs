@@ -1,27 +1,31 @@
 <%- include("data") %>
 
-<body>
-    <%- include("menu") %>
-    <div id="search">
-        <h2>Resultados de búsqueda: <%= busqueda%></h2>
-        <div id="search_result_container">
-            <% if(resultado != null){ %>
-            <ul>
-                <% resultado.forEach(function(v,i,user){ %>
-                <li id="search_result_item">
-                    <div class="search_result_item_name_and_picture">
-                        <img src="/imagen/<%= v.email %>" class="person">
-                        <p><%= v.name%></p>
-                    </div>
-                    <a href="/solicitar_amistad/<%= v.email%>" class="button">Solicitar amistad</a>
-                </li>
-                <% });%>
-            </ul>
-            <%}else{ %>
-            <p>No se han encontrado resultados</p>
-            <%} %>
-        </div>
-    </div>
-</body>
+    <body>
+        <%- include("menu") %>
+            <div id="search">
+                <h2>Resultados de búsqueda:
+                    <%= busqueda%>
+                </h2>
+                <div id="search_result_container">
+                    <% if(resultado != null){ %>
+                        <ul>
+                            <% resultado.forEach(function(v,i,user){ %>
+                                <li id="search_result_item">
+                                    <div class="search_result_item_name_and_picture">
+                                        <img src="/imagen/<%= v.email %>" class="person">
+                                        <p>
+                                            <%= v.name%>
+                                        </p>
+                                    </div>
+                                    <a href="/amigos/solicitar_amistad/<%= v.email%>" class="button">Solicitar amistad</a>
+                                </li>
+                                <% });%>
+                        </ul>
+                        <%}else{ %>
+                            <p>No se han encontrado resultados</p>
+                            <%} %>
+                </div>
+            </div>
+    </body>
 
-</html>
+    </html>

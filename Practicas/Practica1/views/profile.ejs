@@ -1,32 +1,34 @@
 <%- include("data") %>
-<body>
-    <%- include("menu") %>
-    <div id="data">
-        <h2>Tu perfil</h2>
-        <div id="info">
-            <div id="profile">
-                <img src="/imagen/<%= usuario.email %>" class="imgPerfil">
-                <div id="datos">
-                    <p>
-                        <%= usuario.name %>
-                    </p>
-                    <p>
-                        <%= usuario.birthday %>
-                    </p>
-                    <p>
-                        <%= usuario.gender %>
-                    </p>
-                    <p><%= usuario.puntos %> puntos</p>
+
+    <body>
+        <%- include("menu") %>
+            <div id="data">
+                <h2>Tu perfil</h2>
+                <div id="info">
+                    <div id="profile">
+                        <img src="/imagen/<%= usuario.email %>" class="imgPerfil">
+                        <div id="datos">
+                            <p>
+                                <%= usuario.name %>
+                            </p>
+                            <p>
+                                <%= usuario.birthday %>
+                            </p>
+                            <p>
+                                <%= usuario.gender %>
+                            </p>
+                            <p>
+                                <%= usuario.puntos %> puntos</p>
+                        </div>
+                    </div>
+                    <% if(!amigo){%>
+                        <div id="boton">
+                            <a href="/login/modify" class="button">Modificar perfil</a>
+                        </div>
+                        <%}%>
                 </div>
             </div>
-            <% if(!amigo){%>
-            <div id="boton">
-                <a href="/modify" class="button">Modificar perfil</a>
-            </div>
-            <%}%>
-        </div>
-    </div>
 
-</body>
+    </body>
 
-</html>
+    </html>

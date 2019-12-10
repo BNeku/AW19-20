@@ -1,36 +1,36 @@
 <%- include("data") %>
 
-<body>
-    <%- include("menu") %>
-    <div id="cuerpo">
-        <div id="busqueda">
-            <h2>Crear Pregunta</h2>
-            <div class="busca">
-                <form action="/procesar_crear_pregunta" method="POST">
-                    <label for="pregunta">Pregunta: </label>
-                    <input type="text" name="pregunta" class="barra">
+    <body>
+        <%- include("menu") %>
+            <div id="cuerpo">
+                <div id="busqueda">
+                    <h2>Crear Pregunta</h2>
+                    <div class="busca">
+                        <form action="/preguntas/procesar_crear_pregunta" method="POST">
+                            <label for="pregunta">Pregunta: </label>
+                            <input type="text" name="pregunta" class="barra">
 
-                    <div>
-                        <label for="respuesta1">Respuesta 1: </label>
-                        <input type="text" name="respuesta1" class="barra">
+                            <div>
+                                <label for="respuesta1">Respuesta 1: </label>
+                                <input type="text" name="respuesta1" class="barra">
+                            </div>
+
+                            <div>
+                                <label for="respuesta2">Respuesta 2: </label>
+                                <input type="text" name="respuesta2" class="barra">
+                            </div>
+
+                            <div>
+                                <label for="respuesta3">Respuesta 3: </label>
+                                <input type="text" name="respuesta3" class="barra">
+                            </div>
+
+                            <input class="boton" type="submit" value="Crear">
+                        </form>
                     </div>
-
-                    <div>
-                        <label for="respuesta2">Respuesta 2: </label>
-                        <input type="text" name="respuesta2" class="barra">
-                    </div>
-
-                    <div>
-                        <label for="respuesta3">Respuesta 3: </label>
-                        <input type="text" name="respuesta3" class="barra">
-                    </div>
-
-                    <input class="boton" type="submit" value="Crear">
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
 
-</body>
+    </body>
 
-</html>
+    </html>

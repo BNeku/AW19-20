@@ -1,23 +1,23 @@
 <%- include("data") %>
 
-<body>
-    <%- include("menu") %>
-    <div id="questions_container">
-        <h2>Preguntas seleccionadas aleatoriamente</h2>
-        <div id="questions_list">
-            <ul>
-                <% preguntas.forEach(function(pregunta, i, preguntas){ %>
-                <li>
-                    <a href="/pregunta/<%= pregunta.id%>">
-                        <%= pregunta.preguntaTitle%>
-                    </a>
-                </li>
-                <%});%>
-            </ul>
-        </div>
-        <h2>¡Añade tus preguntas!</h2>
-        <a href="/crearPregunta" class="button">Crear pregunta</a>
-    </div>
-</body>
+    <body>
+        <%- include("menu") %>
+            <div id="questions_container">
+                <h2>Preguntas seleccionadas aleatoriamente</h2>
+                <div id="questions_list">
+                    <ul>
+                        <% preguntas.forEach(function(pregunta, i, preguntas){ %>
+                            <li>
+                                <a href="/preguntas/pregunta/<%= pregunta.id%>">
+                                    <%= pregunta.preguntaTitle%>
+                                </a>
+                            </li>
+                            <%});%>
+                    </ul>
+                </div>
+                <h2>¡Añade tus preguntas!</h2>
+                <a href="/preguntas/crearPregunta" class="button">Crear pregunta</a>
+            </div>
+    </body>
 
-</html>
+    </html>

@@ -1,31 +1,34 @@
 <%- include("data") %>
-<body>
-    <%- include("encabezado") %>
-    <div id="formulario">
-        <h2 class=margen>Registro</h2>
-        <form action="register" method="POST" enctype="multipart/form-data">
-            <div class="campo"> <label for="correo" class="correo">* Email</label>
-                <input type="text" name="email" class="barra email"></div>
-            <div class="campo"><label for="pass" class="contra">* Contraseña</label>
-                <input type="password" name="password" class="barra pass"></div>
-            <div class="campo"><label for="name" class="name">* Nombre completo</label>
-                <input type="text" name="name" class="barra"></div>
-            <div class="campo"><label for="pass">Sexo</label>
-                Femenino<input type="radio" name="gender" value="0" checked>
-                Masculino<input type="radio" name="gender" value="1">
-                Otro<input type="radio" name="gender" value="2"></div>
-            <div class="campo"><label for="date">* Fecha nacimiento</label>
-                <input type="date" name="birthday" class="barra"></div>
-            <div class="campo"><label for="img">Imagen de perfil</label>
-                <input type="file" name="photo" class="barra"></div>
 
-            <input class="boton centrar" type="submit" value="Crear usuario">
-        </form>
-        <% if(msg != null){ %>
-            <p><%= msg%></p>
-            <% } %>
-    </div>
-    <%- include("pie") %>
-</body>
+    <body>
+        <%- include("encabezado") %>
+            <div id="formulario">
+                <h2 class=margen>Registro</h2>
+                <form action="/login/register" method="POST" enctype="multipart/form-data">
+                    <div class="campo"> <label for="correo" class="correo">* Email</label>
+                        <input type="text" name="email" class="barra email"></div>
+                    <div class="campo"><label for="pass" class="contra">* Contraseña</label>
+                        <input type="password" name="password" class="barra pass"></div>
+                    <div class="campo"><label for="name" class="name">* Nombre completo</label>
+                        <input type="text" name="name" class="barra"></div>
+                    <div class="campo"><label for="pass">Sexo</label> Femenino
+                        <input type="radio" name="gender" value="0" checked> Masculino
+                        <input type="radio" name="gender" value="1"> Otro
+                        <input type="radio" name="gender" value="2"></div>
+                    <div class="campo"><label for="date">* Fecha nacimiento</label>
+                        <input type="date" name="birthday" class="barra"></div>
+                    <div class="campo"><label for="img">Imagen de perfil</label>
+                        <input type="file" name="photo" class="barra"></div>
 
-</html>
+                    <input class="boton centrar" type="submit" value="Crear usuario">
+                </form>
+                <% if(msg != null){ %>
+                    <p>
+                        <%= msg%>
+                    </p>
+                    <% } %>
+            </div>
+            <%- include("pie") %>
+    </body>
+
+    </html>

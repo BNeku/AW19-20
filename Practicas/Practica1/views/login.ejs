@@ -1,30 +1,32 @@
 <%- include("data") %>
 
-<body>
-    <%- include("encabezado") %>
+    <body>
+        <%- include("encabezado") %>
 
-    <div id="formulario">
-        <h2 class=margen>Login</h2>
-        <form action="procesar_login" method="POST">
-            <div class="campo">
-                <label for="correo">Email</label>
-                <input type="text" name="email" class="barra email "><br>
+            <div id="formulario">
+                <h2 class=margen>Login</h2>
+                <form action="/login/procesar_login" method="POST">
+                    <div class="campo">
+                        <label for="correo">Email</label>
+                        <input type="text" name="email" class="barra email "><br>
+                    </div>
+                    <div class="campo">
+                        <label for="pass"> Contraseña</label>
+                        <input type="password" name="password" class="barra pass ">
+                    </div>
+
+                    <div class="center">
+                        <input class="center boton" type="submit" value="Iniciar sesión">
+                    </div>
+
+                </form>
+                <% if(errorMsg != null){ %>
+                    <p>
+                        <%= errorMsg%>
+                    </p>
+                    <% } %>
             </div>
-            <div class="campo">
-                <label for="pass"> Contraseña</label>
-                <input type="password" name="password" class="barra pass ">
-            </div>
+            <%- include("pie") %>
+    </body>
 
-            <div class="center">
-                <input class="center boton" type="submit" value="Iniciar sesión">
-            </div>
-
-        </form>
-        <% if(errorMsg != null){ %>
-        <p><%= errorMsg%></p>
-        <% } %>
-    </div>
-    <%- include("pie") %>
-</body>
-
-</html>
+    </html>
