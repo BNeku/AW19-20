@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Javascript integrado en la página Web</title>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="estilo.css" media="screen">
+    <script src="1012.js"></script>
+</head>
+
+<body>
+    <p>
+        Introduce un número: <input type="text" id="campoNumero">
+        <span id="mensaje" class="incorrecto"></span>
+    </p>
+
+    <p id="elem" data-number="1">Esto es un elemento del DOM que almacena un número</p>
+    <button id="incrementar">Incrementar</button>
+    <button id="obtener">Obtener valor actual</button>
+
+    <p>Pulsa el botón de abajo para añadir elementos a la lista:</p>
+    <ol id="listaNumerada"></ol>
+    <button id="añadirElemento">Añadir elemento</button>
+
+    <div class="parrafo" id="ventana">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
+        a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+        Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum.
+    </div>
+    <div class="tamaño"></div>
+    <button id="aumentarAnchura">Aumentar anchura</button>
+
+    <div class="parrafo">
+        Muéveme con los cursores
+    </div>
+
+    <p>Mueve el ratón por esta superficie ...</p>
+    <div id="superficie" class="cuadro"></div>
+    <div id="posicion"></div>
+
+    <p>Código de tecla pulsado: <span id="codigoTecla"></span></p>
+    <p>
+        <span class="indicador" id="ctrl">Control</span>
+        <span class="indicador" id="alt">Alt</span>
+        <span class="indicador" id="meta">Meta</span>
+        <span class="indicador" id="shift">Shift</span>
+    </p>
+</body>
+
+</html>

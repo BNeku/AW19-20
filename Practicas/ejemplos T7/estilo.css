@@ -1,8 +1,31 @@
-.rojo{
-    color:red;
-}
-
-#ventana{
+#ventana {
     background-color: green;
     border: solid darkgreen 1px;
+}
+
+#superficie:hover {
+    cursor: crosshair;
+}
+
+.rojo {
+    color: red;
+}
+
+span.indicador {
+    border: 1px solid red;
+    padding: 5px;
+}
+
+span.activo {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+.parrafo {
+    border: dotted red 2px;
+}
+
+.cuadro {
+    border: solid 1px black;
+    width: 300px;
+    height: 100px;
 }
