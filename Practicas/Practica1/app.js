@@ -84,6 +84,27 @@ app.get("/imagen/:id", currentUser, function(request, response) {
     });
 });
 
+// Captura error 404.
+app.use(function(req, res, next) {
+    var error = new Error("Not Found");
+    error.status = 404;
+    next(error);
+});
+
+// Error Handler.
+app.use(function(error, request, response, next) {
+    if (error.status == 404) {
+        response.render("error404", {
+            url: request.url
+        });
+    } else {
+        response.render("error500", {
+            mensaje: error.message,
+            pila: error.stack
+        });
+    }
+});
+
 /* Listener */
 
 app.listen(3000, function(err) {

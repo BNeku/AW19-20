@@ -86,6 +86,7 @@ router.get("/profile", currentUser, function(request, response) {
         } else {
             response.status(404);
             console.log("No se ha encontrado el usuario");
+            next(new Error("Not Found"));
         }
     });
 });
@@ -109,16 +110,17 @@ router.get("/logout", currentUser, function(request, response) {
 router.post("/procesar_login", function(request, response) {
     userD.isUserCorrect(request.body.email, request.body.password, function(err, existe) {
         if (err) {
-            response.status(404);
+            response.status(500);
             console.log("login post\n" + err);
+            next(err);
         } else {
             response.status(200);
             if (existe) {
                 request.session.currentUser = request.body.email;
                 userD.getPuntos(request.body.email, function(err, puntos) {
                     if (err) {
-                        response.status(404);
                         console.log("login post\n" + err);
+                        next(err);
                     } else {
                         request.session.puntos = puntos[0].puntos;
                         response.redirect("/profile");
@@ -144,8 +146,9 @@ router.post("/register", multerFactory.single("photo"), function(request, respon
     } else {
         userD.insertUser(user, function(err, insertado) {
             if (err) {
-                response.status(404);
+                response.status(500);
                 console.log(err + "post register");
+                next(err);
             } else {
                 response.status(200);
                 if (insertado) {
@@ -169,8 +172,9 @@ router.post("/post_modify", currentUser, multerFactory.single("photo"), function
             var user = utils.modifyUserFromRequestBody(request, data);
             userD.getUserImageName(response.locals.userEmail, function(err, img) {
                 if (err) {
-                    response.status(404);
+                    response.status(500);
                     console.log(err + " post_modify");
+                    next(err);
                 } else {
                     if (request.file) {
                         user.photo = request.file.filename;
@@ -179,8 +183,9 @@ router.post("/post_modify", currentUser, multerFactory.single("photo"), function
                     }
                     userD.modifyUser(user, function(err, result) {
                         if (err) {
-                            response.status(404);
+                            response.status(500);
                             console.log(err + " post_modify");
+                            next(err);
                         } else {
                             response.status(200);
                             if (result) {
@@ -202,6 +207,7 @@ router.post("/post_modify", currentUser, multerFactory.single("photo"), function
         } else {
             response.status(404);
             console.log("No se ha encontrado el usuario");
+            next(new Error("Not Found"));
         }
     });
 });

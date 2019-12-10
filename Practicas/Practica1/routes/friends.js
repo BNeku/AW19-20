@@ -46,16 +46,18 @@ function currentUser(request, response, next) {
 router.get("/", currentUser, function(request, response) {
     userD.getAmigos(response.locals.userEmail, function(err, rdo) {
         if (err) {
-            response.status(404);
+            response.status(500);
             console.log(err + "amigos");
+            next(err);
         } else {
             response.status(200);
             if (rdo.length > 0) {
                 var todo = utils.misAmigos(response.locals.userEmail, rdo);
                 userD.getName(todo.amigos, function(err, rdo) {
                     if (err) {
-                        response.status(404);
+                        response.status(500);
                         console.log(err + "amigos");
+                        next(err);
                     } else {
                         var friends = rdo;
                         if (typeof(rdo) == "undefined") {
@@ -64,8 +66,9 @@ router.get("/", currentUser, function(request, response) {
 
                         userD.getName(todo.solicitudes, function(err, rdo2) {
                             if (err) {
-                                response.status(404);
+                                response.status(500);
                                 console.log(err + "amigos");
+                                next(err);
                             } else {
                                 response.render("amigos", {
                                     amigos: friends,
@@ -91,8 +94,9 @@ router.get("/", currentUser, function(request, response) {
 router.get("/aceptar/:emailAmigo", currentUser, function(request, response) {
     userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
         if (err) {
-            response.status(404);
+            response.status(500);
             console.log(err + "aceptar");
+            next(err);
         } else {
             response.status(200);
             response.redirect("/amigos");
@@ -103,8 +107,9 @@ router.get("/aceptar/:emailAmigo", currentUser, function(request, response) {
 router.get("/rechazar/:emailAmigo", currentUser, function(request, response) {
     userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
         if (err) {
-            response.status(404);
+            response.status(500);
             console.log(err + "rechazar");
+            next(err);
         } else {
             response.status(200);
             response.redirect("/amigos");
@@ -124,6 +129,7 @@ router.get('/amigo/:email', currentUser, function(request, response) {
         } else {
             response.status(404);
             console.log("No se ha encontrado el usuario");
+            next(err);
         }
     });
 });
@@ -131,8 +137,9 @@ router.get('/amigo/:email', currentUser, function(request, response) {
 router.get("/buscar", currentUser, function(request, response) {
     userD.buscarUsuario(response.locals.userEmail, request.query.buscaAmigo, function(err, rdo) {
         if (err) {
-            response.status(404);
+            response.status(500);
             console.log(err + " buscar");
+            next(err);
         } else {
             response.render("search_results", {
                 busqueda: request.body.buscaAmigo,
@@ -146,8 +153,9 @@ router.get("/buscar", currentUser, function(request, response) {
 router.get("/solicitar_amistad/:id", currentUser, function(request, response) {
     userD.solicitarAmistad(request.params.id, response.locals.userEmail, function(err) {
         if (err) {
-            response.status(404);
+            response.status(500);
             console.log(err + " solicitar amistad");
+            next(err);
         } else {
             response.status(200);
             response.redirect("/amigos");

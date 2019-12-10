@@ -179,11 +179,13 @@ router.get("/adivinar_respuesta/:id/:email", currentUser, function(request, resp
         if (err || resultadoPregunta.length == 0) {
             response.status(404);
             console.log(err + "adivinar_respuesta/:id");
+            next(err);
         } else {
             preguntaDAO.getRespuestaUsuarioByPreguntaId(request.params.id, request.params.email, function(err, resultadoRespuesta) {
                 if (err || resultadoRespuesta.length == 0) {
                     response.status(404);
                     console.log(err + "adivinar_respuesta/:id");
+                    next(err);
                 } else {
                     response.status(200);
 
@@ -254,8 +256,9 @@ router.post("/procesar_crear_pregunta", function(request, response) {
 
     preguntaDAO.insertPregunta(nuevaPregunta, function(err, success) {
         if (err) {
-            response.status(404);
+            response.status(500);
             console.log("insertPregunta\n" + err);
+            next(err);
         } else {
             response.status(200);
             if (success) {
@@ -271,7 +274,7 @@ router.post("/procesar_crear_pregunta", function(request, response) {
 router.post("/procesar_respuesta", currentUser, function(request, response) {
     if (request.body.respuesta.length == 0) {
         response.status(500);
-        response.end();
+        next(err);
         return;
     }
 
@@ -286,6 +289,7 @@ router.post("/procesar_respuesta", currentUser, function(request, response) {
             if (err || resultado.length == 0) {
                 response.status(404);
                 console.log(err + " procesar_respuesta");
+                next(err);
             } else {
                 response.status(200);
                 response.redirect("/preguntas");
@@ -302,6 +306,7 @@ router.post("/procesar_respuesta", currentUser, function(request, response) {
             if (err || resultado.length == 0) {
                 response.status(404);
                 console.log(err + " procesar_respuesta");
+                next(err);
             } else {
                 response.status(200);
                 response.redirect("/preguntas");
@@ -321,6 +326,7 @@ router.post("/procesar_adivinar", currentUser, function(request, response) {
         if (err || resultado.length == 0) {
             response.status(404);
             console.log(err + " procesar_respuesta");
+            next(err);
         } else {
             response.status(200);
             var puntos = response.locals.puntos;
