@@ -90,17 +90,20 @@ router.get("/pregunta/:id", currentUser, function(request, response) {
                                 if (err) {
                                     response.status(404);
                                     console.log(err + " pregunta/:id getamigos");
+                                    next(err);
                                 } else {
                                     if (amigosRespondido.length > 0) {
                                         preguntaDAO.getPreguntaAdivinada(response.locals.userEmail, request.params.id, amigosRespondido, function(err, adivinadas) {
                                             if (err) {
                                                 response.status(404);
                                                 console.log(err + " pregunta/:id getamigos");
+                                                next(err);
                                             } else {
                                                 userD.getName(amigosRespondido, function(err, nombres) {
                                                     if (err) {
                                                         response.status(404);
                                                         console.log(err + " pregunta/:id getamigos nombres");
+                                                        next(err);
                                                     } else {
                                                         response.status(200);
                                                         var final = utils.montarAmigosAdivinados(nombres, adivinadas);
