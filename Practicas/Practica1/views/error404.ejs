@@ -1,13 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
     <title>ERROR 404</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/diseño.css" media="screen">
+    <link rel="icon" type="img/png" href="/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <h1>Error 404</h1>
-    <p>La dirección <code><%= url %></code> no existe</p>
+<body class="error">
+    <div>
+        <h1>Error 404</h1>
+        <p>La dirección <code><%= url %></code> no existe</p>
+    </div>
+
+    <img src="/img/polar.png">
+    <div>
+        <a href="/login">Pulse aquí para volver </a>
+    </div>
+
 </body>
 
 </html>

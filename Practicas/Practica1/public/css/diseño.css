@@ -45,6 +45,30 @@ h2 {
     text-align: center;
 }
 
+.error{
+    font-family: 'Gloria Hallelujah', cursive;
+    text-align: center;
+    font-size: 2em;
+}
+
+.error>div>a{
+    font-size:1em;
+    margin-top:20%;
+    color: lightgray;
+}
+
+.error>div>a:hover{
+    filter:blur(1px);
+}
+
+.mensaje{
+    font-size:0.5em;
+}
+
+#panda{
+    height: 200px;
+    width:200px;
+}
 #encabezado {
     font-size: 9em;
     color: darkcyan;
