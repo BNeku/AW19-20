@@ -3,8 +3,42 @@
     border: solid darkgreen 1px;
 }
 
-#superficie:hover {
+/*#superficie:hover {
     cursor: crosshair;
+}*/
+
+#superficie {
+    display: none;
+    border: 2px dashed green;
+    width: 300px;
+    height: 200px;
+    background-color: lightgreen;
+}
+
+
+#contenedor {
+    background: burlywood;
+    border: dotted red 1px;
+    width: 150px;
+    height: 150px;
+    display: flex;
+
+}
+
+#region1 {
+    background: lightgreen;
+    border: solid black 1px;
+    width: 50px;
+    height: 100px;
+    margin: 1%;
+}
+
+#region2 {
+    background: lightgreen;
+    border: solid black 1px;
+    width: 50px;
+    height: 100px;
+    margin: 1%;
 }
 
 .rojo {

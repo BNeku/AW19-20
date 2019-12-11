@@ -1,0 +1,129 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 30px;
+    color: white;
+}
+
+.calculadora {
+    margin-left:auto;
+    margin-right: auto;
+    margin-top:5%;
+    border-radius: 5%;
+    display: grid;
+    width: 300px;
+    padding: 10px;
+    background-color: dimgray;
+    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto;
+    grid-column-gap: 2px;
+    grid-row-gap: 2px;
+    text-align: center;
+}
+
+.numeros {
+    background-color: hotpink;
+}
+
+.operadores {
+    background-color: limegreen;
+}
+
+.especiales {
+    background-color: deepskyblue;
+}
+
+.resultado {
+    background-color: white;
+    color: dimgray;
+
+}
+
+#rdo {
+    grid-row: 1 / span 0;
+    grid-column: 1 / span 4;
+}
+
+#C {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 2;
+}
+
+#igual {
+    grid-row: 2 / span 1;
+    grid-column: 3 / span 2;
+}
+
+#uno {
+    grid-row: 5 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#dos {
+    grid-row: 5 / span 1;
+    grid-column: 2 / span 1;
+}
+
+#tres {
+    grid-row: 5 / span 1;
+    grid-column: 3 / span 1;
+}
+
+#cuatro {
+    grid-row: 4 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#cinco {
+    grid-row: 4 / span 1;
+    grid-column: 2 / span 1;
+}
+
+#seis{
+    grid-row: 4 / span 1;
+    grid-column: 3 / span 1;
+}
+
+#siete{
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#ocho{
+    grid-row: 3 / span 1;
+    grid-column: 2 / span 1;
+}
+
+#nueve{
+    grid-row: 3 / span 1;
+    grid-column: 3 / span 1;
+}
+
+#cero{
+    grid-row: 6 / span 1;
+    grid-column: 1 / span 3;
+}
+
+#mas{
+    grid-row: 3 / span 1;
+    grid-column: 4 / span 1;
+}
+
+#menos{
+    grid-row: 4 / span 1;
+    grid-column: 4 / span 1;
+}
+
+#entre{
+    grid-row: 5 / span 1;
+    grid-column: 4 / span 1;
+}
+
+#por{
+    grid-row: 6 / span 1;
+    grid-column: 4 / span 1;
+}
+
+
+
