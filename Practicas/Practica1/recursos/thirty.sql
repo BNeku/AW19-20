@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 10-12-2019 a las 16:02:38
--- Versión del servidor: 10.1.37-MariaDB
--- Versión de PHP: 7.0.33
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 12-12-2019 a las 18:33:31
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -41,7 +41,10 @@ CREATE TABLE `adivinarespuesta` (
 --
 
 INSERT INTO `adivinarespuesta` (`id`, `emailCurrentUser`, `email`, `preguntaId`, `adivinado`) VALUES
-(0, 'neku@ucm.es', 'yhon@ucm.es', 4, 1);
+(1, 'neku@ucm.es', 'yhon@ucm.es', 4, 1),
+(2, 'neku@ucm.es', 'wilson@gmail.com', 4, 0),
+(3, 'neku@ucm.es', 'yhon@ucm.es', 5, 0),
+(4, 'yhon@ucm.es', 'neku@ucm.es', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -62,6 +65,9 @@ CREATE TABLE `amigos` (
 INSERT INTO `amigos` (`solicitado`, `solicitante`, `amigos`) VALUES
 ('neku@ucm.es', 'ejemplo@gmail.com', 1),
 ('neku@ucm.es', 'wilson@gmail.com', 1),
+('prueba1@gmail.com', 'neku@ucm.es', 0),
+('prueba2@gmail.com', 'prueba1@gmail.com', 1),
+('wilson@gmail.com', 'yhon@ucm.es', 0),
 ('yhon@ucm.es', 'neku@ucm.es', 1);
 
 -- --------------------------------------------------------
@@ -80,7 +86,9 @@ CREATE TABLE `pregunta` (
 --
 
 INSERT INTO `pregunta` (`id`, `preguntaTitle`) VALUES
-(4, 'De que color es el mar');
+(4, 'De que color es el mar'),
+(5, 'Cuanto es 4+3*2'),
+(6, '¿Que dia es?');
 
 -- --------------------------------------------------------
 
@@ -101,7 +109,14 @@ CREATE TABLE `respuesta` (
 
 INSERT INTO `respuesta` (`id`, `preguntaId`, `respuestaTitle`, `esRespuestaInicial`) VALUES
 (10, 4, 'Azul', 1),
-(11, 4, 'Rosa', 1);
+(11, 4, 'Rosa', 1),
+(12, 5, '12', 1),
+(13, 5, '11', 1),
+(14, 4, 'Verde', 0),
+(15, 6, '12', 1),
+(16, 6, '11', 1),
+(17, 6, '10', 1),
+(18, 5, '10', 0);
 
 -- --------------------------------------------------------
 
@@ -121,7 +136,10 @@ CREATE TABLE `respuestausuario` (
 --
 
 INSERT INTO `respuestausuario` (`id`, `preguntaId`, `respuestaId`, `email`) VALUES
-(2, 4, 11, 'yhon@ucm.es');
+(2, 4, 11, 'yhon@ucm.es'),
+(9, 4, 14, 'wilson@gmail.com'),
+(10, 5, 18, 'yhon@ucm.es'),
+(11, 5, 18, 'neku@ucm.es');
 
 -- --------------------------------------------------------
 
@@ -134,15 +152,6 @@ CREATE TABLE `sessions` (
   `expires` int(11) UNSIGNED NOT NULL,
   `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `sessions`
---
-
-INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('3aEFm3pXfUwMYKlsDrNymkek9i8Ftgu8', 1576015549, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\",\"puntos\":0}'),
-('6AgD-EPoMt9whOELg-wSEXIPcgiVXe-q', 1576003128, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}'),
-('IwQ02K1iBkdBR62wV_hvS9COQoxj-ejg', 1575936651, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"neku@ucm.es\"}');
 
 -- --------------------------------------------------------
 
@@ -166,10 +175,12 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`email`, `password`, `name`, `gender`, `birthDate`, `img`, `puntos`) VALUES
 ('ejemplo@gmail.com', '123', 'Ejemplo', 'F', '2001-05-01', NULL, 0),
-('neku@ucm.es', 'aaa', 'Neku', 'F', '1997-06-24', 'b32a2d7655b0414482f1c18704a43e51', 0),
+('neku@ucm.es', 'aaa', 'Neku', 'F', '1997-06-24', 'b32a2d7655b0414482f1c18704a43e51', 10),
+('prueba1@gmail.com', 'prueba1', 'prueba1', 'F', '1997-06-01', '217d5979bddbd75814fb15da96a904b1', 0),
+('prueba2@gmail.com', 'prueba2', 'prueba2', 'F', '1994-05-02', NULL, 0),
 ('wilson@gmail.com', 'asd', 'Wilson', 'F', '1999-07-16', NULL, 0),
 ('yhon', '2', 'Yhondri', 'M', '1999-07-16', NULL, 0),
-('yhon@ucm.es', '234', 'Yhon', 'M', '1994-02-01', 'd7cfb42d3bb9dd3be5e7fbbeca380788', 0);
+('yhon@ucm.es', '234', 'Yhon', 'M', '1994-02-01', 'd7cfb42d3bb9dd3be5e7fbbeca380788', 10);
 
 --
 -- Índices para tablas volcadas
@@ -231,22 +242,28 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `adivinarespuesta`
+--
+ALTER TABLE `adivinarespuesta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `respuestausuario`
 --
 ALTER TABLE `respuestausuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
