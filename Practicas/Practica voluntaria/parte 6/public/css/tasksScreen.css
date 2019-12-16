@@ -3,22 +3,23 @@
     margin: 0;
     font-family: 'Mansalva', cursive;
 }
-#iniciar{
+
+#iniciar {
     width: 100px;
     height: auto;
-    margin-left:auto;
+    margin-left: auto;
     margin-right: auto;
 }
 
-#login{
+#login {
     background-color: aquamarine;
     border: solid 2px mediumaquamarine;
     border-radius: 2px;
     display: inline-block;
-    margin-top:5%;
+    margin-top: 5%;
     display: flex;
     flex-direction: column;
-    width:500px;
+    width: 500px;
     height: 150px;
 }
 
@@ -34,12 +35,12 @@
 #informacion {
     display: grid;
     grid-template-columns: auto auto;
-    margin-top:5%;
-    height:max-content;
+    margin-top: 5%;
+    height: max-content;
 }
 
 #usuario {
-    padding-left:10%;
+    padding-left: 10%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -58,39 +59,39 @@
     justify-content: space-around;
 }
 
-#newTask{
+#newTask {
     background-color: burlywood;
-    width:96%;
+    width: 96%;
     height: 3em;
     margin-left: auto;
     margin-right: auto;
-    display:flex;
+    display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-#barra:hover{
+#barra:hover {
     border: 1px solid cornflowerblue;
     box-shadow: 2px 2px lightgrey;
 }
 
-#barra{
-    width:75%;
-    height: 75%; 
+#barra {
+    width: 75%;
+    height: 75%;
 }
 
-#add{
+#add {
     border: solid 1px cadetblue;
-    padding:1%;
+    padding: 1%;
     border-radius: 1em;
     background-color: lightgoldenrodyellow;
     cursor: pointer;
 }
 
-#delete{
+#delete {
     background-color: peachpuff;
     margin-top: 2%;
-    padding:1%;
+    padding: 1%;
     width: auto;
     margin-left: auto;
     margin-right: auto;
@@ -98,12 +99,12 @@
     border: 2px solid rosybrown;
 }
 
-#errorTask{
-    margin-left:auto;
+#errorTask {
+    margin-left: auto;
     margin-right: auto;
     color: darkred;
     font-weight: bold;
-    padding:2%;
+    padding: 2%;
 }
 
 .tags {
@@ -115,7 +116,7 @@
 .finalizada {
     text-decoration: line-through;
     background-color: transparent;
-    color:black;
+    color: black;
     border: solid 3px darksalmon;
 }
 
@@ -129,23 +130,21 @@
     border: 1px dashed darkmagenta;
 }
 
-.marcarFinalizada:hover{
+.marcarFinalizada:hover {
     border: solid 1px darkorchid;
-    box-shadow:1px 1px lightslategrey;
+    box-shadow: 1px 1px lightslategrey;
 }
 
 .tag {
     border-radius: 10%;
-    
     border: solid 1px white;
     color: black;
-    
     margin: 1%;
     background-color: palegoldenrod;
 }
 
-.formlogin{
-    padding:2%;
+.formlogin {
+    padding: 2%;
 }
 
 img {
@@ -164,7 +163,7 @@ h1 {
     text-transform: uppercase;
 }
 
-li {
+.tarea_indiv {
     display: grid;
     grid-template-columns: auto 30%;
     align-items: center;
@@ -176,10 +175,11 @@ li {
     box-shadow: gainsboro 3px 3px;
 }
 
-a{
+a {
     text-decoration: none;
-    color:black;
+    color: black;
 }
-body{
+
+body {
     background-image: url("../img/fondo.jpg");
 }
