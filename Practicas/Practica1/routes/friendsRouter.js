@@ -1,7 +1,7 @@
 'use strict'
 
-const friendsRouter = require("./friendsRoutes");
-const userSessionRouter = require("./userSessionRoutes");
+const friendsRouter = require("./friendsController");
+const userSessionRouter = require("./userSessionRouter");
 
 /** setup Router */
 const express = require('express');

@@ -1,7 +1,7 @@
 'use strict'
 
-const userRouter = require("./userRoutes");
-const userSessionRouter = require("./userSessionRoutes");
+const userRouter = require("./userController");
+const userSessionRouter = require("./userSessionRouter");
 
 /** setup Router */
 const express = require('express');
