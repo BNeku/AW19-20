@@ -57,7 +57,6 @@ $(function() {
         }
 
         $("#new_hidden_task").prop("value", newValue);
-
     });
 
     $("#add_tag").on("click", function() {
@@ -66,10 +65,12 @@ $(function() {
 
         $("#new_hidden_task").prop("value", newValue);
 
-        var tag = '<div class="tag">';
+        var tag = '<div class="tag" id="tag">';
         tag += newTagValue;
         tag += '</div>';
         $("#tags_container").append(tag);
+
+        $("#new_tag").val("");
     });
 
     $('#newTask').submit(function(e) {
@@ -80,6 +81,18 @@ $(function() {
             e.preventDefault(); // Cancel the submit
             return;
         }
+    });
+
+    $("#tags_container").on("click", "div", function(event) {
+        let elementoPulsado = $(event.target).text();
+        let newHiddenTask = $("#new_hidden_task").val();
+        if (!isEmpty(newHiddenTask)) {
+            let newValue = newHiddenTask.replace("@" + elementoPulsado, "");
+            $("#new_hidden_task").prop("value", newValue);
+        }
+
+        event.preventDefault();
+        $(this).remove();
     });
 });
 
