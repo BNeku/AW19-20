@@ -47,16 +47,16 @@ app.use(bodyParser.urlencoded({
 
 app.use(middlewareSession);
 
-app.get("/", function (request, response) {
+app.get("/", function(request, response) {
     response.status(200);
     response.redirect("/login");
 });
 
-app.get("/login", function (request, response) {
+app.get("/login", function(request, response) {
     response.status(200);
     if (request.session.currentUser != null) {
         response.redirect("/tasks");
-    }else{
+    } else {
         response.render("login", {
             errorMsg: null
         });
@@ -64,8 +64,8 @@ app.get("/login", function (request, response) {
 
 });
 
-app.post("/login", function (request, response) {
-    daoU.isUserCorrect(request.body.email, request.body.pass, function (err, existe) {
+app.post("/login", function(request, response) {
+    daoU.isUserCorrect(request.body.email, request.body.pass, function(err, existe) {
         if (err) {
             response.status(404);
             console.log("login post\n" + err);
@@ -83,8 +83,8 @@ app.post("/login", function (request, response) {
     });
 });
 
-app.get("/imagenUsuario", currentUser, function (request, response) {
-    daoU.getUserImageName(response.locals.userEmail, function (err, img) {
+app.get("/imagenUsuario", currentUser, function(request, response) {
+    daoU.getUserImageName(response.locals.userEmail, function(err, img) {
         if (err) {
             response.status(500);
             console.log("imagenUsuario\n" + err);
@@ -98,9 +98,9 @@ app.get("/imagenUsuario", currentUser, function (request, response) {
     });
 });
 
-app.get("/tasks", currentUser, function (request, response) {
+app.get("/tasks", currentUser, function(request, response) {
 
-    daoT.getAllTasks(response.locals.userEmail, function (error, tareas) {
+    daoT.getAllTasks(response.locals.userEmail, function(error, tareas) {
         if (error) {
             response.status(500);
             console.log("tasksget\n" + error);
@@ -116,9 +116,9 @@ app.get("/tasks", currentUser, function (request, response) {
 });
 
 //añadir tareas
-app.post("/addTask", currentUser, function (request, response) {
-    var task = utils.createTask(request.body.task);
-    daoT.insertTask(response.locals.userEmail, task, function (err, insertado) {
+app.post("/addTask", currentUser, function(request, response) {
+    var task = utils.createTask(request.body.new_hidden_task);
+    daoT.insertTask(response.locals.userEmail, task, function(err, insertado) {
         if (err) {
             response.status(404);
             console.log("addTasks\n" + err);
@@ -137,8 +137,8 @@ app.post("/addTask", currentUser, function (request, response) {
 });
 
 //marcar finalizadas
-app.get("/finish/:idTask", function (request, response) {
-    daoT.markTaskDone(request.params.idTask, function (err) {
+app.get("/finish/:idTask", function(request, response) {
+    daoT.markTaskDone(request.params.idTask, function(err) {
         if (err) {
             response.status(404);
             console.log("finishid\n" + err);
@@ -150,8 +150,8 @@ app.get("/finish/:idTask", function (request, response) {
 });
 
 //borrar tareas completadas
-app.get("/deletedCompleted", currentUser, function (request, response) {
-    daoT.deleteCompleted(response.locals.userEmail, function (err) {
+app.get("/deletedCompleted", currentUser, function(request, response) {
+    daoT.deleteCompleted(response.locals.userEmail, function(err) {
         if (err) {
             response.status(404);
             console.log("deletedCompleted\n" + err)
@@ -162,14 +162,14 @@ app.get("/deletedCompleted", currentUser, function (request, response) {
     });
 });
 
-app.get("/logout", currentUser, function (request, response) {
+app.get("/logout", currentUser, function(request, response) {
     response.status(200);
     request.session.destroy();
     response.redirect("/login");
 });
 
 // Arrancar el servidor
-app.listen(config.port, function (err) {
+app.listen(config.port, function(err) {
     if (err) {
         console.log("ERROR al iniciar el servidor");
     } else {

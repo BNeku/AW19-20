@@ -4,22 +4,8 @@
 // inicializar()
 // cuando se cargue el DOM de la página.
 $(function() {
-    function getTaskFromTexto(titulo, tag) {
-        alert("JQuery");
-
-        var tags = texto.match(/@\w*/g).map(n => n.replace(/@/, ""));
-        var text = texto.replace(/@\w*/g, "").trim().replace("  ", " ");
-
-        alert("dfdfdf");
-
-        return { "text": text, "tags": tags };
-    }
-
-    function createTask(titulo, tag) {
-        let newTaskText = titulo + " " + tag;
-        alert(newTaskText);
-        let newTask = getTaskFromTexto(newTaskText);
-        alert(newTask);
+    function isEmpty(str) {
+        return (!str || 0 === str.length);
     }
 
     $("#input_task_name").on("input", function() {
@@ -32,7 +18,16 @@ $(function() {
         let taskName = $("#input_task_name").val();
         let newTagValue = $("#new_tag").val();
 
-        getTaskFromTexto(taskName, newTagValue);
+        var newTaskHidden = $("#new_hidden_task").val();
+        var newValue = "";
+        if (isEmpty(newTaskHidden)) {
+            newValue = taskName + " @" + newTagValue;
+        } else {
+            newValue = newTaskHidden + " @" + newTagValue;
+        }
+
+        alert(newValue);
+        $("#new_hidden_task").prop("value", newValue);
 
         var tag = '<div class="tag">';
         tag += newTagValue;
