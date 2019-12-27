@@ -23,7 +23,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const multerFactory = multer({
-    dest: "../public/img"
+    dest: __dirname.substring(0, __dirname.lastIndexOf('/')) + "/public/img"
 });
 const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
