@@ -6,10 +6,11 @@ const userSessionRouter = require("./userSessionRouter");
 /** setup Router */
 const express = require('express');
 var router = express.Router();
+const path = require("path");
 
 const multer = require("multer");
 const multerFactory = multer({
-    dest: "../public/img"
+    dest: __dirname.substring(0, __dirname.lastIndexOf('/')) + "/public/img"
 });
 
 /* GET - Sección para implementar las peticiones GET */
