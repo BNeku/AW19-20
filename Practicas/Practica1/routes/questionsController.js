@@ -4,13 +4,8 @@
 const config = require("../config");
 const utils = require("../utils");
 
-/** setup Router */
-const express = require('express');
-let router = express.Router();
-
-/** setupDB */
 const mysql = require("mysql");
-const pool = mysql.createPool(config.mysqlConfig);
+const pool = mysql.createPool(config.mysqlConfig); // Crear un pool de conexiones a la base de datos de MySQL
 
 /* DAOs */
 const UserDAO = require("../userDao");
@@ -18,41 +13,10 @@ const userD = new UserDAO(pool); // Crear una instancia de UserDAO
 const PreguntaDAO = require("../preguntaDao");
 const preguntaDAO = new PreguntaDAO(pool); // Crear una instancia de PreguntaDao
 
-/** Frameworks */
-const path = require("path");
-const fs = require("fs"); //para read file
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const multer = require("multer");
-const multerFactory = multer({
-    dest: "../public/img"
-});
-const session = require("express-session");
-const mysqlSession = require("express-mysql-session");
-const MySQLStore = mysqlSession(session);
-const sessionStore = new MySQLStore(config.mysqlConfig);
-const middlewareSession = session({
-    saveUninitialized: false,
+/** setup Router */
+const express = require('express');
 
-    secret: "foobar34",
-    resave: false,
-    store: sessionStore
-});
-
-/*Middlewares */
-
-function currentUser(request, response, next) {
-    if (request.session.currentUser != null) {
-        response.locals.userEmail = request.session.currentUser;
-        response.locals.puntos = request.session.puntos;
-        next();
-    } else {
-        response.redirect("/login");
-    }
-}
-
-/** /preguntas */
-router.get("/", currentUser, function(request, response) {
+function preguntas(request, response) {
     preguntaDAO.getPreguntas(function(err, preguntas) {
         if (err) {
             response.status(404);
@@ -64,14 +28,14 @@ router.get("/", currentUser, function(request, response) {
             });
         }
     });
-});
+}
 
-router.get("/crearPregunta", currentUser, function(request, response) {
+function crearPregunta(request, response) {
     response.status(200);
     response.render("createQuestion");
-});
+}
 
-router.get("/pregunta/:id", currentUser, function(request, response) {
+function preguntaById(request, response) {
     preguntaDAO.getPregunta(request.params.id, response.locals.userEmail, function(err, resultado) {
         if (err || resultado.preguntas.length == 0) {
             response.status(404);
@@ -156,9 +120,9 @@ router.get("/pregunta/:id", currentUser, function(request, response) {
 
         }
     });
-});
+}
 
-router.get("/contestar_pregunta/:id", currentUser, function(request, response) {
+function contestarPregunta(request, response) {
     preguntaDAO.getPreguntaConRespuestasById(request.params.id, function(err, resultado) {
         if (err || resultado.length == 0) {
             response.status(404);
@@ -175,9 +139,9 @@ router.get("/contestar_pregunta/:id", currentUser, function(request, response) {
             });
         }
     });
-});
+}
 
-router.get("/adivinar_respuesta/:id/:email", currentUser, function(request, response) {
+function adivinarRespuesta(request, response) {
     preguntaDAO.getPreguntaConRespuestasById(request.params.id, function(err, resultadoPregunta) {
         if (err || resultadoPregunta.length == 0) {
             response.status(404);
@@ -228,11 +192,9 @@ router.get("/adivinar_respuesta/:id/:email", currentUser, function(request, resp
             });
         }
     });
-});
+}
 
-/* POST - Sección para implementar las peticiones POST */
-
-router.post("/procesar_crear_pregunta", function(request, response) {
+function procesarCrearPregunta(request, response) {
     var respuestas = [];
 
     if (request.body.respuesta1.length > 0) {
@@ -272,9 +234,9 @@ router.post("/procesar_crear_pregunta", function(request, response) {
             }
         }
     });
-});
+}
 
-router.post("/procesar_respuesta", currentUser, function(request, response) {
+function procesarRespuesta(request, response) {
     if (request.body.respuesta.length == 0) {
         response.status(500);
         next(err);
@@ -316,9 +278,9 @@ router.post("/procesar_respuesta", currentUser, function(request, response) {
             }
         });
     }
-});
+}
 
-router.post("/procesar_adivinar", currentUser, function(request, response) {
+function procesarAdivinar(request, response) {
     var acierta = (request.body.idRespuestaAmigo == request.body.respuesta);
     var respuesta = [response.locals.userEmail,
         request.body.idAmigo,
@@ -350,6 +312,15 @@ router.post("/procesar_adivinar", currentUser, function(request, response) {
 
         }
     });
-});
+}
 
-module.exports = router;
+module.exports = {
+    preguntas,
+    crearPregunta,
+    preguntaById,
+    contestarPregunta,
+    adivinarRespuesta,
+    procesarCrearPregunta,
+    procesarRespuesta,
+    procesarAdivinar
+}

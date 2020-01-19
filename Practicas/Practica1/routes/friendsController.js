@@ -4,46 +4,17 @@
 const config = require("../config");
 const utils = require("../utils");
 
-/** setup Router */
-const express = require('express');
-var router = express.Router();
-
-/** setupDB */
 const mysql = require("mysql");
-const pool = mysql.createPool(config.mysqlConfig);
+const pool = mysql.createPool(config.mysqlConfig); // Crear un pool de conexiones a la base de datos de MySQL
 
 /* DAOs */
 const UserDAO = require("../userDao");
 const userD = new UserDAO(pool); // Crear una instancia de UserDAO
 
-/** Frameworks */
+/** setup Router */
+const express = require('express');
 
-const session = require("express-session");
-const mysqlSession = require("express-mysql-session");
-const MySQLStore = mysqlSession(session);
-const sessionStore = new MySQLStore(config.mysqlConfig);
-const middlewareSession = session({
-    saveUninitialized: false,
-
-    secret: "foobar34",
-    resave: false,
-    store: sessionStore
-});
-
-/*Middlewares */
-
-function currentUser(request, response, next) {
-    if (request.session.currentUser != null) {
-        response.locals.userEmail = request.session.currentUser;
-        response.locals.puntos = request.session.puntos;
-        next();
-    } else {
-        response.redirect("/login");
-    }
-}
-
-//Amigos
-router.get("/", currentUser, function(request, response) {
+function amigos(request, response) {
     userD.getAmigos(response.locals.userEmail, function(err, rdo) {
         if (err) {
             response.status(500);
@@ -89,9 +60,9 @@ router.get("/", currentUser, function(request, response) {
             }
         }
     });
-});
+}
 
-router.get("/aceptar/:emailAmigo", currentUser, function(request, response) {
+function aceptarAmigo(request, response) {
     userD.aceptarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
         if (err) {
             response.status(500);
@@ -102,9 +73,9 @@ router.get("/aceptar/:emailAmigo", currentUser, function(request, response) {
             response.redirect("/amigos");
         }
     });
-});
+}
 
-router.get("/rechazar/:emailAmigo", currentUser, function(request, response) {
+function rechazarAmigo(request, response) {
     userD.rechazarAmistad(response.locals.userEmail, request.params.emailAmigo, function(err) {
         if (err) {
             response.status(500);
@@ -115,9 +86,9 @@ router.get("/rechazar/:emailAmigo", currentUser, function(request, response) {
             response.redirect("/amigos");
         }
     });
-});
+}
 
-router.get('/amigo/:email', currentUser, function(request, response) {
+function mostrarPerfilAmigo(request, response) {
     userD.getUser(request.params.email, function(data, success) {
         if (success) {
             response.status(200);
@@ -132,9 +103,9 @@ router.get('/amigo/:email', currentUser, function(request, response) {
             next(err);
         }
     });
-});
+}
 
-router.get("/buscar", currentUser, function(request, response) {
+function buscarAmigo(request, response) {
     userD.buscarUsuario(response.locals.userEmail, request.query.buscaAmigo, function(err, rdo) {
         if (err) {
             response.status(500);
@@ -148,9 +119,9 @@ router.get("/buscar", currentUser, function(request, response) {
             });
         }
     });
-});
+}
 
-router.get("/solicitar_amistad/:id", currentUser, function(request, response) {
+function solicitarAmistad(request, response) {
     userD.solicitarAmistad(request.params.id, response.locals.userEmail, function(err) {
         if (err) {
             response.status(500);
@@ -161,6 +132,13 @@ router.get("/solicitar_amistad/:id", currentUser, function(request, response) {
             response.redirect("/amigos");
         }
     });
-});
+}
 
-module.exports = router;
+module.exports = {
+    amigos,
+    aceptarAmigo,
+    rechazarAmigo,
+    mostrarPerfilAmigo,
+    buscarAmigo,
+    solicitarAmistad
+}

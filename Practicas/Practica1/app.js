@@ -4,9 +4,9 @@
 const config = require("./config");
 const utils = require("./utils");
 
-const userRouter = require('./routes/user');
-const friendsRouter = require('./routes/friends');
-const questionsRouter = require('./routes/questions');
+const userRouter = require('./routes/userRouter');
+const friendsRouter = require('./routes/friendsRouter');
+const questionsRouter = require('./routes/questionsRouter');
 
 /* Frameworks */
 const logger = require("morgan");

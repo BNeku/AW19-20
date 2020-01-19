@@ -4,59 +4,22 @@
 const config = require("../config");
 const utils = require("../utils");
 
-/** setup Router */
-const express = require('express');
-let router = express.Router();
-
-/** setupDB */
 const mysql = require("mysql");
-const pool = mysql.createPool(config.mysqlConfig);
+const pool = mysql.createPool(config.mysqlConfig); // Crear un pool de conexiones a la base de datos de MySQL
 
 /* DAOs */
 const UserDAO = require("../userDao");
 const userD = new UserDAO(pool); // Crear una instancia de UserDAO
 
-/** Frameworks */
-const path = require("path");
-const fs = require("fs"); //para read file
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const multer = require("multer");
-const multerFactory = multer({
-    dest: __dirname.substring(0, __dirname.lastIndexOf('/')) + "/public/img"
-});
-const session = require("express-session");
-const mysqlSession = require("express-mysql-session");
-const MySQLStore = mysqlSession(session);
-const sessionStore = new MySQLStore(config.mysqlConfig);
-const middlewareSession = session({
-    saveUninitialized: false,
+/** setup Router */
+const express = require('express');
 
-    secret: "foobar34",
-    resave: false,
-    store: sessionStore
-});
-
-/*Middlewares */
-
-function currentUser(request, response, next) {
-    if (request.session.currentUser != null) {
-        response.locals.userEmail = request.session.currentUser;
-        response.locals.puntos = request.session.puntos;
-        next();
-    } else {
-        response.redirect("/login");
-    }
-}
-
-/* GET - Sección para implementar las peticiones GET */
-
-router.get("/", function(request, response) {
+function root(request, response) {
     response.status(200);
     response.redirect("/login")
-});
+}
 
-router.get("/login", function(request, response) {
+function login(request, response) {
     response.status(200);
     if (request.session.currentUser != null) {
         response.redirect("/profile");
@@ -65,16 +28,16 @@ router.get("/login", function(request, response) {
             errorMsg: null
         });
     }
-});
+}
 
-router.get("/register", function(request, response) {
+function register(request, response) {
     response.status(200);
     response.render("newUser", {
         msg: null
     });
-});
+}
 
-router.get("/profile", currentUser, function(request, response) {
+function profile(request, response) {
     userD.getUser(response.locals.userEmail, function(data, success) {
         if (success) {
             response.status(200);
@@ -89,25 +52,23 @@ router.get("/profile", currentUser, function(request, response) {
             next(new Error("Not Found"));
         }
     });
-});
+}
 
-router.get("/modify", currentUser, function(request, response) {
+function modify(request, response) {
     response.status(200);
     response.render("modify", {
         puntos: response.locals.puntos,
         msg: null
     });
-});
+}
 
-router.get("/logout", currentUser, function(request, response) {
+function logout(request, response) {
     response.status(200);
     request.session.destroy();
     response.redirect("/login");
-});
+}
 
-/* POST - Sección para implementar las peticiones POST */
-
-router.post("/procesar_login", function(request, response) {
+function procesarLogin(request, response) {
     userD.isUserCorrect(request.body.email, request.body.password, function(err, existe) {
         if (err) {
             response.status(500);
@@ -134,10 +95,9 @@ router.post("/procesar_login", function(request, response) {
             }
         }
     });
+}
 
-});
-
-router.post("/register", multerFactory.single("photo"), function(request, response) {
+function registerWithPhoto(request, response) {
     var user = utils.createUserFromRequestBody(request);
     if (user == false) {
         response.render("newUser", {
@@ -163,10 +123,9 @@ router.post("/register", multerFactory.single("photo"), function(request, respon
             }
         });
     }
+}
 
-});
-
-router.post("/post_modify", currentUser, multerFactory.single("photo"), function(request, response) {
+function modifyProfile(request, response) {
     userD.getUser(response.locals.userEmail, function(data, success) {
         if (success) {
             var user = utils.modifyUserFromRequestBody(request, data);
@@ -210,8 +169,16 @@ router.post("/post_modify", currentUser, multerFactory.single("photo"), function
             next(new Error("Not Found"));
         }
     });
-});
+}
 
-
-
-module.exports = router;
+module.exports = {
+    root,
+    login,
+    register,
+    profile,
+    modify,
+    logout,
+    procesarLogin,
+    registerWithPhoto,
+    modifyProfile
+}
